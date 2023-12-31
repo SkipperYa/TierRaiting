@@ -55,7 +55,6 @@ namespace WebApi
 			.AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
 
 			services.AddMediator();
-			services.AddValidators();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
