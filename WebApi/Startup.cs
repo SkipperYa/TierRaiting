@@ -1,10 +1,12 @@
 using Domain.Entities;
+using FluentValidation;
 using Infrastructure.Database;
+using Infrastructure.Extension;
+using Infrastructure.Queries.WeatherForecastCommand;
+using Infrastructure.Queries.WeatherForecastQuery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -51,6 +53,9 @@ namespace WebApi
 				options.Password.RequireUppercase = false;
 			}).AddEntityFrameworkStores<ApplicationContext>()
 			.AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
+
+			services.AddMediator();
+			services.AddValidators();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
