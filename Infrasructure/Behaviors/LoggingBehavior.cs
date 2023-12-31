@@ -12,26 +12,17 @@ namespace Infrastructure.Behaviors
 	{
 		public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
 		{
-			using var log = new LoggerConfiguration()
-				.MinimumLevel.Debug()
-				.WriteTo.File($"logs/log.txt", rollingInterval: RollingInterval.Day)
-				.WriteTo.Console()
-				.CreateLogger();
-
 			try
 			{
 				return await next();
 			}
 			catch (Exception e)
 			{
-				var requestName = typeof(TRequest).Name;
+				Log.Error(e, typeof(TRequest).Name);
 
-				log.Error(e, requestName);
-				throw new LogicException(e.ToString());
-			}
-			finally
-			{
 				await Log.CloseAndFlushAsync();
+
+				throw new LogicException(e.Message);
 			}
 		}
 	}

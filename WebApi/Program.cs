@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using System.Linq;
 
 namespace WebApi
@@ -28,6 +29,12 @@ namespace WebApi
 	{
 		public static void Main(string[] args)
 		{
+			Log.Logger = new LoggerConfiguration()
+				.MinimumLevel.Debug()
+				.WriteTo.File($"logs/log.txt", rollingInterval: RollingInterval.Day)
+				.WriteTo.Console()
+				.CreateLogger();
+
 			CreateHostBuilder(args)
 				.Build()
 				.Deploy()

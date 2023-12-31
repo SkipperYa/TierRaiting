@@ -1,9 +1,7 @@
+using Domain.ControllerFilters;
 using Domain.Entities;
-using FluentValidation;
 using Infrastructure.Database;
 using Infrastructure.Extension;
-using Infrastructure.Queries.WeatherForecastCommand;
-using Infrastructure.Queries.WeatherForecastQuery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +25,10 @@ namespace WebApi
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddControllersWithViews();
+			services.AddControllers(options =>
+			{
+				options.Filters.Add(typeof(LogicExceptionFilter));
+			});
 
 			// In production, the React files will be served from this directory
 			services.AddSpaStaticFiles(configuration =>

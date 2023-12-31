@@ -1,22 +1,17 @@
 ﻿using Infrastructure.Queries.WeatherForecastCommand;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
-	[ApiController]
-	[Route("[controller]")]
-	public class WeatherForecastController : ControllerBase
+	public class WeatherForecastController : BaseApplicationController
 	{
-		private readonly IMediator _mediator;
-
-		public WeatherForecastController(IMediator mediator)
+		public WeatherForecastController(IMediator mediator) : base(mediator)
 		{
-			_mediator = mediator;
 		}
 
 		[HttpGet]
@@ -25,7 +20,7 @@ namespace WebApi.Controllers
 			var query = new GetWeatherForecastQuery();
 
 			var result = await _mediator.Send(query, cancellationToken);
-
+			throw new Exception("Biba");
 			return result;
 		}
 	}
