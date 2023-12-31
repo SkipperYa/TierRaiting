@@ -1,4 +1,0 @@
-2023-12-31 15:35:57.284 +03:00 [ERR] GetWeatherForecastQuery
-System.NullReferenceException: Object reference not set to an instance of an object.
-   at Infrastructure.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Behaviors\ValidationBehavior.cs:line 17
-   at Infrastructure.Behaviors.LoggingBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Behaviors\LoggingBehavior.cs:line 23
