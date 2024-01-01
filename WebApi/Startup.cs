@@ -1,15 +1,19 @@
 using Domain.ControllerFilters;
 using Domain.Entities;
+using Domain.Interfaces;
 using Infrastructure.Database;
 using Infrastructure.Extension;
+using Infrastructure.Services;
+using Infrastructure.Utils;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebApi
 {
@@ -36,14 +40,9 @@ namespace WebApi
 				configuration.RootPath = "ClientApp/build";
 			});
 
-			services.AddDbContext<ApplicationContext>(options =>
-			{
-#if DEBUG
-				options.EnableSensitiveDataLogging();
-#endif
-				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WebApi"));
-			});
+			services.AddApplicationContext(Configuration);
 
+			//TODO: replace to infrastructure
 			services.AddIdentity<User, IdentityRole>(options =>
 			{
 				options.User.RequireUniqueEmail = true;
@@ -56,6 +55,26 @@ namespace WebApi
 			.AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
 
 			services.AddMediator();
+
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				{
+					options.RequireHttpsMetadata = false;
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidIssuer = AuthOptions.ISSUER,
+						ValidateAudience = true,
+						ValidAudience = AuthOptions.AUDIENCE,
+						ValidateLifetime = false,
+						IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+						ValidateIssuerSigningKey = true,
+					};
+				});
+
+			services
+				.AddTransient<IRegistrationService, RegistrationService>()
+				.AddTransient<ILoginService, LoginService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +96,9 @@ namespace WebApi
 			app.UseSpaStaticFiles();
 
 			app.UseRouting();
+
+			app.UseAuthentication();
+			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
 			{
