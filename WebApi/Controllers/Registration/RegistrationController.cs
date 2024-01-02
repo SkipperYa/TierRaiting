@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Domain.Entities;
 using Domain.Interfaces;
+using Domain.Models;
 using Infrastructure.Commands.RegistrationUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -27,10 +27,12 @@ namespace WebApi.Controllers.Registration
 
 			var jwtToken = _loginService.GetToken(user);
 
+			var userViewModel = _mapper.Map<UserViewModel>(user);
+
 			return Ok(new
 			{
 				Token = jwtToken,
-				User = user
+				User = userViewModel
 			});
 		}
 	}

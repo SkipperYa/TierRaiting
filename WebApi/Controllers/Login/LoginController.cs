@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using AutoMapper;
+using Domain.Interfaces;
 using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace WebApi.Controllers.Login
 	public class LoginController : BaseApplicationController
 	{
 		private readonly ILoginService _loginService;
+		private readonly IMapper _mapper;
 
-		public LoginController(IMediator mediator, ILoginService loginService) : base(mediator)
+		public LoginController(IMediator mediator, ILoginService loginService, IMapper mapper) : base(mediator)
 		{
 			_loginService = loginService;
+			_mapper = mapper;
 		}
 
 		[HttpPost]
@@ -23,10 +26,12 @@ namespace WebApi.Controllers.Login
 
 			var token = _loginService.GetToken(user);
 
+			var userViewModel = _mapper.Map<UserViewModel>(user);
+
 			return Ok(new
 			{
 				Token = token,
-				User = user
+				User = userViewModel
 			});
 		}
 
