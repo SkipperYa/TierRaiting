@@ -51,13 +51,17 @@ namespace WebApi
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireLowercase = false;
 				options.Password.RequireUppercase = false;
-			}).AddEntityFrameworkStores<ApplicationContext>()
-			.AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
+			}).AddEntityFrameworkStores<ApplicationContext>();
 
 			services.AddMediator();
 
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddJwtBearer(options =>
+			services
+				.AddAuthentication(config =>
+				{
+					config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+					config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				})
+				.AddJwtBearer("Bearer", options =>
 				{
 					options.RequireHttpsMetadata = false;
 					options.TokenValidationParameters = new TokenValidationParameters
@@ -71,6 +75,8 @@ namespace WebApi
 						ValidateIssuerSigningKey = true,
 					};
 				});
+
+			services.AddHttpContextAccessor();
 
 			services
 				.AddTransient<IRegistrationService, RegistrationService>()

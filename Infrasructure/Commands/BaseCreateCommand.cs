@@ -1,14 +1,11 @@
-﻿using Domain.Entities;
+﻿using Infrastructure.BaseHandler;
+using Infrastructure.BaseRequest;
 using Infrastructure.Database;
-using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Commands
 {
-	public abstract class BaseCreateCommand<TCommand, TResult> : IRequestHandler<TCommand, TResult>
-		where TCommand: IRequest<TResult>
-		where TResult : WithId
+	public abstract class BaseCreateCommand<TRequest, TResult> : BaseAuthorizeHandler<TRequest, TResult>
+		where TRequest : BaseAuthorizeRequest<TResult>
 	{
 		protected readonly ApplicationContext _applicationContext;
 
@@ -16,10 +13,5 @@ namespace Infrastructure.Commands
 		{
 			_applicationContext = applicationContext;
 		}
-
-		public async Task<TResult> Handle(TCommand request, CancellationToken cancellationToken) => 
-			await HandleAsync(request, cancellationToken);
-
-		public abstract Task<TResult> HandleAsync(TCommand request, CancellationToken cancellationToken);
 	}
 }

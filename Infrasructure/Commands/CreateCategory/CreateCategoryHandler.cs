@@ -13,7 +13,7 @@ namespace Infrastructure.Commands
 		{
 		}
 
-		public override async Task<Category> HandleAsync(CreateCategoryCommand request, CancellationToken cancellationToken)
+		public override async Task<Category> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
 		{
 			var category = new Category()
 			{

@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Queries.WeatherForecastCommand;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
-	//[Authorize]
+	[Authorize]
 	public class WeatherForecastController : BaseApplicationController
 	{
 		public WeatherForecastController(IMediator mediator) : base(mediator)
@@ -18,7 +19,9 @@ namespace WebApi.Controllers
 		[HttpGet]
 		public async Task<IEnumerable<WeatherForecast>> Get(CancellationToken cancellationToken)
 		{
-			var query = new GetWeatherForecastQuery();
+			var userId = UserId;
+
+			var query = new GetWeatherForecastQuery(userId);
 
 			var result = await _mediator.Send(query, cancellationToken);
 

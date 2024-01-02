@@ -2,7 +2,6 @@
 using Domain.Exceptions;
 using Domain.Interfaces;
 using Domain.Models;
-using Serilog;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
