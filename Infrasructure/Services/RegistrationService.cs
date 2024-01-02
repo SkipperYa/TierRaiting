@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Interfaces;
-using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
 using System.Threading;
@@ -18,15 +17,15 @@ namespace Infrastructure.Services
 			_userManager = userManager;
 		}
 
-		public async Task<User> Registration(RegistrationViewModel model, CancellationToken cancellationToken)
+		public async Task<User> Registration(string email, string password, CancellationToken cancellationToken)
 		{
 			var user = new User
 			{
-				UserName = model.Email,
-				Email = model.Email,
+				UserName = email,
+				Email = email,
 			};
 
-			var result = await _userManager.CreateAsync(user, model.Password);
+			var result = await _userManager.CreateAsync(user, password);
 
 			if (!result.Succeeded)
 			{

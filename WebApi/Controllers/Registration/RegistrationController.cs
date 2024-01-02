@@ -1,5 +1,7 @@
-﻿using Domain.Interfaces;
-using Domain.Models;
+﻿using AutoMapper;
+using Domain.Entities;
+using Domain.Interfaces;
+using Infrastructure.Commands.RegistrationUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
@@ -9,19 +11,19 @@ namespace WebApi.Controllers.Registration
 {
 	public class RegistrationController : BaseApplicationController
 	{
-		private readonly IRegistrationService _registrationService;
 		private readonly ILoginService _loginService;
+		private readonly IMapper _mapper;
 
-		public RegistrationController(IMediator mediator, IRegistrationService registrationService, ILoginService loginService) : base(mediator)
+		public RegistrationController(IMediator mediator, ILoginService loginService, IMapper mapper) : base(mediator)
 		{
-			_registrationService = registrationService;
 			_loginService = loginService;
+			_mapper = mapper;
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Registration([FromForm] RegistrationViewModel model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Registration([FromForm] RegistrationUserCommand command, CancellationToken cancellationToken)
 		{
-			var user = await _registrationService.Registration(model, cancellationToken);
+			var user = await _mediator.Send(command, cancellationToken);
 
 			var jwtToken = _loginService.GetToken(user);
 

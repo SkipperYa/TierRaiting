@@ -1,9 +1,7 @@
 using Domain.ControllerFilters;
 using Domain.Entities;
-using Domain.Interfaces;
 using Infrastructure.Database;
 using Infrastructure.Extension;
-using Infrastructure.Services;
 using Infrastructure.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -42,6 +40,8 @@ namespace WebApi
 
 			services.AddApplicationContext(Configuration);
 
+			services.AddAutoMapper();
+
 			//TODO: replace to infrastructure
 			services.AddIdentity<User, IdentityRole>(options =>
 			{
@@ -78,9 +78,7 @@ namespace WebApi
 
 			services.AddHttpContextAccessor();
 
-			services
-				.AddTransient<IRegistrationService, RegistrationService>()
-				.AddTransient<ILoginService, LoginService>();
+			services.AddServices();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,21 @@
+﻿using FluentValidation;
+
+namespace Infrastructure.Commands.RegistrationUser
+{
+	public class RegistrationUserCommandValidator : AbstractValidator<RegistrationUserCommand>
+	{
+		public RegistrationUserCommandValidator()
+		{
+			RuleFor(q => q.Email)
+				.EmailAddress();
+
+			RuleFor(q => q.Password)
+				.NotEmpty()
+				.WithMessage("Password is required.");
+
+			RuleFor(q => q.PasswordConfirm)
+				.Equal(q => q.Password)
+				.WithMessage("Password Confirm must equal Password.");
+		}
+	}
+}

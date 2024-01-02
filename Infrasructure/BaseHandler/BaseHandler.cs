@@ -3,7 +3,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.BaseHandler
+namespace Infrastructure
 {
 	public abstract class BaseHandler<TRequest, TResult> : IRequestHandler<TRequest, TResult>
 		where TRequest : BaseRequest<TResult>

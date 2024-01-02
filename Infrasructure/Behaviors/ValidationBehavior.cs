@@ -1,7 +1,5 @@
 ﻿using Domain.Exceptions;
 using FluentValidation;
-using Infrastructure.Queries.WeatherForecastCommand;
-using Infrastructure.Queries.WeatherForecastQuery;
 using MediatR;
 using System.Text;
 using System.Threading;

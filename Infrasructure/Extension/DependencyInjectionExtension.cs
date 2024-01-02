@@ -1,8 +1,13 @@
-﻿using FluentValidation;
+﻿using Domain.Entities;
+using Domain.Interfaces;
+using FluentValidation;
 using Infrastructure.Behaviors;
+using Infrastructure.Commands.RegistrationUser;
 using Infrastructure.Database;
+using Infrastructure.Mapper;
 using Infrastructure.Queries.WeatherForecastCommand;
 using Infrastructure.Queries.WeatherForecastQuery;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +33,28 @@ namespace Infrastructure.Extension
 
 		public static IServiceCollection AddValidators(this IServiceCollection services)
 		{
-			services.AddScoped<IValidator<GetWeatherForecastQuery>, GetWeatherForecastQueryValidator>();
+			services
+				.AddScoped<IValidator<GetWeatherForecastQuery>, GetWeatherForecastQueryValidator>()
+				.AddScoped<IValidator<RegistrationUserCommand>, RegistrationUserCommandValidator>();
+
+			return services;
+		}
+
+		public static IServiceCollection AddServices(this IServiceCollection services)
+		{
+			services
+				.AddTransient<IRegistrationService, RegistrationService>()
+				.AddTransient<ILoginService, LoginService>();
+
+			return services;
+		}
+
+		public static IServiceCollection AddAutoMapper(this IServiceCollection services)
+		{
+			services.AddAutoMapper(config =>
+			{
+				config.AddProfile<MapperProfile>();
+			});
 
 			return services;
 		}

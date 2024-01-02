@@ -2,9 +2,9 @@
 
 namespace Infrastructure.Commands.CreateCategory
 {
-	public class CreateCategoryValidator : AbstractValidator<CreateCategoryCommand>
+	public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
 	{
-		public CreateCategoryValidator()
+		public CreateCategoryCommandValidator()
 		{
 			RuleFor(q => q.Id)
 				.NotEmpty()

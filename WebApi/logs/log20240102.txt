@@ -1,0 +1,264 @@
+2024-01-02 17:34:11.465 +03:00 [ERR] ActionName: WebApi.Controllers.Registration.RegistrationController.Registration (WebApi) 
+ExceptionStack:    at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateOpenGeneric(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain, Int32 slot, Boolean throwOnConstraintViolation)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateEnumerable(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.CreateServiceAccessor(Type serviceType)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetServices[T](IServiceProvider provider)
+   at MediatR.Wrappers.RequestHandlerWrapperImpl`2.Handle(IRequest`1 request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+   at MediatR.Mediator.Send[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at WebApi.Controllers.Registration.RegistrationController.Registration(RegistrationUserCommand command, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\WebApi\Controllers\Registration\RegistrationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted) 
+ExceptionMessage: Unable to resolve service for type 'FluentValidation.IValidator`1[Infrastructure.Commands.RegistrationUser.RegistrationUserCommand]' while attempting to activate 'Infrastructure.Behaviors.ValidationBehavior`2[Infrastructure.Commands.RegistrationUser.RegistrationUserCommand,Domain.Entities.User]'. 
+
+2024-01-02 17:40:00.761 +03:00 [ERR] ActionName: WebApi.Controllers.Registration.RegistrationController.Registration (WebApi) 
+ExceptionStack:    at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateOpenGeneric(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain, Int32 slot, Boolean throwOnConstraintViolation)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateEnumerable(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.<>c__DisplayClass7_0.<GetCallSite>b__0(Type type)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.CreateServiceAccessor(Type serviceType)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetServices[T](IServiceProvider provider)
+   at MediatR.Wrappers.RequestHandlerWrapperImpl`2.Handle(IRequest`1 request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+   at MediatR.Mediator.Send[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at WebApi.Controllers.Registration.RegistrationController.Registration(RegistrationUserCommand command, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\WebApi\Controllers\Registration\RegistrationController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted) 
+ExceptionMessage: Unable to resolve service for type 'FluentValidation.IValidator`1[Infrastructure.Commands.RegistrationUser.RegistrationUserCommand]' while attempting to activate 'Infrastructure.Behaviors.ValidationBehavior`2[Infrastructure.Commands.RegistrationUser.RegistrationUserCommand,Domain.Entities.User]'. 
+
+2024-01-02 17:44:29.573 +03:00 [ERR] RegistrationUserCommand
+Domain.Exceptions.LogicException: Password Confirm must equal Password.
+
+   at Infrastructure.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Behaviors\ValidationBehavior.cs:line 34
+   at Infrastructure.Behaviors.LoggingBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Behaviors\LoggingBehavior.cs:line 17
+2024-01-02 17:46:08.850 +03:00 [ERR] RegistrationUserCommand
+Domain.Exceptions.LogicException: Username 'user3@mail.com' is already taken.Email '123' is invalid.
+   at Infrastructure.Services.RegistrationService.Registration(String email, String password, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Services\RegistrationService.cs:line 39
+   at Infrastructure.Commands.RegistrationUser.RegistrationUserHandler.Handle(RegistrationUserCommand request, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Commands\RegistrationUser\RegistrationUserHandler.cs:line 19
+   at Infrastructure.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Behaviors\ValidationBehavior.cs:line 37
+   at Infrastructure.Behaviors.LoggingBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Behaviors\LoggingBehavior.cs:line 17
+2024-01-02 17:56:43.079 +03:00 [ERR] ActionName: WebApi.Controllers.Registration.RegistrationController.Registration (WebApi) 
+ExceptionStack:    at System.RuntimeType.CreateInstanceDefaultCtorSlow(Boolean publicOnly, Boolean wrapExceptions, Boolean fillCache)
+   at System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, Boolean wrapExceptions)
+   at System.Activator.CreateInstance(Type type, Boolean nonPublic, Boolean wrapExceptions)
+   at System.Activator.CreateInstance(Type type)
+   at Domain.Entities.AssemblyMappingProfile.ApplyMappingsFromAssembly(Assembly assembly) in F:\Projects\Test\TierRaiting\Domain\Entities\AssemblyMappingProfile.cs:line 24
+   at Domain.Entities.AssemblyMappingProfile..ctor(Assembly assembly) in F:\Projects\Test\TierRaiting\Domain\Entities\AssemblyMappingProfile.cs:line 12
+   at Infrastructure.Extension.DependencyInjectionExtension.<>c.<AddAutoMapper>b__3_0(IMapperConfigurationExpression config) in F:\Projects\Test\TierRaiting\Infrasructure\Extension\DependencyInjectionExtension.cs:line 55
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.<>c__DisplayClass0_0.<AddAutoMapper>b__0(IServiceProvider sp, IMapperConfigurationExpression cfg)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.<>c__DisplayClass12_0.<AddAutoMapperClasses>b__0(MapperConfigurationExpression options, IServiceProvider sp)
+   at Microsoft.Extensions.Options.ConfigureNamedOptions`2.Configure(String name, TOptions options)
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at Microsoft.Extensions.Options.UnnamedOptionsManager`1.get_Value()
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.<>c.<AddAutoMapperClasses>b__12_2(IServiceProvider sp)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitFactory(FactoryCallSite factoryCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite singletonCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass1_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.<>c.<AddAutoMapperClasses>b__12_3(IServiceProvider sp)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitFactory(FactoryCallSite factoryCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitDisposeCache(ServiceCallSite transientCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass1_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean hasDefaultValue, Object key)
+   at lambda_method16(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass4_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass5_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted) 
+ExceptionMessage: No parameterless constructor defined for type 'Infrastructure.Commands.CreateCategoryCommand'. 
+
+2024-01-02 18:05:05.093 +03:00 [ERR] ActionName: WebApi.Controllers.Registration.RegistrationController.Registration (WebApi) 
+ExceptionStack:    at lambda_method18(Closure , Object , User , ResolutionContext )
+   at WebApi.Controllers.Registration.RegistrationController.Registration(RegistrationUserCommand command, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\WebApi\Controllers\Registration\RegistrationController.cs:line 26
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted) 
+ExceptionMessage: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+RegistrationUserCommand -> User
+Infrastructure.Commands.RegistrationUser.RegistrationUserCommand -> Domain.Entities.User 
+
+2024-01-02 18:07:20.641 +03:00 [ERR] ActionName: WebApi.Controllers.Registration.RegistrationController.Registration (WebApi) 
+ExceptionStack:    at lambda_method18(Closure , Object , User , ResolutionContext )
+   at WebApi.Controllers.Registration.RegistrationController.Registration(RegistrationUserCommand command, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\WebApi\Controllers\Registration\RegistrationController.cs:line 26
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted) 
+ExceptionMessage: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+RegistrationUserCommand -> User
+Infrastructure.Commands.RegistrationUser.RegistrationUserCommand -> Domain.Entities.User 
+
+2024-01-02 18:08:39.325 +03:00 [ERR] ActionName: WebApi.Controllers.Registration.RegistrationController.Registration (WebApi) 
+ExceptionStack:    at lambda_method18(Closure , Object , User , ResolutionContext )
+   at WebApi.Controllers.Registration.RegistrationController.Registration(RegistrationUserCommand command, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\WebApi\Controllers\Registration\RegistrationController.cs:line 26
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted) 
+ExceptionMessage: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+RegistrationUserCommand -> User
+Infrastructure.Commands.RegistrationUser.RegistrationUserCommand -> Domain.Entities.User 
+
+2024-01-02 18:10:10.474 +03:00 [ERR] ActionName: WebApi.Controllers.Registration.RegistrationController.Registration (WebApi) 
+ExceptionStack:    at lambda_method18(Closure , Object , User , ResolutionContext )
+   at WebApi.Controllers.Registration.RegistrationController.Registration(RegistrationUserCommand command, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\WebApi\Controllers\Registration\RegistrationController.cs:line 26
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted) 
+ExceptionMessage: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+RegistrationUserCommand -> User
+Infrastructure.Commands.RegistrationUser.RegistrationUserCommand -> Domain.Entities.User 
+
+2024-01-02 18:12:47.713 +03:00 [ERR] ActionName: WebApi.Controllers.Registration.RegistrationController.Registration (WebApi) 
+ExceptionStack:    at lambda_method18(Closure , Object , User , ResolutionContext )
+   at WebApi.Controllers.Registration.RegistrationController.Registration(RegistrationUserCommand command, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\WebApi\Controllers\Registration\RegistrationController.cs:line 26
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted) 
+ExceptionMessage: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+RegistrationUserCommand -> User
+Infrastructure.Commands.RegistrationUser.RegistrationUserCommand -> Domain.Entities.User 
+
+2024-01-02 18:15:48.476 +03:00 [ERR] ActionName: WebApi.Controllers.Registration.RegistrationController.Registration (WebApi) 
+ExceptionStack:    at lambda_method18(Closure , Object , User , ResolutionContext )
+   at WebApi.Controllers.Registration.RegistrationController.Registration(RegistrationUserCommand command, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\WebApi\Controllers\Registration\RegistrationController.cs:line 26
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted) 
+ExceptionMessage: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+RegistrationUserCommand -> User
+Infrastructure.Commands.RegistrationUser.RegistrationUserCommand -> Domain.Entities.User 
+
+2024-01-02 18:19:02.308 +03:00 [ERR] ActionName: WebApi.Controllers.Registration.RegistrationController.Registration (WebApi) 
+ExceptionStack:    at lambda_method18(Closure , Object , User , ResolutionContext )
+   at WebApi.Controllers.Registration.RegistrationController.Registration(RegistrationUserCommand command, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\WebApi\Controllers\Registration\RegistrationController.cs:line 26
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted) 
+ExceptionMessage: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+RegistrationUserCommand -> User
+Infrastructure.Commands.RegistrationUser.RegistrationUserCommand -> Domain.Entities.User 
+
+2024-01-02 18:20:53.090 +03:00 [ERR] ActionName: WebApi.Controllers.Registration.RegistrationController.Registration (WebApi) 
+ExceptionStack:    at lambda_method18(Closure , Object , User , ResolutionContext )
+   at WebApi.Controllers.Registration.RegistrationController.Registration(RegistrationUserCommand command, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\WebApi\Controllers\Registration\RegistrationController.cs:line 26
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted) 
+ExceptionMessage: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+RegistrationUserCommand -> User
+Infrastructure.Commands.RegistrationUser.RegistrationUserCommand -> Domain.Entities.User 
+
+2024-01-02 18:26:39.339 +03:00 [ERR] RegistrationUserCommand
+Domain.Exceptions.LogicException: Username 'user4@mail.com' is already taken.Email 'user4@mail.com' is already taken.
+   at Infrastructure.Services.RegistrationService.Registration(String email, String password, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Services\RegistrationService.cs:line 39
+   at Infrastructure.Commands.RegistrationUser.RegistrationUserHandler.Handle(RegistrationUserCommand request, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Commands\RegistrationUser\RegistrationUserHandler.cs:line 19
+   at Infrastructure.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Behaviors\ValidationBehavior.cs:line 37
+   at Infrastructure.Behaviors.LoggingBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Behaviors\LoggingBehavior.cs:line 17
+2024-01-02 18:27:21.517 +03:00 [ERR] RegistrationUserCommand
+Domain.Exceptions.LogicException: Username '' is invalid, can only contain letters or digits.Email 'user4@mail.com' is already taken.
+   at Infrastructure.Services.RegistrationService.Registration(String email, String password, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Services\RegistrationService.cs:line 38
+   at Infrastructure.Commands.RegistrationUser.RegistrationUserHandler.Handle(RegistrationUserCommand request, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Commands\RegistrationUser\RegistrationUserHandler.cs:line 19
+   at Infrastructure.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Behaviors\ValidationBehavior.cs:line 37
+   at Infrastructure.Behaviors.LoggingBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Behaviors\LoggingBehavior.cs:line 17
+2024-01-02 18:28:07.755 +03:00 [ERR] RegistrationUserCommand
+Domain.Exceptions.LogicException: Username 'user4@mail.com' is already taken.Email 'user4@mail.com' is already taken.
+   at Infrastructure.Services.RegistrationService.Registration(String email, String password, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Services\RegistrationService.cs:line 39
+   at Infrastructure.Commands.RegistrationUser.RegistrationUserHandler.Handle(RegistrationUserCommand request, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Commands\RegistrationUser\RegistrationUserHandler.cs:line 19
+   at Infrastructure.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Behaviors\ValidationBehavior.cs:line 37
+   at Infrastructure.Behaviors.LoggingBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in F:\Projects\Test\TierRaiting\Infrasructure\Behaviors\LoggingBehavior.cs:line 17

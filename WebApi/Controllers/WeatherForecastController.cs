@@ -19,9 +19,10 @@ namespace WebApi.Controllers
 		[HttpGet]
 		public async Task<IEnumerable<WeatherForecast>> Get(CancellationToken cancellationToken)
 		{
-			var userId = UserId;
-
-			var query = new GetWeatherForecastQuery(userId);
+			var query = new GetWeatherForecastQuery
+			{
+				UserId = UserId
+			};
 
 			var result = await _mediator.Send(query, cancellationToken);
 

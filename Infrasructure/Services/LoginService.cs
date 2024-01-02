@@ -35,7 +35,7 @@ namespace Infrastructure.Services
 
 			if (user is null)
 			{
-				throw new LogicException("Invalid user;");
+				throw new LogicException("Invalid user");
 			}
 
 			var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
