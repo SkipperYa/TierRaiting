@@ -21,7 +21,7 @@ namespace WebApi.Controllers.Registration
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Registration([FromForm] RegistrationUserCommand command, CancellationToken cancellationToken)
+		public async Task<IActionResult> Registration([FromBody] RegistrationUserCommand command, CancellationToken cancellationToken)
 		{
 			var user = await _mediator.Send(command, cancellationToken);
 

@@ -20,7 +20,7 @@ namespace WebApi.Controllers.Login
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Login([FromForm] LoginViewModel model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Login([FromBody] LoginViewModel model, CancellationToken cancellationToken)
 		{
 			var user = await _loginService.Login(model, cancellationToken);
 

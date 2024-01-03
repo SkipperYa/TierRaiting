@@ -231,3 +231,4 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 WebApi/logs/log20231231.txt
+*.txt

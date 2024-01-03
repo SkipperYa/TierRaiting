@@ -5,7 +5,7 @@ using System.Security.Claims;
 namespace WebApi.Controllers
 {
 	[ApiController]
-	[Route("[controller]")]
+	[Route("api/[controller]")]
 	public class BaseApplicationController : ControllerBase
 	{
 		protected readonly IMediator _mediator;
