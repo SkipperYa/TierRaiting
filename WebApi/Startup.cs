@@ -64,6 +64,7 @@ namespace WebApi
 				.AddJwtBearer("Bearer", options =>
 				{
 					options.RequireHttpsMetadata = false;
+					options.SaveToken = true;
 					options.TokenValidationParameters = new TokenValidationParameters
 					{
 						ValidateIssuer = true,
@@ -100,6 +101,27 @@ namespace WebApi
 			app.UseSpaStaticFiles();
 
 			app.UseRouting();
+
+			app.Use(async (context, next) =>
+			{
+				// MIME sniffing
+				context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+				// XSS
+				context.Response.Headers.Add("X-Xss-Protection", "1");
+				// clickjacking
+				context.Response.Headers.Add("X-Frame-Options", "DENY");
+
+				await next();
+			});
+
+			app.Use(async (context, next) =>
+			{
+				var token = context.Request.Cookies[AuthOptions.TOKENNAME];
+				if (!string.IsNullOrEmpty(token))
+					context.Request.Headers.Add("Authorization", "Bearer " + token);
+
+				await next();
+			});
 
 			app.UseAuthentication();
 			app.UseAuthorization();

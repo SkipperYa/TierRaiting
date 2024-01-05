@@ -1,9 +1,23 @@
 export const baseUrl = 'api/';
 
+export const setUser = (user: any) => {
+	localStorage.setItem('user', user);
+};
+
+export const getUser = () => {
+	return localStorage.getItem('user');
+};
+
+export const removeUser = () => {
+	localStorage.removeItem('user');
+};
+
 const handleResponse = (response: Response): Promise<any> => {
 	return response.json().then((data: any) => {
 		if (response.status === 200) {
 			return data;
+		} else if (response.status === 302) {
+			window.location.href = '/';
 		} else {
 			throw data;
 		}
@@ -11,7 +25,13 @@ const handleResponse = (response: Response): Promise<any> => {
 }
 
 export const clientGet = (path: string) => {
-	return fetch(`${baseUrl}${path}`).then((response) => {
+	return fetch(`${baseUrl}${path}`, {
+		credentials: 'same-origin',
+		method: 'GET',
+		headers: {
+			'Content-type': 'application/json; charset=utf-8',
+		}
+	}).then((response) => {
 		return handleResponse(response);
 	});
 };

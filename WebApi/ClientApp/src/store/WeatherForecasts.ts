@@ -1,4 +1,5 @@
 import { Action, Reducer } from 'redux';
+import { clientGet } from '../utils/client';
 import { AppThunkAction } from './';
 
 // -----------------
@@ -45,8 +46,7 @@ export const actionCreators = {
         // Only load data if it's something we don't already have (and are not already loading)
         const appState = getState();
         if (appState && appState.weatherForecasts && startDateIndex !== appState.weatherForecasts.startDateIndex) {
-            fetch(`weatherforecast`)
-                .then(response => response.json() as Promise<WeatherForecast[]>)
+            clientGet(`weatherforecast`)
                 .then(data => {
                     dispatch({ type: 'RECEIVE_WEATHER_FORECASTS', startDateIndex: startDateIndex, forecasts: data });
                 });

@@ -10,4 +10,11 @@ namespace Infrastructure.BaseRequest
 	{
 		public string UserId { get; set; }
 	}
+
+	public abstract class BaseAuthorizeListRequest<TResult> : BaseAuthorizeRequest<TResult>
+	{
+		public int Page { get; set; }
+		public int Count { get; set; } = 10;
+		public string Text { get; set; }
+	}
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Interfaces;
 using Domain.Models;
+using FluentValidation.Internal;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
@@ -24,15 +25,9 @@ namespace WebApi.Controllers.Login
 		{
 			var user = await _loginService.Login(model, cancellationToken);
 
-			var token = _loginService.GetToken(user);
-
 			var userViewModel = _mapper.Map<UserViewModel>(user);
 
-			return Ok(new
-			{
-				Token = token,
-				User = userViewModel
-			});
+			return Ok(userViewModel);
 		}
 
 		[HttpGet]
@@ -40,7 +35,7 @@ namespace WebApi.Controllers.Login
 		{
 			await _loginService.Logout(cancellationToken);
 
-			return Redirect("/");
+			return Ok(new { Message = "Ok" });
 		}
 	}
 }

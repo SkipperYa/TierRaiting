@@ -17,7 +17,6 @@ namespace Infrastructure.Commands
 		{
 			var category = new Category()
 			{
-				Id = request.Id,
 				Title = request.Title,
 				Description = request.Description,
 				UserId = request.UserId,

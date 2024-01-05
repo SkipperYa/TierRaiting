@@ -6,11 +6,6 @@ namespace Infrastructure.Commands.CreateCategory
 	{
 		public CreateCategoryCommandValidator()
 		{
-			RuleFor(q => q.Id)
-				.NotEmpty()
-				.NotNull()
-				.WithMessage("Id is required.");
-
 			RuleFor(q => q.Title)
 				.NotEmpty()
 				.NotNull()

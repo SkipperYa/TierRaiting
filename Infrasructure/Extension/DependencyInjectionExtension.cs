@@ -2,9 +2,12 @@
 using Domain.Interfaces;
 using FluentValidation;
 using Infrastructure.Behaviors;
+using Infrastructure.Commands;
+using Infrastructure.Commands.CreateCategory;
 using Infrastructure.Commands.RegistrationUser;
 using Infrastructure.Database;
 using Infrastructure.Mapper;
+using Infrastructure.Queries.GetCategoriesQuery;
 using Infrastructure.Queries.WeatherForecastCommand;
 using Infrastructure.Queries.WeatherForecastQuery;
 using Infrastructure.Services;
@@ -34,7 +37,8 @@ namespace Infrastructure.Extension
 		public static IServiceCollection AddValidators(this IServiceCollection services)
 		{
 			services
-				.AddScoped<IValidator<GetWeatherForecastQuery>, GetWeatherForecastQueryValidator>()
+				.AddScoped<IValidator<CategoriesQuery>, CategoriesQueryValidator>()
+				.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>()
 				.AddScoped<IValidator<RegistrationUserCommand>, RegistrationUserCommandValidator>();
 
 			return services;

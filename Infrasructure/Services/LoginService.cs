@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Infrastructure.Utils;
+using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Services
 {
@@ -20,11 +21,13 @@ namespace Infrastructure.Services
 	{
 		private readonly SignInManager<User> _signInManager;
 		private readonly ApplicationContext _context;
+		private readonly IHttpContextAccessor _httpContextAccessor;
 
-		public LoginService(SignInManager<User> signInManager, ApplicationContext context)
+		public LoginService(SignInManager<User> signInManager, ApplicationContext context, IHttpContextAccessor httpContextAccessor)
 		{
 			_signInManager = signInManager;
 			_context = context;
+			_httpContextAccessor = httpContextAccessor;
 		}
 
 		public async Task<User> Login(LoginViewModel model, CancellationToken cancellationToken)
@@ -44,6 +47,13 @@ namespace Infrastructure.Services
 			{
 				throw new LogicException("Invalid password or login");
 			}
+
+			var token = GetToken(user);
+
+			_httpContextAccessor.HttpContext.Response.Cookies.Append(AuthOptions.TOKENNAME, token, new CookieOptions()
+			{
+				HttpOnly = true
+			});
 
 			return user;
 		}
@@ -70,6 +80,8 @@ namespace Infrastructure.Services
 		public async Task Logout(CancellationToken cancellationToken)
 		{
 			await _signInManager.SignOutAsync();
+
+			_httpContextAccessor.HttpContext.Response.Cookies.Delete("access_token");
 		}
 	}
 }

@@ -11,23 +11,25 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { clientPost, setUser } from '../utils/client';
 import { Alert, Link } from '@mui/material';
+import { useHistory } from 'react-router-dom';
 
 const defaultTheme = createTheme();
 
-export default function Registration() {
+export default function Login() {
 	const [error, setError] = React.useState<string | undefined>();
+	const history = useHistory();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
 
-		clientPost('registration', {
+		clientPost('login', {
 			email: data.get('email'),
 			password: data.get('password'),
-			passwordConfirm: data.get('passwordConfirm'),
 		}).then((res) => {
 			setError(undefined);
 			setUser(res);
+			history.push('/fetch-data');
 		}).catch((message) => {
 			setError(message);
 		});
@@ -49,7 +51,7 @@ export default function Registration() {
 						<LockOutlinedIcon />
 					</Avatar>
 					<Typography component="h1" variant="h5">
-						Sign up
+						Sign In
 					</Typography>
 					<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
 						<Grid container spacing={2}>
@@ -74,17 +76,6 @@ export default function Registration() {
 									autoComplete="new-password"
 								/>
 							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									required
-									fullWidth
-									name="passwordConfirm"
-									label="Confirm Password"
-									type="password"
-									id="passwordConfirm"
-									autoComplete="new-password-confirm"
-								/>
-							</Grid>
 						</Grid>
 						<Button
 							type="submit"
@@ -92,13 +83,13 @@ export default function Registration() {
 							variant="contained"
 							sx={{ mt: 3, mb: 2 }}
 						>
-							Sign Up
+							Sign In
 						</Button>
 						{error && <Alert severity="error">{error}</Alert>}
 						<Grid container justifyContent="flex-end">
 							<Grid item>
-								<Link href="/" variant="body2">
-									Already have an account? Sign in
+								<Link href="/registration" variant="body2">
+									Sign Up
 								</Link>
 							</Grid>
 						</Grid>
