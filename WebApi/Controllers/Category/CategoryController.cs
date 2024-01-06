@@ -24,6 +24,7 @@ namespace WebApi.Controllers.Category
 		public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryCommand command, CancellationToken cancellationToken)
 		{
 			command.UserId = UserId;
+
 			var category = await _mediator.Send(command, cancellationToken);
 
 			var categoryViewModel = _mapper.Map<CategoryViewModel>(category);

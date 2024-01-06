@@ -1,15 +1,13 @@
-﻿using FluentValidation;
+﻿using Infrastructure.BaseValidators;
 using Infrastructure.Queries.GetCategoriesQuery;
 
 namespace Infrastructure.Queries.WeatherForecastQuery
 {
-	public class CategoriesQueryValidator : AbstractValidator<CategoriesQuery>
+	public class CategoriesQueryValidator : BaseListQueryValidators<CategoriesQuery>
 	{
-		public CategoriesQueryValidator()
+		public CategoriesQueryValidator() : base()
 		{
-			RuleFor(q => q.Page)
-				.GreaterThan(0)
-				.WithMessage("Page must be greater than 0");
+
 		}
 	}
 }

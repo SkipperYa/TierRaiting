@@ -1,10 +1,11 @@
 ﻿using FluentValidation;
+using Infrastructure.BaseValidators;
 
 namespace Infrastructure.Commands.CreateCategory
 {
-	public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
+	public class CreateCategoryCommandValidator : BaseCreateCommandValidator<CreateCategoryCommand>
 	{
-		public CreateCategoryCommandValidator()
+		public CreateCategoryCommandValidator() : base()
 		{
 			RuleFor(q => q.Title)
 				.NotEmpty()
