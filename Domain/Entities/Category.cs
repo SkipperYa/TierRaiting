@@ -1,10 +1,11 @@
 ﻿using Domain.Entities;
+using Domain.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApi.Entities
 {
-	public class Category : WithId
+	public class Category : WithId, IWithUserId
 	{
 		public string Title { get; set; }
 		public string Description { get; set; }

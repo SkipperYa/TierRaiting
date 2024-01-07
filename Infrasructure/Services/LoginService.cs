@@ -68,6 +68,7 @@ namespace Infrastructure.Services
 				issuer: AuthOptions.ISSUER,
 				audience: AuthOptions.AUDIENCE,
 				notBefore: now,
+				expires: now.AddDays(365),
 				claims: claims,
 				signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
 			);

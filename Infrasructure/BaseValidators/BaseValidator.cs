@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Infrastructure.BaseRequest;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infrastructure.BaseValidators
 {
@@ -8,6 +9,23 @@ namespace Infrastructure.BaseValidators
 	{
 		public BaseCreateCommandValidator()
 		{
+			RuleFor(q => q.UserId)
+				.NotEmpty()
+				.NotNull()
+			.WithMessage("UserId is required.");
+		}
+	}
+
+	public abstract class BaseGetQueryValidator<TQuery> : AbstractValidator<TQuery>
+		where TQuery : IBaseGetAuthorizeRequest
+	{
+		public BaseGetQueryValidator()
+		{
+			RuleFor(q => q.Id)
+				.NotEmpty()
+				.NotNull()
+				.WithMessage("Id is required.");
+
 			RuleFor(q => q.UserId)
 				.NotEmpty()
 				.NotNull()

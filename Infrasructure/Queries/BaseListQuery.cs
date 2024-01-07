@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Interfaces;
 using Infrastructure.BaseRequest;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace Infrastructure.Queries
 {
 	public class BaseListQuery<TQuery, TEntity, TResult> : BaseAuthorizeHandler<TQuery, List<TResult>>
 		where TQuery : BaseAuthorizeListRequest<List<TResult>>
-		where TEntity : WithId
+		where TEntity : WithId, IWithUserId
 	{
 		private readonly ApplicationContext _context;
 		private readonly IMapper _mapper;
@@ -26,7 +27,8 @@ namespace Infrastructure.Queries
 		public override async Task<List<TResult>> Handle(TQuery request, CancellationToken cancellationToken)
 		{
 			var query = _context.Set<TEntity>()
-				.AsNoTracking();
+				.AsNoTracking()
+				.Where(q => q.UserId == request.UserId);
 
 			query = await Filters(query, request, cancellationToken);
 

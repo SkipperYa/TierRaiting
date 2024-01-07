@@ -16,6 +16,16 @@ namespace Infrastructure.BaseRequest
 		public string UserId { get; set; }
 	}
 
+	public interface IBaseGetAuthorizeRequest : IBaseAuthorizeRequest
+	{
+		public string Id { get; set; }
+	}
+
+	public abstract class BaseGetAuthorizeRequest<TResult> : BaseAuthorizeRequest<TResult>, IBaseGetAuthorizeRequest
+	{
+		public string Id { get; set; }
+	}
+
 	public interface IBaseAuthorizeListRequest
 	{
 		public int Page { get; set; }

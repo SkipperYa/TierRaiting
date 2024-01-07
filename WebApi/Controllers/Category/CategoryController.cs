@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Domain.Entities;
 using Domain.Models;
 using Infrastructure.Commands;
+using Infrastructure.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +18,20 @@ namespace WebApi.Controllers.Category
 		public CategoryController(IMediator mediator, IMapper mapper) : base(mediator)
 		{
 			_mapper = mapper;
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> GetCategory(string id, CancellationToken cancellationToken)
+		{
+			var query = new GetCategoryQuery
+			{
+				Id = id,
+				UserId = UserId
+			};
+
+			var categoryViewModel = await _mediator.Send(query, cancellationToken);
+
+			return Ok(categoryViewModel);
 		}
 
 		[HttpPost]

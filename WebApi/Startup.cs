@@ -71,7 +71,7 @@ namespace WebApi
 						ValidIssuer = AuthOptions.ISSUER,
 						ValidateAudience = true,
 						ValidAudience = AuthOptions.AUDIENCE,
-						ValidateLifetime = false,
+						ValidateLifetime = true,
 						IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
 						ValidateIssuerSigningKey = true,
 					};
