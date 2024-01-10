@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 using Domain.Models;
 using Infrastructure.Database;
-using Infrastructure.Queries.GetCategoriesQuery;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WebApi.Entities;
 
-namespace Infrastructure.Queries.WeatherForecastQuery
+namespace Infrastructure.Queries
 {
-	public class CategoriesHandler : BaseListQuery<CategoriesQuery, Category, CategoryViewModel>
+	public class CategoriesHandler : BaseListQueryHandler<CategoriesQuery, Category, CategoryViewModel>
 	{
 		public CategoriesHandler(ApplicationContext context, IMapper mapper) : base(context, mapper)
 		{

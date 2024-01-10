@@ -12,7 +12,24 @@ namespace Infrastructure.BaseValidators
 			RuleFor(q => q.UserId)
 				.NotEmpty()
 				.NotNull()
-			.WithMessage("UserId is required.");
+				.WithMessage("UserId is required.");
+		}
+	}
+
+	public abstract class BaseUpdateCommandValidator<TCommand> : AbstractValidator<TCommand>
+		where TCommand : IBaseAuthorizeRequest
+	{
+		public BaseUpdateCommandValidator()
+		{
+			RuleFor(q => q.Id)
+				.NotEmpty()
+				.NotNull()
+				.WithMessage("Id is required.");
+
+			RuleFor(q => q.UserId)
+				.NotEmpty()
+				.NotNull()
+				.WithMessage("UserId is required.");
 		}
 	}
 

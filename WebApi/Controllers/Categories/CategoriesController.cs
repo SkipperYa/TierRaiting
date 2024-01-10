@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using Domain.Models;
-using Infrastructure.Queries.GetCategoriesQuery;
+﻿using Infrastructure.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers.Categories

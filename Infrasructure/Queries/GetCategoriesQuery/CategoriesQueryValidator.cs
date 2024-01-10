@@ -1,7 +1,6 @@
 ﻿using Infrastructure.BaseValidators;
-using Infrastructure.Queries.GetCategoriesQuery;
 
-namespace Infrastructure.Queries.WeatherForecastQuery
+namespace Infrastructure.Queries
 {
 	public class CategoriesQueryValidator : BaseListQueryValidators<CategoriesQuery>
 	{

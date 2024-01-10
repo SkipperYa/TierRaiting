@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Infrastructure.BaseRequest;
 
-namespace Infrastructure.Commands.RegistrationUser
+namespace Infrastructure.Commands
 {
 	public class RegistrationUserCommand : BaseRequest<User>
 	{

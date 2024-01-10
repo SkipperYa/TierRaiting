@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Queries
 {
-	public class BaseListQuery<TQuery, TEntity, TResult> : BaseAuthorizeHandler<TQuery, List<TResult>>
+	public class BaseListQueryHandler<TQuery, TEntity, TResult> : BaseAuthorizeHandler<TQuery, List<TResult>>
 		where TQuery : BaseAuthorizeListRequest<List<TResult>>
 		where TEntity : WithId, IWithUserId
 	{
 		private readonly ApplicationContext _context;
 		private readonly IMapper _mapper;
 
-		public BaseListQuery(ApplicationContext context, IMapper mapper)
+		public BaseListQueryHandler(ApplicationContext context, IMapper mapper)
 		{
 			_context = context;
 			_mapper = mapper;

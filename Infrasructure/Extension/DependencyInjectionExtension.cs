@@ -2,13 +2,9 @@
 using FluentValidation;
 using Infrastructure.Behaviors;
 using Infrastructure.Commands;
-using Infrastructure.Commands.CreateCategory;
-using Infrastructure.Commands.RegistrationUser;
 using Infrastructure.Database;
 using Infrastructure.Mapper;
 using Infrastructure.Queries;
-using Infrastructure.Queries.GetCategoriesQuery;
-using Infrastructure.Queries.WeatherForecastQuery;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +13,7 @@ using System.Reflection;
 
 namespace Infrastructure.Extension
 {
-	public static class DependencyInjectionExtension
+    public static class DependencyInjectionExtension
 	{
 		public static IServiceCollection AddMediator(this IServiceCollection services)
 		{
@@ -39,6 +35,7 @@ namespace Infrastructure.Extension
 				.AddScoped<IValidator<CategoriesQuery>, CategoriesQueryValidator>()
 				.AddScoped<IValidator<GetCategoryQuery>, GetCategoryQueryValidator>()
 				.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>()
+				.AddScoped<IValidator<UpdateCategoryCommand>, UpdateCategoryCommandValidator>()
 				.AddScoped<IValidator<RegistrationUserCommand>, RegistrationUserCommandValidator>();
 
 			return services;

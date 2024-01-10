@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Domain.Interfaces;
+using MediatR;
 
 namespace Infrastructure.BaseRequest
 {
@@ -6,7 +7,7 @@ namespace Infrastructure.BaseRequest
 	{
 	}
 
-	public interface IBaseAuthorizeRequest
+	public interface IBaseAuthorizeRequest : IWithId
 	{
 		public string UserId { get; set; }
 	}
@@ -14,6 +15,7 @@ namespace Infrastructure.BaseRequest
 	public abstract class BaseAuthorizeRequest<TResult> : BaseRequest<TResult>, IBaseAuthorizeRequest
 	{
 		public string UserId { get; set; }
+		public string Id { get; set; }
 	}
 
 	public interface IBaseGetAuthorizeRequest : IBaseAuthorizeRequest

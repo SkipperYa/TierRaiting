@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Infrastructure.BaseValidators;
 
-namespace Infrastructure.Commands.CreateCategory
+namespace Infrastructure.Commands
 {
 	public class CreateCategoryCommandValidator : BaseCreateCommandValidator<CreateCategoryCommand>
 	{

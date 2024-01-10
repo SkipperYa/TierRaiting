@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Commands
 {
-	public abstract class BaseCreateCommand<TRequest, TResult> : BaseAuthorizeHandler<TRequest, TResult>
+	public abstract class BaseUpdateCommandHandler<TRequest, TResult> : BaseAuthorizeHandler<TRequest, TResult>
 		where TRequest : BaseAuthorizeRequest<TResult>
 	{
 		protected readonly ApplicationContext _applicationContext;
 		protected readonly IMapper _mapper;
 
-		public BaseCreateCommand(ApplicationContext applicationContext, IMapper mapper)
+		public BaseUpdateCommandHandler(ApplicationContext applicationContext, IMapper mapper)
 		{
 			_applicationContext = applicationContext;
 			_mapper = mapper;
@@ -25,7 +25,7 @@ namespace Infrastructure.Commands
 
 			var item = await _applicationContext.AddAsync(entity, cancellationToken);
 
-			item.State = EntityState.Added;
+			item.State = EntityState.Modified;
 
 			await _applicationContext.SaveChangesAsync(cancellationToken);
 

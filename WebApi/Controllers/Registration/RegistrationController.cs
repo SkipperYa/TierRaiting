@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Models;
-using Infrastructure.Commands.RegistrationUser;
+using Infrastructure.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
