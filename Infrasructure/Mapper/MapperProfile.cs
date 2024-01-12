@@ -2,7 +2,6 @@
 using Domain.Entities;
 using Domain.Models;
 using Infrastructure.Commands;
-using WebApi.Entities;
 
 namespace Infrastructure.Mapper
 {
@@ -16,6 +15,10 @@ namespace Infrastructure.Mapper
 			CreateMap<Category, UpdateCategoryCommand>().ReverseMap();
 			CreateMap<Category, DeleteCategoryCommand>().ReverseMap();
 			CreateMap<Category, CategoryViewModel>().ReverseMap();
+			CreateMap<Item, ItemViewModel>().ReverseMap();
+			CreateMap<Item, CreateItemCommand>().ReverseMap();
+			CreateMap<Item, UpdateItemCommand>().ReverseMap();
+			CreateMap<Item, DeleteItemCommand>().ReverseMap();
 		}
 	}
 }

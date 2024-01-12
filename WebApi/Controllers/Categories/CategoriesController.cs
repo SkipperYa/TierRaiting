@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace WebApi.Controllers.Categories
+namespace WebApi.Controllers
 {
 	[Authorize]
 	public class CategoriesController : BaseApplicationController

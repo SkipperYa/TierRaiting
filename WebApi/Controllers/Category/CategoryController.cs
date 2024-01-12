@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WebApi.Controllers.Category
+namespace WebApi.Controllers
 {
 	[Authorize]
 	public class CategoryController : BaseApplicationController

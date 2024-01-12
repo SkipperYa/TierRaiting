@@ -239,7 +239,7 @@ namespace WebApi.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WebApi.Entities.Category", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -263,7 +263,7 @@ namespace WebApi.Migrations
 
             modelBuilder.Entity("Domain.Entities.Item", b =>
                 {
-                    b.HasOne("WebApi.Entities.Category", "Category")
+                    b.HasOne("Domain.Entities.Category", "Category")
                         .WithMany("Items")
                         .HasForeignKey("CategoryId");
 
@@ -321,7 +321,7 @@ namespace WebApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApi.Entities.Category", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.HasOne("Domain.Entities.User", "User")
                         .WithMany("Categories")
@@ -335,7 +335,7 @@ namespace WebApi.Migrations
                     b.Navigation("Categories");
                 });
 
-            modelBuilder.Entity("WebApi.Entities.Category", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Navigation("Items");
                 });

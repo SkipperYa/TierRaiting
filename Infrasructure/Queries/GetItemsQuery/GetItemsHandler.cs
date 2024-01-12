@@ -8,18 +8,20 @@ using Domain.Entities;
 
 namespace Infrastructure.Queries
 {
-	public class CategoriesHandler : BaseListQueryHandler<CategoriesQuery, Category, CategoryViewModel>
+	public class GetItemsHandler : BaseListQueryHandler<GetItemsQuery, Item, ItemViewModel>
 	{
-		public CategoriesHandler(ApplicationContext context, IMapper mapper) : base(context, mapper)
+		public GetItemsHandler(ApplicationContext context, IMapper mapper) : base(context, mapper)
 		{
 		}
 
-		public override Task<IQueryable<Category>> Filters(IQueryable<Category> query, CategoriesQuery request, CancellationToken cancellationToken)
+		public override Task<IQueryable<Item>> Filters(IQueryable<Item> query, GetItemsQuery request, CancellationToken cancellationToken)
 		{
 			if (!string.IsNullOrEmpty(request.Text))
 			{
 				query = query.Where(q => q.Title.Contains(request.Text));
 			}
+
+			query = query.Where(q => q.CategoryId == request.CategoryId);
 
 			return base.Filters(query, request, cancellationToken);
 		}

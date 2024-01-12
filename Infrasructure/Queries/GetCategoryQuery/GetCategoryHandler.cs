@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Models;
 using Infrastructure.Database;
-using WebApi.Entities;
+using Domain.Entities;
 
 namespace Infrastructure.Queries
 {

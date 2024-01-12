@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Infrastructure.Database;
-using WebApi.Entities;
+using Domain.Entities;
 
 namespace Infrastructure.Commands
 {

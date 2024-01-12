@@ -3,7 +3,7 @@ using Domain.Entities;
 
 namespace Infrastructure.Commands
 {
-	public class DeleteCategoryCommand : BaseAuthorizeRequest<Category>
+	public class DeleteItemCommand : BaseAuthorizeRequest<Item>
 	{
 
 	}

@@ -1,5 +1,5 @@
 ﻿using Infrastructure.BaseRequest;
-using WebApi.Entities;
+using Domain.Entities;
 
 namespace Infrastructure.Commands
 {

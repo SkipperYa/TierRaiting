@@ -37,7 +37,12 @@ namespace Infrastructure.Extension
 				.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>()
 				.AddScoped<IValidator<UpdateCategoryCommand>, UpdateCategoryCommandValidator>()
 				.AddScoped<IValidator<DeleteCategoryCommand>, DeleteCategoryCommandValidator>()
-				.AddScoped<IValidator<RegistrationUserCommand>, RegistrationUserCommandValidator>();
+				.AddScoped<IValidator<RegistrationUserCommand>, RegistrationUserCommandValidator>()
+				.AddScoped<IValidator<GetItemsQuery>, GetItemsQueryValidator>()
+				.AddScoped<IValidator<GetItemQuery>, GetItemQueryValidator>()
+				.AddScoped<IValidator<CreateItemCommand>, CreateItemCommandValidator>()
+				.AddScoped<IValidator<UpdateItemCommand>, UpdateItemCommandValidator>()
+				.AddScoped<IValidator<DeleteItemCommand>, DeleteItemCommandValidator>();
 
 			return services;
 		}

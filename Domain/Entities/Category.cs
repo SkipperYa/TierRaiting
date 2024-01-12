@@ -1,9 +1,8 @@
-﻿using Domain.Entities;
-using Domain.Interfaces;
+﻿using Domain.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebApi.Entities
+namespace Domain.Entities
 {
 	public class Category : WithId, IWithUserId
 	{

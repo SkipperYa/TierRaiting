@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
-using WebApi.Entities;
+using Domain.Entities;
 
 namespace Domain.Entities
 {
