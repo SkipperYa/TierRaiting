@@ -6,7 +6,7 @@ using WebApi.Entities;
 
 namespace Infrastructure.Mapper
 {
-    public class MapperProfile : Profile
+	public class MapperProfile : Profile
 	{
 		public MapperProfile()
 		{
@@ -14,6 +14,7 @@ namespace Infrastructure.Mapper
 			CreateMap<User, UserViewModel>().ReverseMap();
 			CreateMap<Category, CreateCategoryCommand>().ReverseMap();
 			CreateMap<Category, UpdateCategoryCommand>().ReverseMap();
+			CreateMap<Category, DeleteCategoryCommand>().ReverseMap();
 			CreateMap<Category, CategoryViewModel>().ReverseMap();
 		}
 	}

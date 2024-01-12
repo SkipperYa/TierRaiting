@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers.Category
 {
-    [Authorize]
+	[Authorize]
 	public class CategoryController : BaseApplicationController
 	{
 		private readonly IMapper _mapper;
@@ -56,6 +56,16 @@ namespace WebApi.Controllers.Category
 			var categoryViewModel = _mapper.Map<CategoryViewModel>(category);
 
 			return Ok(categoryViewModel);
+		}
+
+		[HttpDelete]
+		public async Task<IActionResult> DeleteCategory([FromBody] DeleteCategoryCommand command, CancellationToken cancellationToken)
+		{
+			command.UserId = UserId;
+
+			var deleted = await _mediator.Send(command, cancellationToken);
+
+			return Ok(deleted);
 		}
 	}
 }

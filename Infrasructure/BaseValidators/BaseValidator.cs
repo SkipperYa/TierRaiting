@@ -33,6 +33,23 @@ namespace Infrastructure.BaseValidators
 		}
 	}
 
+	public abstract class BaseDeleteCommandValidator<TCommand> : AbstractValidator<TCommand>
+		where TCommand : IBaseAuthorizeRequest
+	{
+		public BaseDeleteCommandValidator()
+		{
+			RuleFor(q => q.Id)
+				.NotEmpty()
+				.NotNull()
+				.WithMessage("Id is required.");
+
+			RuleFor(q => q.UserId)
+				.NotEmpty()
+				.NotNull()
+				.WithMessage("UserId is required.");
+		}
+	}
+
 	public abstract class BaseGetQueryValidator<TQuery> : AbstractValidator<TQuery>
 		where TQuery : IBaseGetAuthorizeRequest
 	{

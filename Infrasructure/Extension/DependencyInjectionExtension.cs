@@ -36,6 +36,7 @@ namespace Infrastructure.Extension
 				.AddScoped<IValidator<GetCategoryQuery>, GetCategoryQueryValidator>()
 				.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>()
 				.AddScoped<IValidator<UpdateCategoryCommand>, UpdateCategoryCommandValidator>()
+				.AddScoped<IValidator<DeleteCategoryCommand>, DeleteCategoryCommandValidator>()
 				.AddScoped<IValidator<RegistrationUserCommand>, RegistrationUserCommandValidator>();
 
 			return services;
