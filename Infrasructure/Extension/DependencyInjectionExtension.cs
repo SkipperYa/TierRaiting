@@ -42,7 +42,8 @@ namespace Infrastructure.Extension
 				.AddScoped<IValidator<GetItemQuery>, GetItemQueryValidator>()
 				.AddScoped<IValidator<CreateItemCommand>, CreateItemCommandValidator>()
 				.AddScoped<IValidator<UpdateItemCommand>, UpdateItemCommandValidator>()
-				.AddScoped<IValidator<DeleteItemCommand>, DeleteItemCommandValidator>();
+				.AddScoped<IValidator<DeleteItemCommand>, DeleteItemCommandValidator>()
+				.AddScoped<IValidator<GetSteamAppQuery>, GetSteamAppQueryValidator>();
 
 			return services;
 		}

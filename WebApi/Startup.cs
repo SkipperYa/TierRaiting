@@ -1,7 +1,9 @@
 using Domain.ControllerFilters;
 using Domain.Entities;
+using Domain.Interfaces;
 using Infrastructure.Database;
 using Infrastructure.Extension;
+using Infrastructure.Services;
 using Infrastructure.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -77,6 +79,8 @@ namespace WebApi
 					};
 				});
 
+			services.AddTransient<ISteamService, SteamService>();
+
 			services.AddHttpContextAccessor();
 
 			services.AddServices();
@@ -130,7 +134,8 @@ namespace WebApi
 			{
 				endpoints.MapControllerRoute(
 					name: "default",
-					pattern: "{controller}/{action=Index}/{id?}");
+					pattern: "{controller}/{action=Index}/{id?}"
+				);
 			});
 
 			app.UseSpa(spa =>
