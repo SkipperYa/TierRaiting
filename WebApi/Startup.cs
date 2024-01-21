@@ -15,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http.Timeouts;
+using System;
 
 namespace WebApi
 {
@@ -57,6 +59,15 @@ namespace WebApi
 			}).AddEntityFrameworkStores<ApplicationContext>();
 
 			services.AddMediator();
+
+			services.AddRequestTimeouts(options =>
+			{
+				options.AddPolicy("DefaultTimeout10s", new RequestTimeoutPolicy()
+				{
+					Timeout = TimeSpan.FromMilliseconds(10000),
+					TimeoutStatusCode = 503,
+				});
+			});
 
 			services
 				.AddAuthentication(config =>
@@ -106,6 +117,8 @@ namespace WebApi
 			app.UseSpaStaticFiles();
 
 			app.UseRouting();
+
+			app.UseRequestTimeouts();
 
 			app.Use(async (context, next) =>
 			{

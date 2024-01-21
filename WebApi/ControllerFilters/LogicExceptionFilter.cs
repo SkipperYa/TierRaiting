@@ -5,6 +5,7 @@ using Serilog;
 using System;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Domain.ControllerFilters
 {
@@ -30,12 +31,27 @@ namespace Domain.ControllerFilters
 				Log.CloseAndFlush();
 			}
 
-			context.Result = new JsonResult(context.Exception is LogicException logicException 
-				? logicException.Message 
-				: "Something went wrong.")
+			if (context.Exception is LogicException logicException)
 			{
-				StatusCode = (int)HttpStatusCode.InternalServerError
-			};
+				context.Result = new JsonResult(logicException.Message)
+				{
+					StatusCode = (int)HttpStatusCode.InternalServerError
+				};
+			}
+			else if (context.Exception is TaskCanceledException)
+			{
+				context.Result = new JsonResult("Service Unavailable.")
+				{
+					StatusCode = (int)HttpStatusCode.ServiceUnavailable
+				};
+			}
+			else
+			{
+				context.Result = new JsonResult("Something went wrong.")
+				{
+					StatusCode = (int)HttpStatusCode.InternalServerError
+				};
+			}
 		}
 	}
 }
