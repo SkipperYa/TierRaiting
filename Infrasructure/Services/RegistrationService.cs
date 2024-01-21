@@ -17,11 +17,11 @@ namespace Infrastructure.Services
 			_userManager = userManager;
 		}
 
-		public async Task<User> Registration(string email, string password, CancellationToken cancellationToken)
+		public async Task<User> Registration(string email, string userName, string password, CancellationToken cancellationToken)
 		{
 			var user = new User
 			{
-				UserName = email,
+				UserName = userName,
 				Email = email,
 			};
 

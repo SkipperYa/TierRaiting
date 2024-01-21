@@ -19,7 +19,7 @@ namespace Infrastructure.Commands
 
 		public override async Task<User> Handle(RegistrationUserCommand request, CancellationToken cancellationToken)
 		{
-			var user = await _registrationService.Registration(request.Email, request.Password, cancellationToken);
+			var user = await _registrationService.Registration(request.Email, request.UserName, request.Password, cancellationToken);
 
 			user = await _loginService.Login(new LoginViewModel() { Email = user.Email, Password = request.Password }, cancellationToken);
 

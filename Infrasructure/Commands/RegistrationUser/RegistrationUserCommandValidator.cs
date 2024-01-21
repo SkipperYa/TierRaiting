@@ -9,6 +9,10 @@ namespace Infrastructure.Commands
 			RuleFor(q => q.Email)
 				.EmailAddress();
 
+			RuleFor(q => q.UserName)
+				.NotEmpty()
+				.WithMessage("User Name is required");
+
 			RuleFor(q => q.Password)
 				.NotEmpty()
 				.WithMessage("Password is required.");

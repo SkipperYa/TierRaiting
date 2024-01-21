@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Infrastructure.Queries.WeatherForecastCommand;
 
 namespace Infrastructure.Queries
 {

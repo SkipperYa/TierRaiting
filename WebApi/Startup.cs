@@ -8,6 +8,7 @@ using Infrastructure.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
@@ -109,11 +110,11 @@ namespace WebApi
 			app.Use(async (context, next) =>
 			{
 				// MIME sniffing
-				context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+				context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
 				// XSS
-				context.Response.Headers.Add("X-Xss-Protection", "1");
+				context.Response.Headers.Append("X-Xss-Protection", "1");
 				// clickjacking
-				context.Response.Headers.Add("X-Frame-Options", "DENY");
+				context.Response.Headers.Append("X-Frame-Options", "DENY");
 
 				await next();
 			});
@@ -122,7 +123,7 @@ namespace WebApi
 			{
 				var token = context.Request.Cookies[AuthOptions.TOKENNAME];
 				if (!string.IsNullOrEmpty(token))
-					context.Request.Headers.Add("Authorization", "Bearer " + token);
+					context.Request.Headers.Append("Authorization", "Bearer " + token);
 
 				await next();
 			});

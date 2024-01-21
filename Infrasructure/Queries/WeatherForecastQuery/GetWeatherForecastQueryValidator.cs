@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using Infrastructure.Queries.WeatherForecastCommand;
 
-namespace Infrastructure.Queries.WeatherForecastQuery
+namespace Infrastructure.Queries
 {
 	public class GetWeatherForecastQueryValidator : AbstractValidator<GetWeatherForecastQuery>
 	{

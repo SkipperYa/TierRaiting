@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using WebApi;
 
-namespace Infrastructure.Queries.WeatherForecastCommand
+namespace Infrastructure.Queries
 {
 	public class GetWeatherForecastQuery : BaseAuthorizeRequest<List<WeatherForecast>>
 	{

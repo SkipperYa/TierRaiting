@@ -11,11 +11,14 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { clientPost, setUser } from '../utils/client';
 import { Alert, Link } from '@mui/material';
+import { useHistory } from 'react-router-dom';
 
 const defaultTheme = createTheme();
 
 export default function Registration() {
 	const [error, setError] = React.useState<string | undefined>();
+
+	const history = useHistory();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -23,11 +26,13 @@ export default function Registration() {
 
 		clientPost('registration', {
 			email: data.get('email'),
+			userName: data.get('userName'),
 			password: data.get('password'),
 			passwordConfirm: data.get('passwordConfirm'),
 		}).then((res) => {
 			setError(undefined);
 			setUser(res);
+			history.push('/fetch-data');
 		}).catch((message) => {
 			setError(message);
 		});
@@ -53,6 +58,16 @@ export default function Registration() {
 					</Typography>
 					<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
 						<Grid container spacing={2}>
+							<Grid item xs={12}>
+								<TextField
+									required
+									fullWidth
+									id="userName"
+									label="User Name"
+									name="userName"
+									autoComplete="userName"
+								/>
+							</Grid>
 							<Grid item xs={12}>
 								<TextField
 									required

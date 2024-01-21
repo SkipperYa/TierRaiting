@@ -14,6 +14,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Infrastructure.Utils;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace Infrastructure.Services
 {
@@ -34,14 +35,20 @@ namespace Infrastructure.Services
 		{
 			var user = await _context.Set<User>()
 				.AsNoTracking()
-				.FirstOrDefaultAsync(q => q.Email == model.Email);
+				.Where(q => q.Email == model.Email)
+				.Select(q => new User() 
+				{
+					Id = q.Id,
+					UserName = q.UserName
+				})
+				.FirstOrDefaultAsync();
 
 			if (user is null)
 			{
 				throw new LogicException("Invalid user");
 			}
 
-			var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+			var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, false);
 
 			if (!result.Succeeded)
 			{
@@ -62,7 +69,11 @@ namespace Infrastructure.Services
 		{
 			var now = DateTime.UtcNow;
 
-			var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, user.Id) };
+			var claims = new List<Claim> 
+			{
+				new Claim(ClaimTypes.NameIdentifier, user.Id),
+				new Claim(ClaimTypes.Name, user.UserName),
+			};
 
 			var jwt = new JwtSecurityToken(
 				issuer: AuthOptions.ISSUER,
