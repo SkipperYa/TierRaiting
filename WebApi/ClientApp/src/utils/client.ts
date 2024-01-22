@@ -13,15 +13,18 @@ export const removeUser = () => {
 };
 
 const handleResponse = (response: Response): Promise<any> => {
-	return response.json().then((data: any) => {
-		if (response.status === 200) {
+	if (response.status === 200) {
+		return response.json().then((data: any) => {
 			return data;
-		} else if (response.status === 302) {
-			window.location.href = '/';
-		} else {
-			throw data;
-		}
-	});
+		});
+	} else if (response.status === 401) {
+		window.location.href = '/';
+		return Promise.reject();
+	} else {
+		return response.json().then((error: any) => {
+			return error;
+		});
+	};
 }
 
 export const clientGet = (path: string) => {
@@ -33,6 +36,8 @@ export const clientGet = (path: string) => {
 		}
 	}).then((response) => {
 		return handleResponse(response);
+	}).catch((error) => {
+		console.log(error);
 	});
 };
 
@@ -44,5 +49,9 @@ export const clientPost = (path: string, data: any) => {
 			'Content-type': 'application/json; charset=utf-8',
 		},
 		body: JSON.stringify(data)
-	}).then((response) => handleResponse(response));
+	}).then((response) => {
+		return handleResponse(response);
+	}).catch((error) => {
+		console.log(error);
+	});
 };
