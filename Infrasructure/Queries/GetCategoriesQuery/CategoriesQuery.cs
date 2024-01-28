@@ -1,10 +1,10 @@
-﻿using Domain.Models;
+﻿using Domain.Entities;
+using Domain.Models;
 using Infrastructure.BaseRequest;
-using System.Collections.Generic;
 
 namespace Infrastructure.Queries
 {
-	public class CategoriesQuery : BaseAuthorizeListRequest<List<CategoryViewModel>>
+	public class CategoriesQuery : BaseAuthorizeListRequest<PagedList<CategoryViewModel>>
 	{
 
 	}

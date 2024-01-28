@@ -94,7 +94,7 @@ const NavMenu: React.FC<{}> = () => {
 				</Box>
 				<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 					<Button
-						onClick={() => history.push('/fetch-data/1')}
+						onClick={() => history.push('/categories')}
 						sx={{ my: 2, color: 'white', display: 'block' }}
 					>
 						Categories

@@ -15,7 +15,7 @@ namespace WebApi.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetCategories(int page)
+		public async Task<IActionResult> GetCategories(int page = 1)
 		{
 			var categories = await _mediator.Send(new CategoriesQuery()
 			{

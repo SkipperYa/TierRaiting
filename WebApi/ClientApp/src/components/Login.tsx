@@ -29,7 +29,7 @@ export default function Login() {
 		}).then((res) => {
 			setError(undefined);
 			setUser(res);
-			history.push('/fetch-data');
+			history.push('/categories');
 		}).catch((message) => {
 			setError(message);
 		});
