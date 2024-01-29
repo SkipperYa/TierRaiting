@@ -1,6 +1,6 @@
-import { Avatar, Button, Grid, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
+import { Alert, Avatar, Box, Button, Container, Divider, Grid, Input, Pagination, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import React from 'react';
-import { clientGet } from '../utils/client';
+import { clientGet, clientPost } from '../utils/client';
 import { Category } from '../objects/Category';
 import AddIcon from '@mui/icons-material/Add';
 import CreateIcon from '@mui/icons-material/Create';
@@ -14,8 +14,9 @@ interface ComponentProps {
 const Categories: React.FC<ComponentProps> = ({
 
 }) => {
-	const [categories, setCategories] = React.useState<Category[] | undefined>(undefined);
+	const [categories, setCategories] = React.useState<Array<Category> | undefined>(undefined);
 	const [pagination, setPagination] = React.useState({ page: 1, total: 0 });
+	const [error, setError] = React.useState<string | undefined>();
 
 	const loadCategories = () => {
 		clientGet(`categories?page=${pagination.page}`)
@@ -29,24 +30,95 @@ const Categories: React.FC<ComponentProps> = ({
 
 	React.useEffect(() => {
 		loadCategories();
-	}, [JSON.stringify(pagination)]);
+	}, [pagination.page]);
+
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const data = new FormData(event.currentTarget);
+		clientPost('category', {
+			title: data.get('title'),
+			description: data.get('description'),
+		}).then((res) => {
+			setError(undefined);
+			loadCategories();
+		}).catch((message) => {
+			setError(message);
+		});
+	};
 
 	if (!categories) {
 		return <><br /><div className="text-center">Loading...</div></>;
 	}
 
 	return <div>
-		<br/>
+		<br />
+		<Box
+			component="form"
+			noValidate
+			onSubmit={handleSubmit}
+		>
+			<Grid container spacing={2}>
+				<Grid item xs={4}>
+					<Button
+						variant="contained"
+						component="label"
+					>
+						Upload File
+						<Input
+							type="file"
+							hidden
+							id="file"
+							name="file"
+							autoComplete="file"
+						/>
+					</Button>
+				</Grid>
+				<Grid item xs={8}>
+					<Grid item xs={8}>
+						<TextField
+							required
+							fullWidth
+							margin="normal"
+							id="title"
+							label="Title"
+							name="title"
+							autoComplete="title"
+						/>
+					</Grid>
+					<Grid item xs={8}>
+						<TextField
+							fullWidth
+							margin="normal"
+							name="description"
+							label="Description"
+							type="description"
+							id="description"
+							autoComplete="description"
+						/>
+					</Grid>
+					<Grid item md={8} xs={2}>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							sx={{ mt: 3, mb: 2 }}
+							className="float-right"
+						>
+							<AddIcon /> Create
+						</Button>
+						{error && <Alert severity="error">{error}</Alert>}
+					</Grid>
+				</Grid>
+			</Grid>
+		</Box>
 		<Grid container spacing={2}>
 			<Grid item xs={11}>
 				<Typography component="h4" variant="h4" color="primary" gutterBottom>
 					Categories
 				</Typography>
 			</Grid>
-			<Grid item xs={1}>
-				<Button title="Add new Category" variant="contained" className="btn btn-primary"><AddIcon /></Button>
-			</Grid>
 		</Grid>
+		<Divider />
 		<Table>
 			<TableHead>
 				<TableRow>
@@ -70,7 +142,7 @@ const Categories: React.FC<ComponentProps> = ({
 									<Button
 										title="Go to..."
 										variant="contained"
-										className="btn btn-success"
+										color="success"
 									>
 										<ArrowRightAltIcon />
 									</Button>
@@ -79,7 +151,7 @@ const Categories: React.FC<ComponentProps> = ({
 									<Button
 										title="Edit Category"
 										variant="contained"
-										className="btn btn-primary"
+										color="secondary"
 									>
 										<CreateIcon />
 									</Button>
@@ -88,7 +160,7 @@ const Categories: React.FC<ComponentProps> = ({
 									<Button
 										title="Edit Category"
 										variant="contained"
-										className="btn btn-danger"
+										color="error"
 									>
 										<DeleteIcon />
 									</Button>
@@ -101,10 +173,10 @@ const Categories: React.FC<ComponentProps> = ({
 		</Table>
 		<div style={{ marginTop: 15 }} className="float-right">
 			<Pagination
-				count={pagination.total > 10 ? pagination.total / 10 : 1}
+				count={pagination.total > 5 ? Math.floor(pagination.total / 5) : 1}
 				onChange={(event: any, page: number) => {
 					setPagination((prev) => {
-						return { ...prev, total: page };
+						return { ...prev, page: page };
 					});
 				}}
 			/>

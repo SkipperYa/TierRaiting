@@ -38,7 +38,7 @@ namespace Infrastructure.BaseRequest
 	public abstract class BaseAuthorizeListRequest<TResult> : BaseAuthorizeRequest<TResult>, IBaseAuthorizeListRequest
 	{
 		public int Page { get; set; } = 1;
-		public int Count { get; set; } = 10;
+		public int Count { get; set; } = 5;
 		public string Text { get; set; }
 	}
 }

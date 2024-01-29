@@ -22,7 +22,7 @@ const handleResponse = (response: Response): Promise<any> => {
 		return Promise.reject();
 	} else {
 		return response.json().then((error: any) => {
-			return error;
+			throw error;
 		});
 	};
 }
@@ -53,5 +53,6 @@ export const clientPost = (path: string, data: any) => {
 		return handleResponse(response);
 	}).catch((error) => {
 		console.log(error);
+		throw error;
 	});
 };
