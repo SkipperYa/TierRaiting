@@ -41,6 +41,36 @@ export const clientGet = (path: string) => {
 	});
 };
 
+export const clientDelete = (path: string, data: any) => {
+	return fetch(`${baseUrl}${path}`, {
+		credentials: 'same-origin',
+		method: 'DELETE',
+		headers: {
+			'Content-type': 'application/json; charset=utf-8',
+		},
+		body: JSON.stringify(data)
+	}).then((response) => {
+		return handleResponse(response);
+	}).catch((error) => {
+		console.log(error);
+	});
+};
+
+export const clientUpdate = (path: string, data: any) => {
+	return fetch(`${baseUrl}${path}`, {
+		credentials: 'same-origin',
+		method: 'PUT',
+		headers: {
+			'Content-type': 'application/json; charset=utf-8',
+		},
+		body: JSON.stringify(data)
+	}).then((response) => {
+		return handleResponse(response);
+	}).catch((error) => {
+		console.log(error);
+	});
+};
+
 export const clientPost = (path: string, data: any) => {
 	return fetch(`${baseUrl}${path}`, {
 		credentials: 'same-origin',

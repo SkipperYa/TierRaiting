@@ -1,11 +1,13 @@
-import { Alert, Avatar, Box, Button, Container, Divider, Grid, Input, Pagination, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Box, Button, Divider, Grid, Input, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import React from 'react';
-import { clientGet, clientPost } from '../utils/client';
+import { clientDelete, clientGet, clientPost, clientUpdate } from '../utils/client';
 import { Category } from '../objects/Category';
 import AddIcon from '@mui/icons-material/Add';
 import CreateIcon from '@mui/icons-material/Create';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ClearIcon from '@mui/icons-material/Clear';
+import SaveIcon from '@mui/icons-material/Save';
 
 interface ComponentProps {
 
@@ -15,6 +17,7 @@ const Categories: React.FC<ComponentProps> = ({
 
 }) => {
 	const [categories, setCategories] = React.useState<Array<Category> | undefined>(undefined);
+	const [editCategory, setEditCategory] = React.useState<Category | undefined>(undefined);
 	const [pagination, setPagination] = React.useState({ page: 1, total: 0 });
 	const [error, setError] = React.useState<string | undefined>();
 
@@ -35,9 +38,35 @@ const Categories: React.FC<ComponentProps> = ({
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		clientPost('category', {
-			title: data.get('title'),
-			description: data.get('description'),
+		if (editCategory) {
+			clientUpdate('category', {
+				id: editCategory.id,
+				title: data.get('title'),
+				description: data.get('description'),
+			}).then((res) => {
+				setError(undefined);
+				setEditCategory(undefined);
+				loadCategories();
+			}).catch((message) => {
+				setError(message);
+			});
+		} else {
+			clientPost('category', {
+				title: data.get('title'),
+				description: data.get('description'),
+			}).then((res) => {
+				setError(undefined);
+				setEditCategory(undefined);
+				loadCategories();
+			}).catch((message) => {
+				setError(message);
+			});
+		}
+	};
+
+	const handleDelete = (id: string) => {
+		clientDelete('category', {
+			id: id,
 		}).then((res) => {
 			setError(undefined);
 			loadCategories();
@@ -83,6 +112,21 @@ const Categories: React.FC<ComponentProps> = ({
 							label="Title"
 							name="title"
 							autoComplete="title"
+							InputLabelProps={{ shrink: true }}
+							// defaultValue={editCategory ? editCategory.title : ''}
+							onChange={(e) => {
+								if (editCategory) {
+									setEditCategory((prev) => {
+										if (!prev) {
+											return undefined;
+										}
+										return {
+											...prev,
+											title: e.currentTarget.value
+										};
+									});
+								}
+							}}
 						/>
 					</Grid>
 					<Grid item xs={8}>
@@ -94,18 +138,49 @@ const Categories: React.FC<ComponentProps> = ({
 							type="description"
 							id="description"
 							autoComplete="description"
+							InputLabelProps={{ shrink: true }}
+							defaultValue={editCategory ? editCategory.description : ''}
+							/*onChange={(e) => {
+								if (editCategory) {
+									setEditCategory((prev) => {
+										if (!prev) {
+											return undefined;
+										}
+										return {
+											...prev,
+											description: e.currentTarget.value
+										};
+									});
+								}
+							}}*/
 						/>
 					</Grid>
-					<Grid item md={8} xs={2}>
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							sx={{ mt: 3, mb: 2 }}
-							className="float-right"
-						>
-							<AddIcon /> Create
-						</Button>
+					<Grid container spacing={2}>
+						<Grid item xs={4}>
+							<Button
+								type="submit"
+								fullWidth
+								variant="contained"
+								sx={{ mt: 3, mb: 2 }}
+								className="float-right"
+							>
+								<SaveIcon />&nbsp;Save
+							</Button>
+						</Grid>
+						<Grid item xs={4}>
+							<Button
+								type="button"
+								fullWidth
+								color="error"
+								variant="contained"
+								sx={{ mt: 3, mb: 2 }}
+								className="float-right"
+								disabled={!Boolean(editCategory)}
+								onClick={() => setEditCategory(undefined)}
+							>
+								<ClearIcon />&nbsp;Clear
+							</Button>
+						</Grid>
 						{error && <Alert severity="error">{error}</Alert>}
 					</Grid>
 				</Grid>
@@ -119,24 +194,24 @@ const Categories: React.FC<ComponentProps> = ({
 			</Grid>
 		</Grid>
 		<Divider />
-		<Table>
-			<TableHead>
-				<TableRow>
-					<TableCell width="10%"></TableCell>
-					<TableCell>Title</TableCell>
-					<TableCell>Description</TableCell>
-					<TableCell>#</TableCell>
-					<TableCell>Actions</TableCell>
-				</TableRow>
-			</TableHead>
-			<TableBody>
-				{categories.map((category, index) => {
-					return <TableRow key={index}>
-						<TableCell width="10%" key={category.id}><Avatar src="/static/images/avatar/1.jpg" alt={category.title} /></TableCell>
-						<TableCell key={category.id}>{category.title}</TableCell>
-						<TableCell key={category.id}>{category.description}</TableCell>
-						<TableCell key={category.id}>{category.itemsCount}</TableCell>
-						<TableCell key={category.id}>
+		<TableContainer component={Paper}>
+			<Table sx={{ minWidth: 650 }} aria-label="simple table">
+				<TableHead>
+					<TableRow>
+						<TableCell width="10%"></TableCell>
+						<TableCell>Title</TableCell>
+						<TableCell>Description</TableCell>
+						<TableCell>#</TableCell>
+						<TableCell></TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{categories.map((category, index) => <TableRow key={category.id}>
+						<TableCell width="10%"><Avatar src="/static/images/avatar/1.jpg" alt={category.title} /></TableCell>
+						<TableCell width="20%">{category.title}</TableCell>
+						<TableCell width="20%">{category.description}</TableCell>
+						<TableCell width="10%">{category.itemsCount}</TableCell>
+						<TableCell>
 							<Grid container spacing={1}>
 								<Grid item xs={2}>
 									<Button
@@ -152,28 +227,32 @@ const Categories: React.FC<ComponentProps> = ({
 										title="Edit Category"
 										variant="contained"
 										color="secondary"
+										onClick={() => setEditCategory(category)}
+										disabled={Boolean(editCategory) && editCategory!.id === category.id}
 									>
 										<CreateIcon />
 									</Button>
 								</Grid>
 								<Grid item xs={2}>
 									<Button
-										title="Edit Category"
+										title="Delete Category"
 										variant="contained"
 										color="error"
+										disabled={category.itemsCount > 0}
+										onClick={() => handleDelete(category.id)}
 									>
 										<DeleteIcon />
 									</Button>
 								</Grid>
 							</Grid>
 						</TableCell>
-					</TableRow>;
-				})}
-			</TableBody>
-		</Table>
+					</TableRow>)}
+				</TableBody>
+			</Table>
+		</TableContainer>
 		<div style={{ marginTop: 15 }} className="float-right">
 			<Pagination
-				count={pagination.total > 5 ? Math.floor(pagination.total / 5) : 1}
+				count={pagination.total > 5 ? Math.ceil(pagination.total / 5) : 1}
 				onChange={(event: any, page: number) => {
 					setPagination((prev) => {
 						return { ...prev, page: page };
