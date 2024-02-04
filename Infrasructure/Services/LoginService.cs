@@ -5,7 +5,6 @@ using Domain.Models;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -13,8 +12,9 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Infrastructure.Utils;
-using Microsoft.AspNetCore.Http;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Services
 {
@@ -71,7 +71,7 @@ namespace Infrastructure.Services
 
 			var claims = new List<Claim> 
 			{
-				new Claim(ClaimTypes.NameIdentifier, user.Id),
+				new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 				new Claim(ClaimTypes.Name, user.UserName),
 			};
 

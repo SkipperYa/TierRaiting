@@ -1,5 +1,6 @@
 ﻿using Domain.Interfaces;
 using MediatR;
+using System;
 
 namespace Infrastructure.BaseRequest
 {
@@ -9,23 +10,23 @@ namespace Infrastructure.BaseRequest
 
 	public interface IBaseAuthorizeRequest : IWithId
 	{
-		public string UserId { get; set; }
+		public Guid UserId { get; set; }
 	}
 
 	public abstract class BaseAuthorizeRequest<TResult> : BaseRequest<TResult>, IBaseAuthorizeRequest
 	{
-		public string UserId { get; set; }
-		public string Id { get; set; }
+		public Guid UserId { get; set; }
+		public Guid Id { get; set; }
 	}
 
 	public interface IBaseGetAuthorizeRequest : IBaseAuthorizeRequest
 	{
-		public string Id { get; set; }
+
 	}
 
 	public abstract class BaseGetAuthorizeRequest<TResult> : BaseAuthorizeRequest<TResult>, IBaseGetAuthorizeRequest
 	{
-		public string Id { get; set; }
+
 	}
 
 	public interface IBaseAuthorizeListRequest

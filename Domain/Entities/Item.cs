@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Interfaces;
 
 namespace Domain.Entities
@@ -10,10 +11,11 @@ namespace Domain.Entities
 
 		[ForeignKey(nameof(CategoryId))]
 		public Category Category { get; set; }
-		public string CategoryId { get; set; }
+		public Guid CategoryId { get; set; }
 
-		[ForeignKey(nameof(UserId))]
-		public User User { get; set; }
-		public string UserId { get; set; }
+		/*[ForeignKey(nameof(UserId))]
+		public User User { get; set; }*/
+		[NotMapped]
+		public Guid UserId { get; set; }
 	}
 }

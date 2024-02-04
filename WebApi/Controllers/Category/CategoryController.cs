@@ -5,6 +5,7 @@ using Infrastructure.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace WebApi.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetCategory(string id, CancellationToken cancellationToken)
+		public async Task<IActionResult> GetCategory(Guid id, CancellationToken cancellationToken)
 		{
 			var query = new GetCategoryQuery
 			{

@@ -48,7 +48,7 @@ namespace WebApi
 			services.AddAutoMapper();
 
 			//TODO: replace to infrastructure
-			services.AddIdentity<User, IdentityRole>(options =>
+			services.AddIdentity<User, Role>(options =>
 			{
 				options.User.RequireUniqueEmail = true;
 				options.Password.RequireDigit = true;

@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,6 +14,6 @@ namespace Domain.Entities
 
 		[ForeignKey(nameof(UserId))]
 		public User User { get; set; }
-		public string UserId { get; set; }
+		public Guid UserId { get; set; }
 	}
 }

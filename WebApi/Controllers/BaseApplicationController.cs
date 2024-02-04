@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http.Timeouts;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 
 namespace WebApi.Controllers
@@ -12,11 +13,11 @@ namespace WebApi.Controllers
 	{
 		protected readonly IMediator _mediator;
 
-		protected string UserId
+		protected Guid UserId
 		{
 			get => User.Identity.IsAuthenticated 
-				? User.FindFirst(ClaimTypes.NameIdentifier).Value
-				: null;
+				? Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)
+				: Guid.Empty;
 		}
 
 		public BaseApplicationController(IMediator mediator)

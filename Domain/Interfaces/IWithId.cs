@@ -1,7 +1,9 @@
-﻿namespace Domain.Interfaces
+﻿using System;
+
+namespace Domain.Interfaces
 {
 	public interface IWithId
 	{
-		string Id { get; set; }
+		Guid Id { get; set; }
 	}
 }
