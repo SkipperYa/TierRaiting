@@ -12,7 +12,7 @@ namespace Infrastructure.Queries
 {
 	public class BaseGetQueryHandler<TQuery, TEntity, TResult> : BaseAuthorizeHandler<TQuery, TResult>
 		where TQuery : BaseGetAuthorizeRequest<TResult>, IBaseGetAuthorizeRequest
-		where TEntity : WithId, IWithUserId
+		where TEntity : WithId
 	{
 		protected readonly ApplicationContext _applicationContext;
 		protected readonly IMapper _mapper;
@@ -23,11 +23,17 @@ namespace Infrastructure.Queries
 			_mapper = mapper;
 		}
 
+		public virtual Task<IQueryable<TEntity>> Filter(IQueryable<TEntity> query, TQuery request, CancellationToken cancellationToken)
+			=> Task.FromResult(query);
+
 		public override async Task<TResult> Handle(TQuery request, CancellationToken cancellationToken)
 		{
-			var entity = await _mapper.ProjectTo<TResult>(_applicationContext.Set<TEntity>()
-					.AsNoTracking()
-					.Where(q => q.Id == request.Id && q.UserId == request.UserId))
+			var query = _applicationContext.Set<TEntity>()
+				.AsNoTracking();
+
+			query = await Filter(query, request, cancellationToken);
+
+			var entity = await _mapper.ProjectTo<TResult>(query)
 				.FirstOrDefaultAsync();
 
 			return entity;

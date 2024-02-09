@@ -21,6 +21,8 @@ namespace Infrastructure.Queries
 				query = query.Where(q => q.Title.Contains(request.Text));
 			}
 
+			query = query.Where(q => q.UserId == request.UserId);
+
 			return base.Filters(query, request, cancellationToken);
 		}
 	}

@@ -13,7 +13,7 @@ namespace Infrastructure.Queries
 {
 	public class BaseListQueryHandler<TQuery, TEntity, TResult> : BaseAuthorizeHandler<TQuery, PagedList<TResult>>
 		where TQuery : BaseAuthorizeListRequest<PagedList<TResult>>
-		where TEntity : WithId, IWithUserId
+		where TEntity : WithId
 	{
 		private readonly ApplicationContext _context;
 		private readonly IMapper _mapper;
@@ -27,8 +27,7 @@ namespace Infrastructure.Queries
 		public override async Task<PagedList<TResult>> Handle(TQuery request, CancellationToken cancellationToken)
 		{
 			var query = _context.Set<TEntity>()
-				.AsNoTracking()
-				.Where(q => q.UserId == request.UserId);
+				.AsNoTracking();
 
 			query = await Filters(query, request, cancellationToken);
 
