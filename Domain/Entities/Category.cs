@@ -15,5 +15,9 @@ namespace Domain.Entities
 		[ForeignKey(nameof(UserId))]
 		public User User { get; set; }
 		public Guid UserId { get; set; }
+
+		[ForeignKey(nameof(ImageId))]
+		public UserImage<Category> Image { get; set; }
+		public Guid? ImageId { get; set; }
 	}
 }

@@ -1,6 +1,6 @@
 import { Alert, Avatar, Box, Button, Divider, Grid, Input, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
-import React from 'react';
-import { clientDelete, clientGet, clientPost, clientUpdate } from '../utils/client';
+import React, { ChangeEvent } from 'react';
+import { clientDelete, clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
 import { Category } from '../objects/Category';
 import AddIcon from '@mui/icons-material/Add';
 import CreateIcon from '@mui/icons-material/Create';
@@ -64,6 +64,20 @@ const Categories: React.FC<ComponentProps> = ({
 		}
 	};
 
+	const uploadImage = (event: ChangeEvent<HTMLInputElement>) => {
+		event.preventDefault();
+
+		if (!event.target.files) {
+			return;
+		}
+
+		clientUpload('image', event.target.files[0]).then((res) => {
+			console.log('image', res);
+		}).catch((message) => {
+			setError(message);
+		});
+	};
+
 	const handleDelete = (id: string) => {
 		clientDelete('category', {
 			id: id,
@@ -81,111 +95,120 @@ const Categories: React.FC<ComponentProps> = ({
 
 	return <div>
 		<br />
-		<Box
-			component="form"
-			noValidate
-			onSubmit={handleSubmit}
-		>
-			<Grid container spacing={2}>
-				<Grid item xs={4}>
-					<Button
-						variant="contained"
-						component="label"
-					>
-						Upload File
-						<Input
-							type="file"
-							hidden
-							id="file"
-							name="file"
-							autoComplete="file"
-						/>
-					</Button>
-				</Grid>
-				<Grid item xs={8}>
-					<Grid item xs={8}>
-						<TextField
-							required
-							fullWidth
-							margin="normal"
-							id="title"
-							label="Title"
-							name="title"
-							autoComplete="title"
-							InputLabelProps={{ shrink: true }}
-							// defaultValue={editCategory ? editCategory.title : ''}
-							onChange={(e) => {
-								if (editCategory) {
-									setEditCategory((prev) => {
-										if (!prev) {
-											return undefined;
-										}
-										return {
-											...prev,
-											title: e.currentTarget.value
-										};
-									});
-								}
-							}}
-						/>
-					</Grid>
-					<Grid item xs={8}>
-						<TextField
-							fullWidth
-							margin="normal"
-							name="description"
-							label="Description"
-							type="description"
-							id="description"
-							autoComplete="description"
-							InputLabelProps={{ shrink: true }}
-							defaultValue={editCategory ? editCategory.description : ''}
-							/*onChange={(e) => {
-								if (editCategory) {
-									setEditCategory((prev) => {
-										if (!prev) {
-											return undefined;
-										}
-										return {
-											...prev,
-											description: e.currentTarget.value
-										};
-									});
-								}
-							}}*/
-						/>
-					</Grid>
-					<Grid container spacing={2}>
-						<Grid item xs={4}>
-							<Button
-								type="submit"
-								fullWidth
-								variant="contained"
-								sx={{ mt: 3, mb: 2 }}
-								className="float-right"
-							>
-								<SaveIcon />&nbsp;Save
-							</Button>
-						</Grid>
-						<Grid item xs={4}>
-							<Button
-								type="button"
-								fullWidth
-								color="error"
-								variant="contained"
-								sx={{ mt: 3, mb: 2 }}
-								className="float-right"
-								disabled={!Boolean(editCategory)}
-								onClick={() => setEditCategory(undefined)}
-							>
-								<ClearIcon />&nbsp;Clear
-							</Button>
-						</Grid>
-						{error && <Alert severity="error">{error}</Alert>}
+		<Grid container spacing={1}>
+			<Grid item xs={4}>
+				<Grid container>
+					<Grid item xs={4}>
+						<Button
+							variant="contained"
+							component="label"
+						>
+							Upload File
+							<Input
+								type="file"
+								hidden
+								id="file"
+								name="file"
+								autoComplete="file"
+								onChange={uploadImage}
+							/>
+						</Button>
 					</Grid>
 				</Grid>
 			</Grid>
-		</Box>
+			<Grid item xs={8}>
+				<Box
+					component="form"
+					noValidate
+					onSubmit={handleSubmit}
+				>
+					<Grid container spacing={2}>
+						<Grid item xs={8}>
+							<Grid item xs={8}>
+								<TextField
+									required
+									fullWidth
+									margin="normal"
+									id="title"
+									label="Title"
+									name="title"
+									autoComplete="title"
+									InputLabelProps={{ shrink: true }}
+									// defaultValue={editCategory ? editCategory.title : ''}
+									onChange={(e) => {
+										if (editCategory) {
+											setEditCategory((prev) => {
+												if (!prev) {
+													return undefined;
+												}
+												return {
+													...prev,
+													title: e.currentTarget.value
+												};
+											});
+										}
+									}}
+								/>
+							</Grid>
+							<Grid item xs={8}>
+								<TextField
+									fullWidth
+									margin="normal"
+									name="description"
+									label="Description"
+									type="description"
+									id="description"
+									autoComplete="description"
+									InputLabelProps={{ shrink: true }}
+									defaultValue={editCategory ? editCategory.description : ''}
+								/*onChange={(e) => {
+									if (editCategory) {
+										setEditCategory((prev) => {
+											if (!prev) {
+												return undefined;
+											}
+											return {
+												...prev,
+												description: e.currentTarget.value
+											};
+										});
+									}
+								}}*/
+								/>
+							</Grid>
+							<Grid container spacing={2}>
+								<Grid item xs={4}>
+									<Button
+										type="submit"
+										fullWidth
+										variant="contained"
+										sx={{ mt: 3, mb: 2 }}
+										className="float-right"
+									>
+										<SaveIcon />&nbsp;Save
+									</Button>
+								</Grid>
+								<Grid item xs={4}>
+									<Button
+										type="button"
+										fullWidth
+										color="error"
+										variant="contained"
+										sx={{ mt: 3, mb: 2 }}
+										className="float-right"
+										disabled={!Boolean(editCategory)}
+										onClick={() => setEditCategory(undefined)}
+									>
+										<ClearIcon />&nbsp;Clear
+									</Button>
+								</Grid>
+								{error && <Alert severity="error">{error}</Alert>}
+							</Grid>
+						</Grid>
+					</Grid>
+				</Box>
+			</Grid>
+		</Grid>
 		<Grid container spacing={2}>
 			<Grid item xs={11}>
 				<Typography component="h4" variant="h4" color="primary" gutterBottom>

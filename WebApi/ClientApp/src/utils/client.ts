@@ -86,3 +86,19 @@ export const clientPost = (path: string, data: any) => {
 		throw error;
 	});
 };
+
+export const clientUpload = (path: string, file: any) => {
+	const data = new FormData();
+	data.append('file', file);
+
+	return fetch(`${baseUrl}${path}`, {
+		credentials: 'same-origin',
+		method: 'POST',
+		body: data,
+	}).then((response) => {
+		return handleResponse(response);
+	}).catch((error) => {
+		console.log(error);
+		throw error;
+	});
+};
