@@ -1,4 +1,4 @@
-import { Alert, Avatar, Box, Button, Divider, Grid, Input, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Input, Modal, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import React, { ChangeEvent } from 'react';
 import { clientDelete, clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
 import { Category } from '../objects/Category';
@@ -20,6 +20,7 @@ const Categories: React.FC<ComponentProps> = ({
 	const [editCategory, setEditCategory] = React.useState<Category | undefined>(undefined);
 	const [pagination, setPagination] = React.useState({ page: 1, total: 0 });
 	const [error, setError] = React.useState<string | undefined>();
+	const [open, setOpen] = React.useState<boolean>(false);
 
 	const loadCategories = () => {
 		clientGet(`categories?page=${pagination.page}`)
@@ -46,6 +47,7 @@ const Categories: React.FC<ComponentProps> = ({
 			}).then((res) => {
 				setError(undefined);
 				setEditCategory(undefined);
+				setOpen(false);
 				loadCategories();
 			}).catch((message) => {
 				setError(message);
@@ -57,6 +59,7 @@ const Categories: React.FC<ComponentProps> = ({
 			}).then((res) => {
 				setError(undefined);
 				setEditCategory(undefined);
+				setOpen(false);
 				loadCategories();
 			}).catch((message) => {
 				setError(message);
@@ -94,126 +97,124 @@ const Categories: React.FC<ComponentProps> = ({
 	}
 
 	return <div>
-		<br />
-		<Grid container spacing={1}>
-			<Grid item xs={4}>
-				<Grid container>
-					<Grid item xs={4}>
-						<Button
-							variant="contained"
-							component="label"
-						>
-							Upload File
-							<Input
-								type="file"
-								hidden
-								id="file"
-								name="file"
-								autoComplete="file"
-								onChange={uploadImage}
-							/>
-						</Button>
-					</Grid>
-				</Grid>
-			</Grid>
-			<Grid item xs={8}>
-				<Box
-					component="form"
-					noValidate
-					onSubmit={handleSubmit}
-				>
-					<Grid container spacing={2}>
-						<Grid item xs={8}>
-							<Grid item xs={8}>
-								<TextField
-									required
-									fullWidth
-									margin="normal"
-									id="title"
-									label="Title"
-									name="title"
-									autoComplete="title"
-									InputLabelProps={{ shrink: true }}
-									// defaultValue={editCategory ? editCategory.title : ''}
-									onChange={(e) => {
-										if (editCategory) {
-											setEditCategory((prev) => {
-												if (!prev) {
-													return undefined;
-												}
-												return {
-													...prev,
-													title: e.currentTarget.value
-												};
-											});
+		<Dialog
+			open={open}
+			aria-labelledby="alert-dialog-title"
+			aria-describedby="alert-dialog-description"
+		>
+			<DialogTitle id="alert-dialog-title">
+				Create new Category
+			</DialogTitle>
+			<DialogContent>
+				<DialogContent id="alert-dialog-description">
+					<Button
+						variant="contained"
+						component="label"
+					>
+						Upload File
+						<Input
+							type="file"
+							hidden
+							id="file"
+							name="file"
+							autoComplete="file"
+							onChange={uploadImage}
+						/>
+					</Button>
+					<Box
+						component="form"
+						noValidate
+						onSubmit={handleSubmit}
+					>
+						<TextField
+							required
+							fullWidth
+							margin="normal"
+							id="title"
+							label="Title"
+							name="title"
+							autoComplete="title"
+							InputLabelProps={{ shrink: true }}
+							// defaultValue={editCategory ? editCategory.title : ''}
+							onChange={(e) => {
+								if (editCategory) {
+									setEditCategory((prev) => {
+										if (!prev) {
+											return undefined;
 										}
-									}}
-								/>
-							</Grid>
-							<Grid item xs={8}>
-								<TextField
-									fullWidth
-									margin="normal"
-									name="description"
-									label="Description"
-									type="description"
-									id="description"
-									autoComplete="description"
-									InputLabelProps={{ shrink: true }}
-									defaultValue={editCategory ? editCategory.description : ''}
-								/*onChange={(e) => {
-									if (editCategory) {
-										setEditCategory((prev) => {
-											if (!prev) {
-												return undefined;
-											}
-											return {
-												...prev,
-												description: e.currentTarget.value
-											};
-										});
-									}
-								}}*/
-								/>
-							</Grid>
-							<Grid container spacing={2}>
-								<Grid item xs={4}>
-									<Button
-										type="submit"
-										fullWidth
-										variant="contained"
-										sx={{ mt: 3, mb: 2 }}
-										className="float-right"
-									>
-										<SaveIcon />&nbsp;Save
-									</Button>
-								</Grid>
-								<Grid item xs={4}>
-									<Button
-										type="button"
-										fullWidth
-										color="error"
-										variant="contained"
-										sx={{ mt: 3, mb: 2 }}
-										className="float-right"
-										disabled={!Boolean(editCategory)}
-										onClick={() => setEditCategory(undefined)}
-									>
-										<ClearIcon />&nbsp;Clear
-									</Button>
-								</Grid>
-								{error && <Alert severity="error">{error}</Alert>}
-							</Grid>
-						</Grid>
-					</Grid>
-				</Box>
-			</Grid>
-		</Grid>
+										return {
+											...prev,
+											title: e.currentTarget.value
+										};
+									});
+								}
+							}}
+						/>
+						<TextField
+							fullWidth
+							margin="normal"
+							name="description"
+							label="Description"
+							type="description"
+							id="description"
+							autoComplete="description"
+							InputLabelProps={{ shrink: true }}
+							defaultValue={editCategory ? editCategory.description : ''}
+							/*onChange={(e) => {
+								if (editCategory) {
+									setEditCategory((prev) => {
+										if (!prev) {
+											return undefined;
+										}
+										return {
+											...prev,
+											description: e.currentTarget.value
+										};
+									});
+								}
+							}}*/
+						/>
+						<DialogActions>
+							<Button
+								type="submit"
+								variant="contained"
+								className="float-right"
+							>
+								<SaveIcon />&nbsp;Save
+							</Button>
+							<Button
+								type="button"
+								color="error"
+								variant="contained"
+								className="float-right"
+								onClick={() => {
+									setEditCategory(undefined);
+									setOpen(false);
+								}}
+							>
+								<ClearIcon />&nbsp;Close
+							</Button>
+						</DialogActions>
+						{error && <Alert severity="error">{error}</Alert>}
+					</Box>
+				</DialogContent>
+			</DialogContent>
+		</Dialog>
+		<br />
 		<Grid container spacing={2}>
-			<Grid item xs={11}>
+			<Grid item xs={10}>
 				<Typography component="h4" variant="h4" color="primary" gutterBottom>
 					Categories
 				</Typography>
+			</Grid>
+			<Grid item xs={2}>
+				<Button
+					type="submit"
+					variant="contained"
+					onClick={() => setOpen(true)}
+				>
+					Create
+				</Button>
 			</Grid>
 		</Grid>
 		<Divider />

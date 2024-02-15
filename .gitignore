@@ -232,3 +232,4 @@ _Pvt_Extensions
 .fake/
 WebApi/logs/log20231231.txt
 *.txt
+WebApi/images/

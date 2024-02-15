@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +16,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http.Timeouts;
 using System;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using WebApi.AuthorizationHandler;
 
 namespace WebApi
 {
@@ -93,6 +96,9 @@ namespace WebApi
 
 			services.AddTransient<ISteamService, SteamService>();
 
+			services
+				.AddSingleton<IAuthorizationHandler, ProtectFolderAuthorizationHandler>();
+
 			services.AddHttpContextAccessor();
 
 			services.AddServices();
@@ -143,6 +149,19 @@ namespace WebApi
 
 			app.UseAuthentication();
 			app.UseAuthorization();
+
+			var root = Directory.GetCurrentDirectory();
+
+			app.UseMiddleware<ProtectFolder>(new ProtectFolderOptions()
+			{
+				Requirement = new ProtectFolderAuthorizationRequirement()
+			});
+
+			app.UseStaticFiles(new StaticFileOptions()
+			{
+				FileProvider = new PhysicalFileProvider(Path.Combine(root, "images")),
+				RequestPath = new PathString(Path.Combine(root, "/images")),
+			});
 
 			app.UseEndpoints(endpoints =>
 			{

@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Exceptions;
 using Infrastructure.Database;
 using MediatR;
