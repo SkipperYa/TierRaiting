@@ -11,6 +11,10 @@ namespace Domain.Entities
 
 		public string Src { get; set; }
 
+		[ForeignKey(nameof(UserId))]
+		public User User { get; set; }
+		public Guid UserId { get; set; }
+
 		[ForeignKey(nameof(ObjectId))]
 		public TEntity Object { get; set; }
 		public Guid? ObjectId { get; set; }

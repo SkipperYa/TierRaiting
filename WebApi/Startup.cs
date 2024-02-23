@@ -20,6 +20,7 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using WebApi.AuthorizationHandler;
+using Infrastructure.Interfaces;
 
 namespace WebApi
 {
@@ -94,7 +95,9 @@ namespace WebApi
 					};
 				});
 
-			services.AddTransient<ISteamService, SteamService>();
+			services
+				.AddTransient<ISteamService, SteamService>()
+				.AddTransient<IUserImageService, UserImageService>();
 
 			services
 				.AddSingleton<IAuthorizationHandler, ProtectFolderAuthorizationHandler>();

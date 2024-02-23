@@ -1,4 +1,5 @@
 import { Item } from "./Item";
+import { UserImage } from "./UserImage";
 
 export interface Category {
 	id: string;
@@ -6,4 +7,7 @@ export interface Category {
 	description: string;
 	items: Array<Item>;
 	itemsCount: number;
+	src: string;
+	imageId: string | undefined;
+	image: UserImage | undefined;
 }

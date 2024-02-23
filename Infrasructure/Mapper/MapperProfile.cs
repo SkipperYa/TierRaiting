@@ -21,6 +21,7 @@ namespace Infrastructure.Mapper
 			CreateMap<Item, CreateItemCommand>().ReverseMap();
 			CreateMap<Item, UpdateItemCommand>().ReverseMap();
 			CreateMap<Item, DeleteItemCommand>().ReverseMap();
+			CreateMap(typeof(UserImage<>), typeof(UserImageViewModel)).ReverseMap();
 		}
 	}
 }

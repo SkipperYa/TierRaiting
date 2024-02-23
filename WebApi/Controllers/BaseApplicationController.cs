@@ -15,8 +15,8 @@ namespace WebApi.Controllers
 
 		protected Guid UserId
 		{
-			get => User.Identity.IsAuthenticated 
-				? Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)
+			get => User.Identity.IsAuthenticated && Guid.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out var guid)
+				? guid
 				: Guid.Empty;
 		}
 

@@ -2,7 +2,6 @@ import { Alert, Avatar, Box, Button, Dialog, DialogActions, DialogContent, Dialo
 import React, { ChangeEvent } from 'react';
 import { clientDelete, clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
 import { Category } from '../objects/Category';
-import AddIcon from '@mui/icons-material/Add';
 import CreateIcon from '@mui/icons-material/Create';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,11 +12,22 @@ interface ComponentProps {
 
 }
 
+const initCategory: Category = {
+	id: '',
+	title: '',
+	description: '',
+	items: [],
+	itemsCount: 0,
+	src: '',
+	imageId: undefined,
+	image: undefined,
+}
+
 const Categories: React.FC<ComponentProps> = ({
 
 }) => {
 	const [categories, setCategories] = React.useState<Array<Category> | undefined>(undefined);
-	const [editCategory, setEditCategory] = React.useState<Category | undefined>(undefined);
+	const [category, setCategory] = React.useState<Category>(initCategory);
 	const [pagination, setPagination] = React.useState({ page: 1, total: 0 });
 	const [error, setError] = React.useState<string | undefined>();
 	const [open, setOpen] = React.useState<boolean>(false);
@@ -39,32 +49,23 @@ const Categories: React.FC<ComponentProps> = ({
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		if (editCategory) {
-			clientUpdate('category', {
-				id: editCategory.id,
-				title: data.get('title'),
-				description: data.get('description'),
-			}).then((res) => {
-				setError(undefined);
-				setEditCategory(undefined);
-				setOpen(false);
-				loadCategories();
-			}).catch((message) => {
-				setError(message);
-			});
-		} else {
-			clientPost('category', {
-				title: data.get('title'),
-				description: data.get('description'),
-			}).then((res) => {
-				setError(undefined);
-				setEditCategory(undefined);
-				setOpen(false);
-				loadCategories();
-			}).catch((message) => {
-				setError(message);
-			});
-		}
+		(category.id ? clientUpdate('category', {
+			id: category.id,
+			title: data.get('title'),
+			description: data.get('description'),
+			src: category.src,
+		}) : clientPost('category', {
+			title: data.get('title'),
+			description: data.get('description'),
+			src: category.src,
+		})).then((res) => {
+			setError(undefined);
+			setCategory(initCategory);
+			setOpen(false);
+			loadCategories();
+		}).catch((message) => {
+			setError(message);
+		});
 	};
 
 	const uploadImage = (event: ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +76,12 @@ const Categories: React.FC<ComponentProps> = ({
 		}
 
 		clientUpload('image', event.target.files[0]).then((res) => {
-			console.log('image', res);
+			setCategory((prev) => {
+				return {
+					...prev,
+					src: res.src
+				};
+			});
 		}).catch((message) => {
 			setError(message);
 		});
@@ -135,19 +141,14 @@ const Categories: React.FC<ComponentProps> = ({
 							name="title"
 							autoComplete="title"
 							InputLabelProps={{ shrink: true }}
-							// defaultValue={editCategory ? editCategory.title : ''}
+							value={category.title}
 							onChange={(e) => {
-								if (editCategory) {
-									setEditCategory((prev) => {
-										if (!prev) {
-											return undefined;
-										}
-										return {
-											...prev,
-											title: e.currentTarget.value
-										};
-									});
-								}
+								setCategory((prev) => {
+									return {
+										...prev,
+										title: e.currentTarget.value
+									};
+								});
 							}}
 						/>
 						<TextField
@@ -159,20 +160,15 @@ const Categories: React.FC<ComponentProps> = ({
 							id="description"
 							autoComplete="description"
 							InputLabelProps={{ shrink: true }}
-							defaultValue={editCategory ? editCategory.description : ''}
-							/*onChange={(e) => {
-								if (editCategory) {
-									setEditCategory((prev) => {
-										if (!prev) {
-											return undefined;
-										}
-										return {
-											...prev,
-											description: e.currentTarget.value
-										};
-									});
-								}
-							}}*/
+							value={category.description}
+							onChange={(e) => {
+								setCategory((prev) => {
+									return {
+										...prev,
+										description: e.currentTarget.value
+									};
+								});
+							}}
 						/>
 						<DialogActions>
 							<Button
@@ -188,7 +184,7 @@ const Categories: React.FC<ComponentProps> = ({
 								variant="contained"
 								className="float-right"
 								onClick={() => {
-									setEditCategory(undefined);
+									setCategory(initCategory);
 									setOpen(false);
 								}}
 							>
@@ -231,7 +227,7 @@ const Categories: React.FC<ComponentProps> = ({
 				</TableHead>
 				<TableBody>
 					{categories.map((category, index) => <TableRow key={category.id}>
-						<TableCell width="10%"><Avatar src="/static/images/avatar/1.jpg" alt={category.title} /></TableCell>
+						<TableCell width="10%"><Avatar src={category.image ? category.image.src : ''} alt={category.title} /></TableCell>
 						<TableCell width="20%">{category.title}</TableCell>
 						<TableCell width="20%">{category.description}</TableCell>
 						<TableCell width="10%">{category.itemsCount}</TableCell>
@@ -251,8 +247,8 @@ const Categories: React.FC<ComponentProps> = ({
 										title="Edit Category"
 										variant="contained"
 										color="secondary"
-										onClick={() => setEditCategory(category)}
-										disabled={Boolean(editCategory) && editCategory!.id === category.id}
+										onClick={() => setCategory(category)}
+										disabled={Boolean(category) && category!.id === category.id}
 									>
 										<CreateIcon />
 									</Button>
