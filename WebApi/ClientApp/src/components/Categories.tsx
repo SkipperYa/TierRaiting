@@ -109,10 +109,11 @@ const Categories: React.FC<ComponentProps> = ({
 			aria-describedby="alert-dialog-description"
 		>
 			<DialogTitle id="alert-dialog-title">
-				Create new Category
+				{category.id ? 'Edit Category' : 'Create Category'}
 			</DialogTitle>
 			<DialogContent>
 				<DialogContent id="alert-dialog-description">
+					<Avatar alt={category.title} src={category.image ? category.image.src : ''} />
 					<Button
 						variant="contained"
 						component="label"
@@ -247,8 +248,10 @@ const Categories: React.FC<ComponentProps> = ({
 										title="Edit Category"
 										variant="contained"
 										color="secondary"
-										onClick={() => setCategory(category)}
-										disabled={Boolean(category) && category!.id === category.id}
+										onClick={() => {
+											setCategory(category);
+											setOpen(true);
+										}}
 									>
 										<CreateIcon />
 									</Button>
