@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces;
+using ImageMagick;
 using Infrastructure.Database;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -8,13 +9,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-	public class UserImageService : IImageService
+	public class ImageService : IImageService
 	{
-		private readonly ApplicationContext _context;
-
-		public UserImageService(ApplicationContext context)
+		public ImageService(ApplicationContext context)
 		{
-			_context = context;
+
 		}
 
 		public async Task<string> Upload(IFormFile image, Guid userId, CancellationToken cancellationToken)
@@ -29,10 +28,16 @@ namespace Infrastructure.Services
 
 			var imagePath = Path.Combine(Directory.GetCurrentDirectory(), src);
 
-			using (var fileStream = new FileStream(imagePath, FileMode.Create))
+			using var baseImage = new MagickImage(image.OpenReadStream(), MagickFormat.Png);
+
+			var size = new MagickGeometry(400, 400)
 			{
-				await image.CopyToAsync(fileStream, cancellationToken);
-			}
+				IgnoreAspectRatio = true
+			};
+
+			baseImage.Resize(size);
+
+			await baseImage.WriteAsync(imagePath, cancellationToken);
 
 			return src;
 		}

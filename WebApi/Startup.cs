@@ -96,7 +96,7 @@ namespace WebApi
 
 			services
 				.AddTransient<ISteamService, SteamService>()
-				.AddTransient<IImageService, UserImageService>();
+				.AddTransient<IImageService, ImageService>();
 
 			services
 				.AddSingleton<IAuthorizationHandler, ProtectFolderAuthorizationHandler>();
