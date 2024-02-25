@@ -7,7 +7,5 @@ namespace Domain.Entities
 	public class User : IdentityUser<Guid>
 	{
 		public List<Category> Categories { get; set; }
-
-		public List<UserImage<Category>> CategoriesImages { get; set; }
 	}
 }

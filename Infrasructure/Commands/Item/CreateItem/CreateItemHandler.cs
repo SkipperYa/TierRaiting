@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Infrastructure.Database;
 using Domain.Entities;
-using Infrastructure.Interfaces;
 
 namespace Infrastructure.Commands
 {

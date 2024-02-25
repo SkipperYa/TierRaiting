@@ -19,8 +19,6 @@ const initCategory: Category = {
 	items: [],
 	itemsCount: 0,
 	src: '',
-	imageId: undefined,
-	image: undefined,
 }
 
 const Categories: React.FC<ComponentProps> = ({
@@ -113,7 +111,7 @@ const Categories: React.FC<ComponentProps> = ({
 			</DialogTitle>
 			<DialogContent>
 				<DialogContent id="alert-dialog-description">
-					<Avatar alt={category.title} src={category.image ? category.image.src : ''} />
+					<Avatar alt={category.title} src={category.src} />
 					<Button
 						variant="contained"
 						component="label"
@@ -228,7 +226,7 @@ const Categories: React.FC<ComponentProps> = ({
 				</TableHead>
 				<TableBody>
 					{categories.map((category, index) => <TableRow key={category.id}>
-						<TableCell width="10%"><Avatar src={category.image ? category.image.src : ''} alt={category.title} /></TableCell>
+						<TableCell width="10%"><Avatar src={category.src} alt={category.title} /></TableCell>
 						<TableCell width="20%">{category.title}</TableCell>
 						<TableCell width="20%">{category.description}</TableCell>
 						<TableCell width="10%">{category.itemsCount}</TableCell>

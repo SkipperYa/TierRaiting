@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Infrastructure.BaseRequest;
 using Infrastructure.Database;
-using System.Threading.Tasks;
-using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
-using Infrastructure.Interfaces;
 
 namespace Infrastructure.Commands
 {

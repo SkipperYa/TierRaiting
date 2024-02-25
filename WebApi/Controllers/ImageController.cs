@@ -1,6 +1,5 @@
-﻿using Domain.Entities;
-using Domain.Exceptions;
-using Infrastructure.Interfaces;
+﻿using Domain.Exceptions;
+using Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,9 +13,9 @@ namespace WebApi.Controllers
 	[Authorize]
 	public class ImageController : BaseApplicationController
 	{
-		private readonly IUserImageService _imageService;
+		private readonly IImageService _imageService;
 
-		public ImageController(IMediator mediator, IUserImageService imageService) : base(mediator)
+		public ImageController(IMediator mediator, IImageService imageService) : base(mediator)
 		{
 			_imageService = imageService;
 		}

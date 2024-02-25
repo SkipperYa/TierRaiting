@@ -26,24 +26,6 @@ namespace Infrastructure.Database
 				.WithOne(e => e.Category)
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder
-				.Entity<Category>()
-				.HasOne(e => e.Image)
-				.WithOne(e => e.Object)
-				.OnDelete(DeleteBehavior.Cascade);
-
-			modelBuilder
-				.Entity<User>()
-				.HasMany(e => e.CategoriesImages)
-				.WithOne(e => e.User)
-				.OnDelete(DeleteBehavior.Cascade);
-
-			modelBuilder
-				.Entity<UserImage<Category>>()
-				.HasOne(e => e.User)
-				.WithMany(e => e.CategoriesImages)
-				.OnDelete(DeleteBehavior.NoAction);
-
 			base.OnModelCreating(modelBuilder);
 		}
 	}
