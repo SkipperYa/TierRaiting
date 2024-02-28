@@ -26,9 +26,7 @@ namespace Infrastructure.Commands
 		{
 			var entity = _mapper.Map<TResult>(request);
 
-			var item = await _applicationContext.AddAsync(entity, cancellationToken);
-
-			item.State = EntityState;
+			_applicationContext.Entry(entity).State = EntityState;
 
 			await _applicationContext.SaveChangesAsync(cancellationToken);
 

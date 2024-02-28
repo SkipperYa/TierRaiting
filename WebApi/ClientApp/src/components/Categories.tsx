@@ -7,6 +7,7 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ClearIcon from '@mui/icons-material/Clear';
 import SaveIcon from '@mui/icons-material/Save';
+import UploadIcon from '@mui/icons-material/Upload';
 
 interface ComponentProps {
 
@@ -111,21 +112,27 @@ const Categories: React.FC<ComponentProps> = ({
 			</DialogTitle>
 			<DialogContent>
 				<DialogContent id="alert-dialog-description">
-					<Avatar alt={category.title} src={category.src} />
-					<Button
-						variant="contained"
-						component="label"
-					>
-						Upload File
-						<Input
-							type="file"
-							hidden
-							id="file"
-							name="file"
-							autoComplete="file"
-							onChange={uploadImage}
-						/>
-					</Button>
+					<Grid container spacing={2}>
+						<Grid item xs={2}>
+							<Avatar alt={category.title} src={category.src} />
+						</Grid>
+						<Grid item xs={4}>
+							<Button
+								variant="contained"
+								component="label"
+							>
+								Upload File
+								<Input
+									type="file"
+									hidden
+									id="file"
+									name="file"
+									autoComplete="file"
+									onChange={uploadImage}
+								/>
+							</Button>
+						</Grid>
+					</Grid>
 					<Box
 						component="form"
 						noValidate
