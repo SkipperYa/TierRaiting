@@ -8,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ClearIcon from '@mui/icons-material/Clear';
 import SaveIcon from '@mui/icons-material/Save';
 import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
 
 interface ComponentProps {
 
@@ -29,11 +30,14 @@ const Categories: React.FC<ComponentProps> = ({
 	const [category, setCategory] = React.useState<Category>(initCategory);
 	const [pagination, setPagination] = React.useState({ page: 1, total: 0 });
 	const [error, setError] = React.useState<string | undefined>();
+	const [text, setText] = React.useState<string | undefined>();
 	const [open, setOpen] = React.useState<boolean>(false);
+
+	const getTextQuery = () => text ? `&text=${text}` : '';
 
 	const loadCategories = () => {
 		setCategories(undefined);
-		clientGet(`categories?page=${pagination.page}`)
+		clientGet(`categories?page=${pagination.page}${getTextQuery()}`)
 			.then((res) => {
 				setCategories(res.list as Array<Category>);
 				setPagination((prev) => {
@@ -202,23 +206,53 @@ const Categories: React.FC<ComponentProps> = ({
 			</DialogContent>
 		</Dialog>
 		<br />
-		<Grid container spacing={2}>
-			<Grid item xs={10}>
+		<Grid container spacing={1}>
+			<Grid item xs={4}>
 				<Typography component="h4" variant="h4" color="primary" gutterBottom>
 					Categories #{pagination.total}
 				</Typography>
 			</Grid>
+			<Grid item xs={3}>
+				<TextField
+					fullWidth
+					margin="none"
+					name="text"
+					label="Text search"
+					type="text"
+					id="text"
+					autoComplete="Search..."
+					InputLabelProps={{ shrink: true }}
+					value={text}
+					onChange={(e) => {
+						setText(e.currentTarget.value);
+					}}
+				/>
+			</Grid>
 			<Grid item xs={2}>
-				<Button
-					type="submit"
-					variant="contained"
-					onClick={() => setOpen(true)}
-					endIcon={<AddIcon />}
+				<IconButton
+					style={{ marginTop: '5px' }}
+					title="Search"
+					color="primary"
+					onClick={() => loadCategories()}
 				>
-					Create
-				</Button>
+					<SearchIcon />
+				</IconButton>
+			</Grid>
+			<Grid item xs={3}>
+				<div className="float-right">
+					<Button
+						className=""
+						type="submit"
+						variant="contained"
+						onClick={() => setOpen(true)}
+						endIcon={<AddIcon />}
+					>
+						Create
+					</Button>
+				</div>
 			</Grid>
 		</Grid>
+		<br/>
 		<Divider />
 		{!categories
 			? <Skeleton width={1150} height={500} variant="rectangular" animation="wave" />
@@ -281,6 +315,7 @@ const Categories: React.FC<ComponentProps> = ({
 				<div style={{ marginTop: 15 }} className="float-right">
 					<Pagination
 						count={pagination.total > 5 ? Math.ceil(pagination.total / 5) : 1}
+						page={pagination.page}
 						onChange={(event: any, page: number) => {
 							setPagination((prev) => {
 								return { ...prev, page: page };

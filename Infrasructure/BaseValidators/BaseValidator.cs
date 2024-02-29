@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Domain.Interfaces;
+using FluentValidation;
 using Infrastructure.BaseRequest;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -17,7 +18,7 @@ namespace Infrastructure.BaseValidators
 	}
 
 	public abstract class BaseUpdateCommandValidator<TCommand> : AbstractValidator<TCommand>
-		where TCommand : IBaseAuthorizeRequest
+		where TCommand : IBaseAuthorizeRequest, IWithId
 	{
 		public BaseUpdateCommandValidator()
 		{
@@ -34,7 +35,7 @@ namespace Infrastructure.BaseValidators
 	}
 
 	public abstract class BaseDeleteCommandValidator<TCommand> : AbstractValidator<TCommand>
-		where TCommand : IBaseAuthorizeRequest
+		where TCommand : IBaseAuthorizeRequest, IWithId
 	{
 		public BaseDeleteCommandValidator()
 		{

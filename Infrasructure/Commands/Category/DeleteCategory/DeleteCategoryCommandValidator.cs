@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Infrastructure.BaseValidators;
+﻿using Infrastructure.BaseValidators;
 
 namespace Infrastructure.Commands
 {

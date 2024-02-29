@@ -8,7 +8,7 @@ namespace Infrastructure.BaseRequest
 	{
 	}
 
-	public interface IBaseAuthorizeRequest : IWithId
+	public interface IBaseAuthorizeRequest
 	{
 		public Guid UserId { get; set; }
 	}
@@ -16,17 +16,16 @@ namespace Infrastructure.BaseRequest
 	public abstract class BaseAuthorizeRequest<TResult> : BaseRequest<TResult>, IBaseAuthorizeRequest
 	{
 		public Guid UserId { get; set; }
-		public Guid Id { get; set; }
 	}
 
-	public interface IBaseGetAuthorizeRequest : IBaseAuthorizeRequest
+	public interface IBaseGetAuthorizeRequest : IBaseAuthorizeRequest, IWithId
 	{
 
 	}
 
 	public abstract class BaseGetAuthorizeRequest<TResult> : BaseAuthorizeRequest<TResult>, IBaseGetAuthorizeRequest
 	{
-
+		public Guid Id { get; set; }
 	}
 
 	public interface IBaseAuthorizeListRequest
