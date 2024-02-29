@@ -114,8 +114,8 @@ const Categories: React.FC<ComponentProps> = ({
 			<DialogContent>
 				<DialogContent id="alert-dialog-description">
 					<Grid container spacing={2}>
-						<Grid item xs={2}>
-							<Avatar alt={category.title} src={category.src} />
+						<Grid item xs={6}>
+							<Avatar sx={{ width: 100, height: 100 }} alt={category.title} src={category.src} />
 						</Grid>
 						<Grid item xs={4}>
 							<Button

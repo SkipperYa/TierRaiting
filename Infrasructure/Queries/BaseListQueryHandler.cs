@@ -34,6 +34,7 @@ namespace Infrastructure.Queries
 			var count = query.Count();
 
 			var result = await _mapper.ProjectTo<TResult>(query
+					.OrderByDescending(q => q.Id)
 					.Skip(request.Count * (request.Page - 1))
 					.Take(request.Count))
 				.ToListAsync();
