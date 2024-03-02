@@ -8,7 +8,7 @@ using Domain.Entities;
 
 namespace Infrastructure.Queries
 {
-	public class CategoriesHandler : BaseListQueryHandler<CategoriesQuery, Category, CategoryViewModel>
+	public class CategoriesHandler : BaseListQueryHandler<CategoriesQuery, Category, CategoryListViewModel>
 	{
 		public CategoriesHandler(ApplicationContext context, IMapper mapper) : base(context, mapper)
 		{

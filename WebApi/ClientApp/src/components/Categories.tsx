@@ -9,6 +9,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import SaveIcon from '@mui/icons-material/Save';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
+import { useHistory } from 'react-router-dom';
 
 interface ComponentProps {
 
@@ -32,6 +33,8 @@ const Categories: React.FC<ComponentProps> = ({
 	const [error, setError] = React.useState<string | undefined>();
 	const [text, setText] = React.useState<string | undefined>();
 	const [open, setOpen] = React.useState<boolean>(false);
+
+	const history = useHistory();
 
 	const getTextQuery = () => text ? `&text=${text}` : '';
 
@@ -280,6 +283,12 @@ const Categories: React.FC<ComponentProps> = ({
 											<IconButton
 												title="Go to..."
 												color="success"
+												onClick={() => {
+													history.push({
+														pathname: 'category',
+														search: `id=${category.id}`
+													});
+												}}
 											>
 												<ArrowForwardIosIcon />
 											</IconButton>

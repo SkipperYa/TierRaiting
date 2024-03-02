@@ -1,12 +1,11 @@
-﻿using Domain.Entities;
-using Domain.Enum;
+﻿using Domain.Enum;
 using Domain.Interfaces;
-using Infrastructure.BaseRequest;
 
-namespace Infrastructure.Commands
+namespace Domain.Models
 {
-	public class CreateItemCommand : BaseAuthorizeRequest<Item>, IWithSrc
+	public class ItemViewModel : IWithSrc
 	{
+		public string Id { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public string CategoryId { get; set; }

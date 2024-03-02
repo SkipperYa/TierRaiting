@@ -4,7 +4,7 @@ using Infrastructure.BaseRequest;
 
 namespace Infrastructure.Queries
 {
-	public class CategoriesQuery : BaseAuthorizeListRequest<PagedList<CategoryViewModel>>
+	public class CategoriesQuery : BaseAuthorizeListRequest<PagedList<CategoryListViewModel>>
 	{
 
 	}

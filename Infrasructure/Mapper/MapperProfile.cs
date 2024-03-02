@@ -14,7 +14,8 @@ namespace Infrastructure.Mapper
 			CreateMap<Category, CreateCategoryCommand>().ReverseMap();
 			CreateMap<Category, UpdateCategoryCommand>().ReverseMap();
 			CreateMap<Category, DeleteCategoryCommand>().ReverseMap();
-			CreateMap<Category, CategoryViewModel>()
+			CreateMap<Category, CategoryViewModel>().ReverseMap();
+			CreateMap<Category, CategoryListViewModel>()
 				.ForMember(c => c.ItemsCount, opt => opt.MapFrom(src => src.Items.Count))
 				.ReverseMap();
 			CreateMap<Item, ItemViewModel>().ReverseMap();
