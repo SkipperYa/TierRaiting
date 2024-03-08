@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { Category } from '../objects/Category';
 import { useLocation } from 'react-router-dom';
 import { clientDelete, clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
-import { Alert, Avatar, Box, Button, Card, CardActions, CardContent, FormControl, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, FormControl, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { Item, tierColors, tierNames } from '../objects/Item';
 import { Tier } from '../objects/enums';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -147,10 +147,10 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 				<Grid container spacing={1}>
 					{items.filter(q => q.tier === +tier).map((item) => {
 						return <Grid item xs={2}>
-							<Box>
-								<Card variant="outlined">
-									<CardContent>
-										<Avatar src={item.src} alt={item.title} />
+							<Card raised variant="outlined" sx={{ alignItems: 'center' }}>
+								<CardContent>
+									<Avatar src={item.src} alt={item.title} />
+									<Tooltip placement="right" title={item.title}>
 										<Typography
 											noWrap
 											sx={{ fontSize: 18 }}
@@ -159,13 +159,23 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 										>
 											{item.title}
 										</Typography>
-									</CardContent>
-									<CardActions disableSpacing>
-										<IconButton size="small" onClick={() => setItem(item)}><CreateIcon /></IconButton>
-										<IconButton size="small" onClick={() => handleDelete(item.id)}><DeleteIcon /></IconButton>
-									</CardActions>
-								</Card>
-							</Box>
+									</Tooltip>
+									<Tooltip placement="right" title={item.description}>
+										<Typography
+											noWrap
+											sx={{ fontSize: 14 }}
+											color="text.secondary"
+											gutterBottom
+										>
+											{item.description}
+										</Typography>
+									</Tooltip>
+								</CardContent>
+								<CardActions>
+									<IconButton size="small" onClick={() => setItem(item)}><CreateIcon /></IconButton>
+									<IconButton size="small" onClick={() => handleDelete(item.id)}><DeleteIcon /></IconButton>
+								</CardActions>
+							</Card>
 						</Grid>
 					})}
 				</Grid>
@@ -290,11 +300,10 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 							{tiers.map((tier, index) => {
 								return <MenuItem
 									key={index}
-									className="text-center"
-									style={{ backgroundColor: tierColors[tier] }}
+									style={{ backgroundColor: tierColors[tier], alignContent: 'center' }}
 									value={tier}
 								>
-									<h6>{tierNames[tier]}</h6>
+									<h6 style={{ alignContent: 'center' }}>{tierNames[tier]}</h6>
 								</MenuItem>
 							})}
 						</Select>

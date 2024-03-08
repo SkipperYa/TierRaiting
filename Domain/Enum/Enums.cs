@@ -9,4 +9,10 @@
 		A = 4,
 		S = 5
 	}
+
+	public enum Ordering
+	{
+		Ascending = 0,
+		Descending = 1,
+	}
 }

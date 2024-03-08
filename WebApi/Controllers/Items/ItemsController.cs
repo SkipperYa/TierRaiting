@@ -1,4 +1,5 @@
-﻿using Infrastructure.Queries;
+﻿using Domain.Enum;
+using Infrastructure.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,8 @@ namespace WebApi.Controllers
 			{
 				CategoryId = categoryId,
 				UserId = UserId,
-				Page = 0
+				Page = 0,
+				Ordering = Ordering.Ascending,
 			});
 
 			return Ok(items);

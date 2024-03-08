@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Enum;
+using Domain.Interfaces;
 using MediatR;
 using System;
 
@@ -40,5 +41,6 @@ namespace Infrastructure.BaseRequest
 		public int Page { get; set; } = 1;
 		public int Count { get; set; } = 5;
 		public string Text { get; set; }
+		public Ordering Ordering { get; set; } = Ordering.Descending;
 	}
 }

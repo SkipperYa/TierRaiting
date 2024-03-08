@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
 using Domain.Interfaces;
 using Infrastructure.BaseRequest;
 using Infrastructure.Database;
@@ -33,8 +34,16 @@ namespace Infrastructure.Queries
 
 			var count = query.Count();
 
-			query = query
-				.OrderByDescending(q => q.Id);
+			if (request.Ordering == Ordering.Ascending)
+			{
+				query = query
+					.OrderBy(q => q.Id);
+			}
+			else
+			{
+				query = query
+					.OrderByDescending(q => q.Id);
+			}
 
 			if (request.Page > 0)
 			{
