@@ -2,12 +2,13 @@ import React, { ChangeEvent } from 'react';
 import { Category } from '../objects/Category';
 import { useLocation } from 'react-router-dom';
 import { clientDelete, clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
-import { Alert, Avatar, Box, Button, FormControl, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Box, Button, Card, CardActions, CardContent, FormControl, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { Item, tierColors, tierNames } from '../objects/Item';
 import { Tier } from '../objects/enums';
 import ClearIcon from '@mui/icons-material/Clear';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CreateIcon from '@mui/icons-material/Create';
 
 export interface ComponentProps {
 
@@ -63,7 +64,7 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 	}, []);
 
 	const tiers = (Object.keys(Tier) as (keyof typeof Tier)[])
-		.filter((q) => Number(q))
+		.filter((q) => +q >= 0)
 		.sort()
 		.reverse() as Array<unknown> as Array<Tier>;
 
@@ -145,17 +146,26 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 			<TableCell>
 				<Grid container spacing={1}>
 					{items.filter(q => q.tier === +tier).map((item) => {
-						return <Grid item xs={2} component="button" onClick={() => setItem(item)}>
-							<Grid container spacing={1}>
-								<Grid item xs={6}>
-									<Avatar src={item.src} alt={item.title} />
-								</Grid>
-								<Grid item xs={6}>
-									<Typography component="h4" variant="h4" color="primary" gutterBottom>
-										{item.title}
-									</Typography>
-								</Grid>
-							</Grid>
+						return <Grid item xs={2}>
+							<Box>
+								<Card variant="outlined">
+									<CardContent>
+										<Avatar src={item.src} alt={item.title} />
+										<Typography
+											noWrap
+											sx={{ fontSize: 18 }}
+											color="text.primary"
+											gutterBottom
+										>
+											{item.title}
+										</Typography>
+									</CardContent>
+									<CardActions disableSpacing>
+										<IconButton size="small" onClick={() => setItem(item)}><CreateIcon /></IconButton>
+										<IconButton size="small" onClick={() => handleDelete(item.id)}><DeleteIcon /></IconButton>
+									</CardActions>
+								</Card>
+							</Box>
 						</Grid>
 					})}
 				</Grid>
@@ -308,7 +318,7 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 								<ClearIcon />
 							</IconButton>
 						</Grid>
-						<Grid item xs={4}>
+						{/*<Grid item xs={4}>
 							<IconButton
 								title="Delete Item"
 								color="error"
@@ -317,7 +327,7 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 							>
 								<DeleteIcon />
 							</IconButton>
-						</Grid>
+						</Grid>*/}
 					</Grid>
 					<br />
 					{error && <Alert severity="error">{error}</Alert>}
