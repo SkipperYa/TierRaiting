@@ -44,7 +44,7 @@ namespace Infrastructure.Queries
 			}
 
 			var result = await _mapper.ProjectTo<TResult>(query)
-				.ToListAsync();
+				.ToListAsync(cancellationToken);
 
 			return new PagedList<TResult>()
 			{

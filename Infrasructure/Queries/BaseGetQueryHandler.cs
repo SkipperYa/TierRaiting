@@ -35,7 +35,7 @@ namespace Infrastructure.Queries
 			query = await Filter(query, request, cancellationToken);
 
 			var entity = await _mapper.ProjectTo<TResult>(query)
-				.FirstOrDefaultAsync();
+				.FirstOrDefaultAsync(cancellationToken);
 
 			return entity;
 		}
