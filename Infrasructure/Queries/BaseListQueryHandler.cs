@@ -33,10 +33,17 @@ namespace Infrastructure.Queries
 
 			var count = query.Count();
 
-			var result = await _mapper.ProjectTo<TResult>(query
-					.OrderByDescending(q => q.Id)
+			query = query
+				.OrderByDescending(q => q.Id);
+
+			if (request.Page > 0)
+			{
+				query = query
 					.Skip(request.Count * (request.Page - 1))
-					.Take(request.Count))
+					.Take(request.Count);
+			}
+
+			var result = await _mapper.ProjectTo<TResult>(query)
 				.ToListAsync();
 
 			return new PagedList<TResult>()

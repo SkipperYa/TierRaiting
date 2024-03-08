@@ -1,12 +1,13 @@
 import React, { ChangeEvent } from 'react';
 import { Category } from '../objects/Category';
 import { useLocation } from 'react-router-dom';
-import { clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
-import { Alert, Avatar, Box, Button, FormControl, Grid, Input, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { clientDelete, clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
+import { Alert, Avatar, Box, Button, FormControl, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { Item, tierColors, tierNames } from '../objects/Item';
 import { Tier } from '../objects/enums';
 import ClearIcon from '@mui/icons-material/Clear';
 import SaveIcon from '@mui/icons-material/Save';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export interface ComponentProps {
 
@@ -33,6 +34,25 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 	const [items, setItems] = React.useState<Array<Item>>([]);
 	const [item, setItem] = React.useState<Item>(getInitItem());
 	const [error, setError] = React.useState<string | undefined>();
+
+	const handleDelete = (id: string) => {
+		clientDelete('item', {
+			id: id,
+		}).then((res) => {
+			setError(undefined);
+			setItem(getInitItem());
+			loadItems();
+		}).catch((message) => {
+			setError(message);
+		});
+	};
+
+	const loadItems = () => {
+		clientGet(`items?categoryId=${categoryId}`)
+			.then((res) => {
+				setItems(res.list);
+			});
+	};
 
 	React.useEffect(() => {
 		clientGet(`category?id=${categoryId}`)
@@ -85,7 +105,7 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 		})).then((res) => {
 			setError(undefined);
 			setItem(getInitItem());
-			// loadCategories();
+			loadItems();
 		}).catch((message) => {
 			setError(message);
 		});
@@ -270,29 +290,33 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 						</Select>
 					</FormControl>
 					<Grid container spacing={2}>
-						<Grid item xs={6}>
-							<Button
+						<Grid item xs={4}>
+							<IconButton
 								type="submit"
-								variant="contained"
-								className="float-right"
-								endIcon={<SaveIcon />}
+								title="Save"
+								color="primary"
 							>
-								Save
-							</Button>
+								<SaveIcon />
+							</IconButton>
 						</Grid>
-						<Grid item xs={6}>
-							<Button
-								type="button"
+						<Grid item xs={4}>
+							<IconButton
+								title="Clear"
 								color="error"
-								variant="contained"
-								className="float-right"
-								onClick={() => {
-									setItem(getInitItem());
-								}}
-								endIcon={<ClearIcon />}
+								onClick={() => setItem(getInitItem())}
 							>
-								Clear
-							</Button>
+								<ClearIcon />
+							</IconButton>
+						</Grid>
+						<Grid item xs={4}>
+							<IconButton
+								title="Delete Item"
+								color="error"
+								disabled={!item.id}
+								onClick={() => handleDelete(item.id)}
+							>
+								<DeleteIcon />
+							</IconButton>
 						</Grid>
 					</Grid>
 					<br />

@@ -29,7 +29,8 @@ namespace Infrastructure.Queries
 		public override async Task<TResult> Handle(TQuery request, CancellationToken cancellationToken)
 		{
 			var query = _applicationContext.Set<TEntity>()
-				.AsNoTracking();
+				.AsNoTracking()
+				.Where(q => q.Id == request.Id);
 
 			query = await Filter(query, request, cancellationToken);
 

@@ -16,13 +16,13 @@ namespace WebApi.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetItems(Guid categoryId, int page)
+		public async Task<IActionResult> GetItems(Guid categoryId)
 		{
 			var items = await _mediator.Send(new GetItemsQuery()
 			{
 				CategoryId = categoryId,
 				UserId = UserId,
-				Page = page
+				Page = 0
 			});
 
 			return Ok(items);

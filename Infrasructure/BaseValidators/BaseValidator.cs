@@ -74,7 +74,7 @@ namespace Infrastructure.BaseValidators
 		public BaseListQueryValidators()
 		{
 			RuleFor(q => q.Page)
-				.GreaterThan(0)
+				.GreaterThanOrEqualTo(0)
 				.WithMessage("Page must be greater than 0");
 
 			RuleFor(q => q.Count)
