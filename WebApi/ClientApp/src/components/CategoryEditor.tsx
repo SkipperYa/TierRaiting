@@ -1,14 +1,19 @@
-import React, { ChangeEvent } from 'react';
+﻿import React, { ChangeEvent } from 'react';
 import { Category } from '../objects/Category';
 import { useLocation } from 'react-router-dom';
 import { clientDelete, clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
-import { Alert, Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, FormControl, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Alert, Autocomplete, Avatar, Box, Button, Card, CardActions, CardContent, FormControl, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Skeleton, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, TextField, Tooltip, Typography } from '@mui/material';
 import { Item, tierColors, tierNames } from '../objects/Item';
 import { Tier } from '../objects/enums';
 import ClearIcon from '@mui/icons-material/Clear';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
+
+interface SteamApp {
+	imgSrc: string;
+	name: string;
+}
 
 export interface ComponentProps {
 
@@ -35,6 +40,9 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 	const [items, setItems] = React.useState<Array<Item>>([]);
 	const [item, setItem] = React.useState<Item>(getInitItem());
 	const [error, setError] = React.useState<string | undefined>();
+	const [options, setOptions] = React.useState<Array<SteamApp>>([]);
+	const [loading, setLoading] = React.useState<boolean>(false);
+	const [inputValue, setInputValue] = React.useState<string>('');
 
 	const handleDelete = (id: string) => {
 		clientDelete('item', {
@@ -54,6 +62,19 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 				setItems(res.list);
 			});
 	};
+
+	React.useEffect(() => {
+		if (!inputValue) {
+			return;
+		}
+
+		setLoading(true);
+		clientGet(`steamApp?text=${inputValue}`)
+			.then((res) => {
+				setOptions(res.list);
+			})
+			.finally(() => setLoading(false));
+	}, [inputValue]);
 
 	React.useEffect(() => {
 		clientGet(`category?id=${categoryId}`)
@@ -218,6 +239,37 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 			</Grid>
 			<Grid item xs={3}>
 				<Grid container spacing={2}>
+					<Grid item xs={12}>
+						<div>
+							<br />
+							<Autocomplete
+								loading={loading}
+								onClose={() => setOptions([])}
+								onChange={(event: any, newValue: SteamApp | null) => {
+									setItem({
+										...getInitItem(),
+										title: newValue ? newValue.name : '',
+										src: newValue ? newValue.imgSrc : '',
+									});
+								}}
+								inputValue={inputValue}
+								onInputChange={(event, newInputValue) => {
+									setInputValue(newInputValue);
+								}}
+								id="controllable-states-demo"
+								options={options}
+								getOptionLabel={(option: SteamApp) => option.name}
+								sx={{ width: 300 }}
+								renderInput={(params) => <TextField {...params} label="Games" />}
+								renderOption={(props, option) => (
+									<Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+										<Avatar sx={{ width: 50, height: 50, marginRight: '5px' }} alt={option.name} src={option.imgSrc} />
+										{option.name}
+									</Box>
+								)}
+							/>
+						</div>
+					</Grid>
 					<Grid item xs={6}>
 						<Avatar sx={{ width: 100, height: 100 }} alt={item.title} src={item.src} />
 					</Grid>

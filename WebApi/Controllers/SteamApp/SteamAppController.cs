@@ -1,10 +1,12 @@
-﻿using Infrastructure.Queries;
+﻿using Domain.Entities;
+using Infrastructure.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WebApi.Controllers.SteamApp
+namespace WebApi.Controllers
 {
 	public class SteamAppController : BaseApplicationController
 	{
@@ -12,16 +14,20 @@ namespace WebApi.Controllers.SteamApp
 		{
 		}
 
+		[HttpGet]
 		public async Task<IActionResult> GetSteamApps(string text, CancellationToken cancellationToken)
 		{
 			var query = new GetSteamAppQuery()
 			{
-				Text = text
+				Text = text,
 			};
 
 			var steamApps = await _mediator.Send(query, cancellationToken);
 
-			return Ok(steamApps);
+			return Ok(new
+			{
+				List = steamApps
+			});
 		}
 	}
 }
