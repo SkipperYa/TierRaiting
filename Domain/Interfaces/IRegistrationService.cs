@@ -7,5 +7,6 @@ namespace Domain.Interfaces
 	public interface IRegistrationService
 	{
 		Task<User> Registration(string email, string userName, string password, CancellationToken cancellationToken);
+		Task<bool> ConfirmEmail(string userId, string token);
 	}
 }

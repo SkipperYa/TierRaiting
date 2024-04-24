@@ -2,6 +2,7 @@
 using FluentValidation;
 using Infrastructure.Behaviors;
 using Infrastructure.Commands;
+using Infrastructure.Commands.RegistrationUser.Create;
 using Infrastructure.Database;
 using Infrastructure.Mapper;
 using Infrastructure.Queries;
@@ -44,7 +45,8 @@ namespace Infrastructure.Extension
 				.AddScoped<IValidator<UpdateItemCommand>, UpdateItemCommandValidator>()
 				.AddScoped<IValidator<DeleteItemCommand>, DeleteItemCommandValidator>()
 				.AddScoped<IValidator<GetWeatherForecastQuery>, GetWeatherForecastQueryValidator>()
-				.AddScoped<IValidator<GetSteamAppQuery>, GetSteamAppQueryValidator>();
+				.AddScoped<IValidator<GetSteamAppQuery>, GetSteamAppQueryValidator>()
+				.AddScoped<IValidator<ConfirmUserCommand>, ConfirmUserCommandValidator>();
 
 			return services;
 		}

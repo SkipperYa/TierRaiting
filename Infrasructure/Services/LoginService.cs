@@ -48,6 +48,11 @@ namespace Infrastructure.Services
 				throw new LogicException("Invalid user");
 			}
 
+			if (!await _signInManager.UserManager.IsEmailConfirmedAsync(user))
+			{
+				throw new LogicException("Email not confirmed");
+			}
+
 			var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, false);
 
 			if (!result.Succeeded)

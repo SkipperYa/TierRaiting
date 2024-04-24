@@ -54,6 +54,7 @@ namespace WebApi
 			services.AddIdentity<User, Role>(options =>
 			{
 				options.User.RequireUniqueEmail = true;
+				options.SignIn.RequireConfirmedEmail = true;
 				options.Password.RequireDigit = true;
 				options.Password.RequiredLength = 1;
 				options.Password.RequireNonAlphanumeric = false;
