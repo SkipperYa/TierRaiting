@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.Exceptions;
 using Domain.Interfaces;
 using Domain.Models;
 using Infrastructure.Commands;
@@ -9,6 +10,11 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers.Registration
 {
+	public class ConfirmationMessage
+	{
+		public string UserId { get; set; }
+	}
+
 	public class RegistrationController : BaseApplicationController
 	{
 		private readonly IMapper _mapper;
@@ -31,9 +37,14 @@ namespace WebApi.Controllers.Registration
 		}
 
 		[HttpPut]
-		public async Task<IActionResult> SendConfirmation([FromBody] string userId, CancellationToken cancellationToken)
+		public async Task<IActionResult> SendConfirmation([FromBody] ConfirmationMessage message, CancellationToken cancellationToken)
 		{
-			await _registrationService.SendConfirmation(userId);
+			if (message == null || string.IsNullOrEmpty(message.UserId)) 
+			{
+				throw new LogicException("Invalid message");
+			}
+
+			await _registrationService.SendConfirmation(message.UserId);
 
 			return Ok("ok");
 		}

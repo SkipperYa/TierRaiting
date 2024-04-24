@@ -1,8 +1,10 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Exceptions;
+using Domain.Interfaces;
 using Infrastructure.Utils;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using System;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
@@ -18,21 +20,28 @@ namespace Infrastructure.Services
 
 		public async Task Send(string to, string subject, string message)
 		{
-			using var emailMessage = new MimeMessage();
-
-			emailMessage.From.Add(new MailboxAddress(EmailOptions.From, EmailOptions.Login));
-			emailMessage.To.Add(new MailboxAddress("", to));
-			emailMessage.Subject = subject;
-			emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+			try
 			{
-				Text = message
-			};
+				using var emailMessage = new MimeMessage();
 
-			using var emailClient = new SmtpClient();
+				emailMessage.From.Add(new MailboxAddress(EmailOptions.From, EmailOptions.Login));
+				emailMessage.To.Add(new MailboxAddress("", to));
+				emailMessage.Subject = subject;
+				emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+				{
+					Text = message
+				};
 
-			await emailClient.ConnectAsync(EmailOptions.Host, int.Parse(EmailOptions.Port), true);
-			await emailClient.AuthenticateAsync(EmailOptions.Login, EmailOptions.Password);
-			await emailClient.SendAsync(emailMessage);
+				using var emailClient = new SmtpClient();
+
+				await emailClient.ConnectAsync(EmailOptions.Host, int.Parse(EmailOptions.Port), true);
+				await emailClient.AuthenticateAsync(EmailOptions.Login, EmailOptions.Password);
+				await emailClient.SendAsync(emailMessage);
+			}
+			catch (Exception e)
+			{
+				throw new LogicException(e.Message);
+			}
 		}
 	}
 }

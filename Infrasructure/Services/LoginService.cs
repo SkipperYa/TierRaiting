@@ -45,7 +45,7 @@ namespace Infrastructure.Services
 
 			if (!await _signInManager.UserManager.IsEmailConfirmedAsync(user))
 			{
-				throw new LogicException("Email not confirmed");
+				return user;
 			}
 
 			var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, false);

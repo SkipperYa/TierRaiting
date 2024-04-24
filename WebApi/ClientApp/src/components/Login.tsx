@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { clientPost, setUser } from '../utils/client';
+import { clientPost, clientUpdate, setUser } from '../utils/client';
 import { Alert, Link } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 
@@ -17,6 +17,9 @@ const defaultTheme = createTheme();
 
 export default function Login() {
 	const [error, setError] = React.useState<string | undefined>();
+	const [info, setInfo] = React.useState<string | undefined>();
+	const [userId, setUserId] = React.useState<string>();
+	const [showSendEmailConfirmed, setShowSendEmailConfirmed] = React.useState<boolean>(false);
 	const history = useHistory();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -28,8 +31,16 @@ export default function Login() {
 			password: data.get('password'),
 		}).then((res) => {
 			setError(undefined);
-			setUser(res);
-			history.push('/categories');
+			if (res.emailConfirmed) {
+				setUser(res);
+				setUserId(res.id);
+				setShowSendEmailConfirmed(false);
+				history.push('/categories');
+			} else {
+				setShowSendEmailConfirmed(true);
+				setUserId(res.id);
+				setError('Email is not confirmed.');
+			}
 		}).catch((message) => {
 			setError(message);
 		});
@@ -85,6 +96,7 @@ export default function Login() {
 						>
 							Sign In
 						</Button>
+						{info && <Alert severity="info">{info}</Alert>}
 						{error && <Alert severity="error">{error}</Alert>}
 						<Grid container justifyContent="flex-end">
 							<Grid item>
@@ -93,6 +105,25 @@ export default function Login() {
 								</Link>
 							</Grid>
 						</Grid>
+						{showSendEmailConfirmed && <Grid container justifyContent="flex-end">
+							<Grid item>
+								<Button
+									type="button"
+									fullWidth
+									variant="contained"
+									sx={{ mt: 3, mb: 2 }}
+									onClick={() => {
+										clientUpdate('registration', {
+											userId: userId,
+										}).then((res) => {
+											setInfo('A registration confirmation email was sent to mail.');
+										});
+									}}
+								>
+									Send confirmation email
+								</Button>
+							</Grid>
+						</Grid>}
 					</Box>
 				</Box>
 			</Container>
