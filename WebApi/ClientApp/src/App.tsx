@@ -5,6 +5,7 @@ import Registration from './components/Registration';
 import Login from './components/Login';
 import Categories from './components/Categories';
 import CategoryEditor from './components/CategoryEditor';
+import ConfirmRegistration from './components/ConfirmRegistration';
 
 import './custom.css';
 import '@fontsource/roboto/300.css';
@@ -18,5 +19,6 @@ export default () => (
 		<Route path='/registration' component={Registration} />
 		<Route path='/categories' component={Categories} />
 		<Route path='/category' component={CategoryEditor} />
+		<Route path='/confirmRegistration' component={ConfirmRegistration} />
 	</Layout>
 );

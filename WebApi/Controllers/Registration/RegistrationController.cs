@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Domain.Interfaces;
 using Domain.Models;
-using Infrastructure.Commands.RegistrationUser.Create;
-using Infrastructure.Services;
+using Infrastructure.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers.Registration
 {
-    public class RegistrationController : BaseApplicationController
+	public class RegistrationController : BaseApplicationController
 	{
 		private readonly IMapper _mapper;
+		private readonly IRegistrationService _registrationService;
 
-		public RegistrationController(IMediator mediator, IMapper mapper) : base(mediator)
+		public RegistrationController(IMediator mediator, IMapper mapper, IRegistrationService registrationService) : base(mediator)
 		{
 			_mapper = mapper;
+			_registrationService = registrationService;
 		}
 
 		[HttpPost]
@@ -29,11 +31,19 @@ namespace WebApi.Controllers.Registration
 		}
 
 		[HttpPut]
+		public async Task<IActionResult> SendConfirmation([FromBody] string userId, CancellationToken cancellationToken)
+		{
+			await _registrationService.SendConfirmation(userId);
+
+			return Ok("ok");
+		}
+
+		[HttpGet]
 		public async Task<IActionResult> ConfirmRegistration(string userId, string token, CancellationToken cancellationToken)
 		{
-			var result = await RegistrationService.ConfirmEmail(userId, token);
+			var result = await _registrationService.ConfirmEmail(userId, token);
 
-			return Ok(userViewModel);
+			return Ok(result);
 		}
 	}
 }

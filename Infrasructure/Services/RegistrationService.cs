@@ -55,6 +55,24 @@ namespace Infrastructure.Services
 			return true;
 		}
 
+		public async Task SendConfirmation(string userId)
+		{
+			var user = await _userManager.FindByIdAsync(userId);
+
+			await SendConfirmation(user);
+		}
+
+		public async Task SendConfirmation(User user)
+		{
+			var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+			var encodedToken = HttpUtility.UrlEncode(token);
+
+			var callbackUrl = $"{_hostUrlOptions.Url}/confirmRegistration?userId={user.Id}&token={encodedToken}";
+
+			await _emailService.Send(user.Email, "Confirm registration", $"For confirm your registration follow: <a href='{callbackUrl}'>link</a>");
+		}
+
 		public async Task<User> Registration(string email, string userName, string password, CancellationToken cancellationToken)
 		{
 			var user = new User
@@ -77,13 +95,7 @@ namespace Infrastructure.Services
 				throw new LogicException(stringBuilder.ToString());
 			}
 
-			var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-			var encodedToken = HttpUtility.UrlEncode(token);
-
-			var callbackUrl = $"{_hostUrlOptions.Url}/confirmRegistration?userId={user.Id}&token={encodedToken}";
-
-			await _emailService.Send(user.Email, "Confirm registration", $"Follow: <a href='{callbackUrl}'>link</a>");
+			await SendConfirmation(user);
 
 			return user;
 		}

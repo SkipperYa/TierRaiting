@@ -36,11 +36,6 @@ namespace Infrastructure.Services
 			var user = await _context.Set<User>()
 				.AsNoTracking()
 				.Where(q => q.Email == model.Email)
-				.Select(q => new User() 
-				{
-					Id = q.Id,
-					UserName = q.UserName
-				})
 				.FirstOrDefaultAsync();
 
 			if (user is null)

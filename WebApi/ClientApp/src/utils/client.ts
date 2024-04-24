@@ -5,7 +5,8 @@ export const setUser = (user: any) => {
 };
 
 export const getUser = () => {
-	return localStorage.getItem('user');
+	const item = localStorage.getItem('user');
+	return item ? JSON.parse(item) : null;
 };
 
 export const removeUser = () => {

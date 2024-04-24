@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { clientPost, setUser } from '../utils/client';
+import { clientPost, clientUpdate, getUser, setUser } from '../utils/client';
 import { Alert, Link } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 
@@ -17,6 +17,7 @@ const defaultTheme = createTheme();
 
 export default function Registration() {
 	const [error, setError] = React.useState<string | undefined>();
+	const [message, setMessage] = React.useState<string | undefined>();
 
 	const history = useHistory();
 
@@ -32,7 +33,7 @@ export default function Registration() {
 		}).then((res) => {
 			setError(undefined);
 			setUser(res);
-			history.push('/categories');
+			setMessage('A registration confirmation email was sent to mail.')
 		}).catch((message) => {
 			setError(message);
 		});

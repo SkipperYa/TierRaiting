@@ -8,5 +8,7 @@ namespace Domain.Interfaces
 	{
 		Task<User> Registration(string email, string userName, string password, CancellationToken cancellationToken);
 		Task<bool> ConfirmEmail(string userId, string token);
+		Task SendConfirmation(User user);
+		Task SendConfirmation(string userId);
 	}
 }

@@ -55,7 +55,10 @@ namespace Infrastructure.Extension
 		{
 			services
 				.AddTransient<IRegistrationService, RegistrationService>()
-				.AddTransient<ILoginService, LoginService>();
+				.AddTransient<ILoginService, LoginService>()
+				.AddTransient<ISteamService, SteamService>()
+				.AddTransient<IImageService, ImageService>()
+				.AddTransient<IEmailService, EmailService>();
 
 			return services;
 		}

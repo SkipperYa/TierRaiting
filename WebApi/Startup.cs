@@ -20,6 +20,7 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using WebApi.AuthorizationHandler;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApi
 {
@@ -35,6 +36,10 @@ namespace WebApi
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services
+				.Configure<HostUrlOptions>(Configuration.GetSection("Host"))
+				.Configure<EmailOptions>(Configuration.GetSection("Email"));
+
 			services.AddControllers(options =>
 			{
 				options.Filters.Add(typeof(LogicExceptionFilter));
@@ -60,7 +65,8 @@ namespace WebApi
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireLowercase = false;
 				options.Password.RequireUppercase = false;
-			}).AddEntityFrameworkStores<ApplicationContext>();
+			}).AddEntityFrameworkStores<ApplicationContext>()
+			.AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
 
 			services.AddMediator();
 
@@ -94,10 +100,6 @@ namespace WebApi
 						ValidateIssuerSigningKey = true,
 					};
 				});
-
-			services
-				.AddTransient<ISteamService, SteamService>()
-				.AddTransient<IImageService, ImageService>();
 
 			services
 				.AddSingleton<IAuthorizationHandler, ProtectFolderAuthorizationHandler>();
