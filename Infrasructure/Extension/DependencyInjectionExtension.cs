@@ -14,7 +14,7 @@ using System.Reflection;
 
 namespace Infrastructure.Extension
 {
-    public static class DependencyInjectionExtension
+	public static class DependencyInjectionExtension
 	{
 		public static IServiceCollection AddMediator(this IServiceCollection services)
 		{
@@ -46,7 +46,9 @@ namespace Infrastructure.Extension
 				.AddScoped<IValidator<DeleteItemCommand>, DeleteItemCommandValidator>()
 				.AddScoped<IValidator<GetWeatherForecastQuery>, GetWeatherForecastQueryValidator>()
 				.AddScoped<IValidator<GetSteamAppQuery>, GetSteamAppQueryValidator>()
-				.AddScoped<IValidator<ConfirmUserCommand>, ConfirmUserCommandValidator>();
+				.AddScoped<IValidator<ConfirmUserCommand>, ConfirmUserCommandValidator>()
+				.AddScoped<IValidator<SendConfirmCommand>, SendConfirmCommandValidator>()
+				;
 
 			return services;
 		}

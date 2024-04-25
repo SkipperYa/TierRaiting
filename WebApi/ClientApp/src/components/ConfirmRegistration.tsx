@@ -27,7 +27,7 @@ const ConfirmRegistration: React.FC<ComponentProps> = ({
 					setText(message);
 				});
 		} else {
-			setText('Invalid token or user.')
+			setText('Invalid token or user.');
 		}
 
 	}, []);

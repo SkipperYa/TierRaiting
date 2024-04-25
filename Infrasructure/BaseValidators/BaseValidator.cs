@@ -1,7 +1,6 @@
 ﻿using Domain.Interfaces;
 using FluentValidation;
 using Infrastructure.BaseRequest;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infrastructure.BaseValidators
 {

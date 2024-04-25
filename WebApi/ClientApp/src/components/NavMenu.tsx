@@ -37,6 +37,8 @@ const NavMenu: React.FC<{}> = () => {
 		setAnchorElUser(null);
 	};
 
+	const login = getUser();
+
 	return <AppBar position="static">
 		<Container>
 			<Toolbar disableGutters>
@@ -56,7 +58,7 @@ const NavMenu: React.FC<{}> = () => {
 						cursor: 'pointer'
 					}}
 				>
-					Tier Raiting
+					Tier Rating
 				</Typography>
 				<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
 					<IconButton
@@ -94,7 +96,9 @@ const NavMenu: React.FC<{}> = () => {
 				</Box>
 				<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 					<Button
-						onClick={() => history.push('/categories')}
+						onClick={() => {
+							login && history.push('/categories');
+						}}
 						sx={{ my: 2, color: 'white', display: 'block' }}
 					>
 						Categories

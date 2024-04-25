@@ -1,7 +1,7 @@
 export const baseUrl = 'api/';
 
 export const setUser = (user: any) => {
-	localStorage.setItem('user', user);
+	localStorage.setItem('user', JSON.stringify(user));
 };
 
 export const getUser = () => {

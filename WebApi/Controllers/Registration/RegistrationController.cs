@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using Domain.Exceptions;
-using Domain.Interfaces;
 using Domain.Models;
 using Infrastructure.Commands;
+using Infrastructure.Commands.RegistrationUser.Create;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
@@ -10,20 +9,13 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers.Registration
 {
-	public class ConfirmationMessage
-	{
-		public string UserId { get; set; }
-	}
-
 	public class RegistrationController : BaseApplicationController
 	{
 		private readonly IMapper _mapper;
-		private readonly IRegistrationService _registrationService;
 
-		public RegistrationController(IMediator mediator, IMapper mapper, IRegistrationService registrationService) : base(mediator)
+		public RegistrationController(IMediator mediator, IMapper mapper) : base(mediator)
 		{
 			_mapper = mapper;
-			_registrationService = registrationService;
 		}
 
 		[HttpPost]
@@ -37,22 +29,23 @@ namespace WebApi.Controllers.Registration
 		}
 
 		[HttpPut]
-		public async Task<IActionResult> SendConfirmation([FromBody] ConfirmationMessage message, CancellationToken cancellationToken)
+		public async Task<IActionResult> SendConfirmation([FromBody] SendConfirmCommand command, CancellationToken cancellationToken)
 		{
-			if (message == null || string.IsNullOrEmpty(message.UserId)) 
-			{
-				throw new LogicException("Invalid message");
-			}
+			var result = await _mediator.Send(command, cancellationToken);
 
-			await _registrationService.SendConfirmation(message.UserId);
-
-			return Ok("ok");
+			return Ok(result);
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> ConfirmRegistration(string userId, string token, CancellationToken cancellationToken)
 		{
-			var result = await _registrationService.ConfirmEmail(userId, token);
+			var command = new ConfirmUserCommand()
+			{
+				Token = token,
+				UserId = userId,
+			};
+
+			var result = await _mediator.Send(command, cancellationToken);
 
 			return Ok(result);
 		}
