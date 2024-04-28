@@ -6,3 +6,10 @@ export enum Tier {
 	A = 4,
 	S = 5
 }
+
+export enum CategoryType {
+	None = 0,
+	Games = 1,
+	Books = 2,
+	Films = 3
+}

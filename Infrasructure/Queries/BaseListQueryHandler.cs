@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Domain.Enum;
-using Domain.Interfaces;
 using Infrastructure.BaseRequest;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

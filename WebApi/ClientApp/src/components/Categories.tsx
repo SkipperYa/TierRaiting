@@ -1,7 +1,7 @@
-import { Alert, Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, Input, Modal, Pagination, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, Input, InputLabel, MenuItem, Modal, Pagination, Paper, Select, SelectChangeEvent, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import React, { ChangeEvent } from 'react';
 import { clientDelete, clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
-import { Category } from '../objects/Category';
+import { Category, CategotyTypeNames } from '../objects/Category';
 import CreateIcon from '@mui/icons-material/Create';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -10,6 +10,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { useHistory } from 'react-router-dom';
+import { CategoryType } from '../objects/enums';
 
 interface ComponentProps {
 
@@ -22,6 +23,7 @@ const initCategory: Category = {
 	items: [],
 	itemsCount: 0,
 	src: '',
+	categoryType: CategoryType.None,
 }
 
 const Categories: React.FC<ComponentProps> = ({
@@ -61,10 +63,12 @@ const Categories: React.FC<ComponentProps> = ({
 			title: data.get('title'),
 			description: data.get('description'),
 			src: category.src,
+			categoryType: category.categoryType,
 		}) : clientPost('category', {
 			title: data.get('title'),
 			description: data.get('description'),
 			src: category.src,
+			categoryType: category.categoryType,
 		})).then((res) => {
 			setError(undefined);
 			setCategory(initCategory);
@@ -180,6 +184,26 @@ const Categories: React.FC<ComponentProps> = ({
 								});
 							}}
 						/>
+						<InputLabel id="demo-simple-select-label">Type</InputLabel>
+						<Select
+							labelId="demo-simple-select-label"
+							id="demo-simple-select"
+							value={category.categoryType.toString()}
+							label="Type"
+							onChange={(event: SelectChangeEvent) => {
+								setCategory((prev) => {
+									return {
+										...prev,
+										categoryType: +event.target.value
+									};
+								});
+							}}
+						>
+							<MenuItem value={CategoryType.None}>{CategotyTypeNames[CategoryType.None]}</MenuItem>
+							<MenuItem value={CategoryType.Games}>{CategotyTypeNames[CategoryType.Games]}</MenuItem>
+							<MenuItem value={CategoryType.Books}>{CategotyTypeNames[CategoryType.Books]}</MenuItem>
+							<MenuItem value={CategoryType.Films}>{CategotyTypeNames[CategoryType.Films]}</MenuItem>
+						</Select>
 						<DialogActions>
 							<Button
 								type="submit"
@@ -267,6 +291,7 @@ const Categories: React.FC<ComponentProps> = ({
 								<TableCell width="10%"></TableCell>
 								<TableCell>Title</TableCell>
 								<TableCell>Description</TableCell>
+								<TableCell>Type</TableCell>
 								<TableCell width="10%">#</TableCell>
 								<TableCell width="15%"></TableCell>
 							</TableRow>
@@ -276,6 +301,7 @@ const Categories: React.FC<ComponentProps> = ({
 								<TableCell width="10%"><Avatar src={category.src} alt={category.title} /></TableCell>
 								<TableCell width="20%">{category.title}</TableCell>
 								<TableCell width="20%">{category.description}</TableCell>
+								<TableCell width="20%">{CategotyTypeNames[category.categoryType]}</TableCell>
 								<TableCell width="10%">{category.itemsCount}</TableCell>
 								<TableCell>
 									<Grid container spacing={1}>

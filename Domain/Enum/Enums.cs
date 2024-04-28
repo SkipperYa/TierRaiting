@@ -15,4 +15,12 @@
 		Ascending = 0,
 		Descending = 1,
 	}
+
+	public enum CategoryType
+	{
+		None = 0,
+		Games = 1,
+		Books = 2,
+		Films = 3
+	}
 }

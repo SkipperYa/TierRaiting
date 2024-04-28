@@ -1,8 +1,8 @@
 ﻿import React, { ChangeEvent } from 'react';
-import { Category } from '../objects/Category';
+import { Category, CategotyTypeNames } from '../objects/Category';
 import { useLocation } from 'react-router-dom';
 import { clientDelete, clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
-import { Alert, Autocomplete, Avatar, Box, Button, Card, CardActions, CardContent, FormControl, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Skeleton, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, TextField, Tooltip, Typography } from '@mui/material';
+import { Alert, Autocomplete, Avatar, Box, Button, Card, CardActions, CardContent, Chip, FormControl, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Skeleton, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, TextField, Tooltip, Typography } from '@mui/material';
 import { Item, tierColors, tierNames } from '../objects/Item';
 import { Tier } from '../objects/enums';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -212,7 +212,7 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 			</Grid>
 			<Grid item xs={8}>
 				<Typography component="h4" variant="h4" color="primary" gutterBottom>
-					{category.title}
+					{category.title} <Chip label={CategotyTypeNames[category.categoryType]} color="primary" />
 				</Typography>
 			</Grid>
 			<Grid item xs={12}>

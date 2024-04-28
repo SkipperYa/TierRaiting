@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Enum;
+using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,6 +12,8 @@ namespace Domain.Entities
 		public string Description { get; set; }
 
 		public string Src { get; set; }
+
+		public CategoryType CategoryType { get; set; }
 
 		public List<Item> Items { get; set; }
 
