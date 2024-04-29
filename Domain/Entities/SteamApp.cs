@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-	public class SteamApp
+	public class ItemOption
 	{
 		public string Name { get; set; }
 		public string ImgSrc { get; set; }

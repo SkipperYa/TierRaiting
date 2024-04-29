@@ -10,7 +10,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 
-interface SteamApp {
+interface ItemOption {
 	imgSrc: string;
 	name: string;
 }
@@ -40,7 +40,7 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 	const [items, setItems] = React.useState<Array<Item>>([]);
 	const [item, setItem] = React.useState<Item>(getInitItem());
 	const [error, setError] = React.useState<string | undefined>();
-	const [options, setOptions] = React.useState<Array<SteamApp>>([]);
+	const [options, setOptions] = React.useState<Array<ItemOption>>([]);
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [inputValue, setInputValue] = React.useState<string>('');
 
@@ -64,12 +64,12 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 	};
 
 	React.useEffect(() => {
-		if (!inputValue) {
+		if (!inputValue || !category) {
 			return;
 		}
 
 		setLoading(true);
-		clientGet(`steamApp?text=${inputValue}`)
+		clientGet(`itemOptions?text=${inputValue}&categoryType=${category.categoryType}`)
 			.then((res) => {
 				setOptions(res.list);
 			})
@@ -245,7 +245,7 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 							<Autocomplete
 								loading={loading}
 								onClose={() => setOptions([])}
-								onChange={(event: any, newValue: SteamApp | null) => {
+								onChange={(event: any, newValue: ItemOption | null) => {
 									setItem({
 										...getInitItem(),
 										title: newValue ? newValue.name : '',
@@ -258,9 +258,9 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 								}}
 								id="controllable-states-demo"
 								options={options}
-								getOptionLabel={(option: SteamApp) => option.name}
+								getOptionLabel={(option: ItemOption) => option.name}
 								sx={{ width: 300 }}
-								renderInput={(params) => <TextField {...params} label="Games" />}
+								renderInput={(params) => <TextField {...params} label={CategotyTypeNames[category.categoryType]} />}
 								renderOption={(props, option) => (
 									<Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
 										<Avatar sx={{ width: 50, height: 50, marginRight: '5px' }} alt={option.name} src={option.imgSrc} />

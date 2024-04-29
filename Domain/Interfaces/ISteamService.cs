@@ -1,12 +1,7 @@
-﻿using Domain.Entities;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Domain.Interfaces
+﻿namespace Domain.Interfaces
 {
-	public interface ISteamService
+	public interface ISteamService : IResourceService
 	{
-		Task<List<SteamApp>> GetGames(string text, CancellationToken cancellationToken);
+		
 	}
 }

@@ -45,7 +45,7 @@ namespace Infrastructure.Extension
 				.AddScoped<IValidator<UpdateItemCommand>, UpdateItemCommandValidator>()
 				.AddScoped<IValidator<DeleteItemCommand>, DeleteItemCommandValidator>()
 				.AddScoped<IValidator<GetWeatherForecastQuery>, GetWeatherForecastQueryValidator>()
-				.AddScoped<IValidator<GetSteamAppQuery>, GetSteamAppQueryValidator>()
+				.AddScoped<IValidator<GetItemOptionsQuery>, GetItemOptionsQueryValidator>()
 				.AddScoped<IValidator<ConfirmUserCommand>, ConfirmUserCommandValidator>()
 				.AddScoped<IValidator<SendConfirmCommand>, SendConfirmCommandValidator>()
 				;
@@ -59,6 +59,7 @@ namespace Infrastructure.Extension
 				.AddTransient<IRegistrationService, RegistrationService>()
 				.AddTransient<ILoginService, LoginService>()
 				.AddTransient<ISteamService, SteamService>()
+				.AddTransient<IBooksService, BooksService>()
 				.AddTransient<IImageService, ImageService>()
 #if DEBUG
 				.AddTransient<IEmailService, ConsoleEmailService>()

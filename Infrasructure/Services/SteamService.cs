@@ -11,9 +11,9 @@ namespace Infrastructure.Services
 {
 	public class SteamService : ISteamService
 	{
-		public async Task<List<SteamApp>> GetGames(string text, CancellationToken cancellationToken)
+		public async Task<List<ItemOption>> GetOptions(string text, CancellationToken cancellationToken)
 		{
-			var steamApps = new List<SteamApp>();
+			var steamApps = new List<ItemOption>();
 
 			if (string.IsNullOrEmpty(text))
 			{
@@ -35,7 +35,7 @@ namespace Infrastructure.Services
 
 			foreach (var node in nodes)
 			{
-				var steamApp = new SteamApp();
+				var steamApp = new ItemOption();
 
 				var gameName = node.SelectNodes("div")
 					.FirstOrDefault(n => n.Attributes
