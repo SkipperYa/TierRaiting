@@ -21,6 +21,8 @@ using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using WebApi.AuthorizationHandler;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
 
 namespace WebApi
 {
@@ -107,6 +109,21 @@ namespace WebApi
 			services.AddHttpContextAccessor();
 
 			services.AddServices();
+
+			services.AddHttpClient(BooksService.ClientName, client => 
+			{
+				client.BaseAddress = new Uri("https://openlibrary.org/search.json");
+			});
+
+			services.AddResponseCompression(options => {
+				options.EnableForHttps = true;
+				options.Providers.Add<BrotliCompressionProvider>();
+			});
+
+			services.Configure<BrotliCompressionProviderOptions>(options =>
+			{
+				options.Level = CompressionLevel.Optimal;
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -123,7 +140,11 @@ namespace WebApi
 				app.UseHsts();
 			}
 
+			app.UseResponseCompression();
+			app.UseResponseCaching();
+
 			app.UseHttpsRedirection();
+
 			app.UseStaticFiles();
 			app.UseSpaStaticFiles();
 
