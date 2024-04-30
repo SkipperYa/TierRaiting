@@ -43,6 +43,7 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 	const [options, setOptions] = React.useState<Array<ItemOption>>([]);
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [inputValue, setInputValue] = React.useState<string>('');
+	const checkTimer = React.useRef<any>(null);
 
 	const handleDelete = (id: string) => {
 		clientDelete('item', {
@@ -68,12 +69,19 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 			return;
 		}
 
+		if (checkTimer.current) {
+			clearTimeout(checkTimer.current);
+		}
+
 		setLoading(true);
-		clientGet(`itemOptions?text=${inputValue}&categoryType=${category.categoryType}`)
-			.then((res) => {
-				setOptions(res.list);
-			})
-			.finally(() => setLoading(false));
+
+		checkTimer.current = setTimeout(() => {
+			clientGet(`itemOptions?text=${inputValue}&categoryType=${category.categoryType}`)
+				.then((res) => {
+					setOptions(res.list);
+				})
+				.finally(() => setLoading(false))
+		}, 1000, [inputValue, category.categoryType]);
 	}, [inputValue]);
 
 	React.useEffect(() => {

@@ -1,6 +1,8 @@
 ﻿using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Interfaces;
+using Infrastructure.Utils;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,22 +15,37 @@ using System.Web;
 
 namespace Infrastructure.Services
 {
-	public class OpenBookDocs
+	public class ImageLinks
 	{
-		[JsonPropertyName("key")]
-		public string Key { get; set; }
+		[JsonPropertyName("smallThumbnail")]
+		public string SmallThumbnail { get; set; }
 
-		[JsonPropertyName("author_name")]
-		public List<string> AuthorName { get; set; }
-
-		[JsonPropertyName("title")]
-		public string Title { get; set; }
+		[JsonPropertyName("thumbnail")]
+		public string Thumbnail { get; set; }
 	}
 
-	public class OpenBook 
+	public class VolumeInfo
 	{
-		[JsonPropertyName("docs")]
-		public List<OpenBookDocs> Docs { get; set; }
+		[JsonPropertyName("title")]
+		public string Title { get; set; }
+
+		[JsonPropertyName("authors")]
+		public List<string> Authors { get; set; }
+
+		[JsonPropertyName("imageLinks")]
+		public ImageLinks ImageLinks { get; set; }
+	}
+
+	public class BookItem
+	{
+		[JsonPropertyName("volumeInfo")]
+		public VolumeInfo VolumeInfo { get; set; }
+	}
+
+	public class GoogleBook 
+	{
+		[JsonPropertyName("items")]
+		public List<BookItem> Items { get; set; }
 	}
 
 	public class BooksService : IBooksService
@@ -37,30 +54,34 @@ namespace Infrastructure.Services
 
 		private readonly IHttpClientFactory _clientFactory;
 
-		public BooksService(IHttpClientFactory clientFactory)
+		private readonly GoogleApiOptions _googleApiOptions;
+
+		public BooksService(IHttpClientFactory clientFactory, IOptions<GoogleApiOptions> options)
 		{
 			_clientFactory = clientFactory;
+			_googleApiOptions = options.Value;
 		}
 
 		public async Task<List<ItemOption>> GetOptions(string text, CancellationToken cancellationToken)
 		{
 			text = HttpUtility.UrlEncode(text);
 
-			// text = "the+lord+of+the+rings";
-
 			var client = _clientFactory.CreateClient(ClientName);
 
 			try
 			{
-				var result = await client.GetFromJsonAsync<OpenBook>($"?q={text}&fields=key,title,author_name&limit=5", cancellationToken);
+				var result = await client.GetFromJsonAsync<GoogleBook>($"?q={text}&key={_googleApiOptions.Key}&maxResults=5", cancellationToken);
 
 				var options = new List<ItemOption>();
 
-				foreach (var item in result?.Docs)
+				foreach (var item in result?.Items)
 				{
+					var info = item.VolumeInfo;
+
 					var itemOption = new ItemOption()
 					{
-						Name = $"{item.AuthorName.FirstOrDefault()} - {item.Title}",
+						ImgSrc = info.ImageLinks?.Thumbnail,
+						Name = $"{info.Authors?.FirstOrDefault()} - {info.Title}",
 					};
 
 					options.Add(itemOption);
