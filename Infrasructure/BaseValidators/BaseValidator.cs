@@ -4,10 +4,10 @@ using Infrastructure.BaseRequest;
 
 namespace Infrastructure.BaseValidators
 {
-	public abstract class BaseCreateCommandValidator<TCommand> : AbstractValidator<TCommand>
+	public abstract class BaseAuthorizeValidator<TCommand> : AbstractValidator<TCommand>
 		where TCommand : IBaseAuthorizeRequest
 	{
-		public BaseCreateCommandValidator()
+		public BaseAuthorizeValidator()
 		{
 			RuleFor(q => q.UserId)
 				.NotEmpty()
@@ -16,61 +16,46 @@ namespace Infrastructure.BaseValidators
 		}
 	}
 
-	public abstract class BaseUpdateCommandValidator<TCommand> : AbstractValidator<TCommand>
+	public abstract class BaseUpdateCommandValidator<TCommand> : BaseAuthorizeValidator<TCommand>
 		where TCommand : IBaseAuthorizeRequest, IWithId
 	{
-		public BaseUpdateCommandValidator()
+		public BaseUpdateCommandValidator() : base()
 		{
 			RuleFor(q => q.Id)
 				.NotEmpty()
 				.NotNull()
 				.WithMessage("Id is required.");
-
-			RuleFor(q => q.UserId)
-				.NotEmpty()
-				.NotNull()
-				.WithMessage("UserId is required.");
 		}
 	}
 
-	public abstract class BaseDeleteCommandValidator<TCommand> : AbstractValidator<TCommand>
+	public abstract class BaseDeleteCommandValidator<TCommand> : BaseAuthorizeValidator<TCommand>
 		where TCommand : IBaseAuthorizeRequest, IWithId
 	{
-		public BaseDeleteCommandValidator()
+		public BaseDeleteCommandValidator() : base()
 		{
 			RuleFor(q => q.Id)
 				.NotEmpty()
 				.NotNull()
 				.WithMessage("Id is required.");
-
-			RuleFor(q => q.UserId)
-				.NotEmpty()
-				.NotNull()
-				.WithMessage("UserId is required.");
 		}
 	}
 
-	public abstract class BaseGetQueryValidator<TQuery> : AbstractValidator<TQuery>
+	public abstract class BaseGetQueryValidator<TQuery> : BaseAuthorizeValidator<TQuery>
 		where TQuery : IBaseGetAuthorizeRequest
 	{
-		public BaseGetQueryValidator()
+		public BaseGetQueryValidator() : base()
 		{
 			RuleFor(q => q.Id)
 				.NotEmpty()
 				.NotNull()
 				.WithMessage("Id is required.");
-
-			RuleFor(q => q.UserId)
-				.NotEmpty()
-				.NotNull()
-				.WithMessage("UserId is required.");
 		}
 	}
 
-	public abstract class BaseListQueryValidators<TQuery> : AbstractValidator<TQuery>
+	public abstract class BaseListQueryValidators<TQuery> : BaseAuthorizeValidator<TQuery>
 		where TQuery : IBaseAuthorizeListRequest
 	{
-		public BaseListQueryValidators()
+		public BaseListQueryValidators() : base()
 		{
 			RuleFor(q => q.Page)
 				.GreaterThanOrEqualTo(0)

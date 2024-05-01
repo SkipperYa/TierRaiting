@@ -3,7 +3,7 @@ using Infrastructure.BaseValidators;
 
 namespace Infrastructure.Commands
 {
-	public class CreateCategoryCommandValidator : BaseCreateCommandValidator<CreateCategoryCommand>
+	public class CreateCategoryCommandValidator : BaseAuthorizeValidator<CreateCategoryCommand>
 	{
 		public CreateCategoryCommandValidator() : base()
 		{

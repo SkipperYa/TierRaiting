@@ -29,7 +29,7 @@ namespace Infrastructure.BaseRequest
 		public Guid Id { get; set; }
 	}
 
-	public interface IBaseAuthorizeListRequest
+	public interface IBaseAuthorizeListRequest : IBaseAuthorizeRequest
 	{
 		public int Page { get; set; }
 		public int Count { get; set; }

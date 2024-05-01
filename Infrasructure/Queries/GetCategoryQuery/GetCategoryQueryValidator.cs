@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Queries
 {
-	public class GetCategoryQueryValidator : BaseGetQueryValidator<GetCategoryQuery>
+	public class GetCategoryQueryValidator : BaseAuthorizeValidator<GetCategoryQuery>
 	{
 		public GetCategoryQueryValidator() : base()
 		{
