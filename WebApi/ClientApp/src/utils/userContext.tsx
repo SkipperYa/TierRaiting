@@ -57,8 +57,6 @@ export const UserContextProvider: React.FC<ComponentProps> = ({
 	};
 
 	return <UserContext.Provider value={value}>
-		{console.log('value', value)}
-		{console.log('children', children)}
 		{children}
 	</UserContext.Provider>;
 }

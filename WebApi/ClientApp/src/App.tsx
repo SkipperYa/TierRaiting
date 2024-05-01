@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Route } from 'react-router';
 import Layout from './components/Layout';
 import Registration from './components/Registration';
+import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Categories from './components/Categories';
 import CategoryEditor from './components/CategoryEditor';
@@ -20,6 +21,7 @@ const App: React.FC = () => {
 		<Route path='/categories' component={Categories} />
 		<Route path='/category' component={CategoryEditor} />
 		<Route path='/confirmRegistration' component={ConfirmRegistration} />
+		<Route path='/dashboard' component={Dashboard} />
 	</Layout>;
 };
 

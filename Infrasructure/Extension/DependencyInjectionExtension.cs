@@ -48,6 +48,7 @@ namespace Infrastructure.Extension
 				.AddScoped<IValidator<GetItemOptionsQuery>, GetItemOptionsQueryValidator>()
 				.AddScoped<IValidator<ConfirmUserCommand>, ConfirmUserCommandValidator>()
 				.AddScoped<IValidator<SendConfirmCommand>, SendConfirmCommandValidator>()
+				.AddScoped<IValidator<GetDashboardQuery>, GetDashboardQueryValidator>()
 				;
 
 			return services;

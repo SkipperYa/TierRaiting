@@ -49,7 +49,7 @@ const NavMenu: React.FC<{}> = () => {
 					variant="h6"
 					noWrap
 					component="a"
-					onClick={() => history.push('/')}
+					onClick={() => login ? history.push('/dashboard') : history.push('/')}
 					sx={{
 						mr: 2,
 						display: { xs: 'none', md: 'flex' },
