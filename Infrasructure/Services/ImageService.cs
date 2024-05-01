@@ -28,7 +28,9 @@ namespace Infrastructure.Services
 
 			var imagePath = Path.Combine(Directory.GetCurrentDirectory(), src);
 
-			using var baseImage = new MagickImage(image.OpenReadStream(), MagickFormat.Png);
+			using var baseImage = new MagickImage(image.OpenReadStream());
+
+			baseImage.Format = MagickFormat.Png;
 
 			var size = new MagickGeometry(400, 400)
 			{
