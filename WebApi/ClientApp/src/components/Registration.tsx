@@ -9,9 +9,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { clientPost, clientUpdate, getUser, setUser } from '../utils/client';
+import { clientPost, clientUpdate } from '../utils/client';
 import { Alert, Link } from '@mui/material';
 import { useHistory } from 'react-router-dom';
+import { useUserContext } from '../utils/userContext';
 
 const defaultTheme = createTheme();
 
@@ -20,6 +21,7 @@ export default function Registration() {
 	const [message, setMessage] = React.useState<string | undefined>();
 
 	const history = useHistory();
+	const userContext = useUserContext();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -32,7 +34,7 @@ export default function Registration() {
 			passwordConfirm: data.get('passwordConfirm'),
 		}).then((res) => {
 			setError(undefined);
-			setUser(res);
+			userContext.actions.setUser(res);
 			setMessage('A registration confirmation email was sent to mail.')
 		}).catch((message) => {
 			setError(message);

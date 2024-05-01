@@ -1,18 +1,5 @@
 export const baseUrl = 'api/';
 
-export const setUser = (user: any) => {
-	localStorage.setItem('user', JSON.stringify(user));
-};
-
-export const getUser = () => {
-	const item = localStorage.getItem('user');
-	return item ? JSON.parse(item) : null;
-};
-
-export const removeUser = () => {
-	localStorage.removeItem('user');
-};
-
 const handleResponse = (response: Response): Promise<any> => {
 	if (response.status === 200) {
 		return response.json().then((data: any) => {

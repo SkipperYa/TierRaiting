@@ -13,12 +13,14 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-export default () => (
-	<Layout>
+const App: React.FC = () => {
+	return <Layout>
 		<Route exact path='/' component={Login} />
 		<Route path='/registration' component={Registration} />
 		<Route path='/categories' component={Categories} />
 		<Route path='/category' component={CategoryEditor} />
 		<Route path='/confirmRegistration' component={ConfirmRegistration} />
-	</Layout>
-);
+	</Layout>;
+};
+
+export default App;

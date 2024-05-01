@@ -2,17 +2,20 @@ import * as React from 'react';
 import { Container } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
-import { clientGet, getUser, removeUser } from '../utils/client';
+import { clientGet } from '../utils/client';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { useUserContext } from '../utils/userContext';
 
 const NavMenu: React.FC<{}> = () => {
 	const history = useHistory();
 
+	const userContext = useUserContext();
+
 	const logout = () => {
 		clientGet('login').then((res) => {
-			removeUser();
+			userContext.actions.removeUser();
 			history.push('/');
 		}).catch((message) => {
 
@@ -37,7 +40,7 @@ const NavMenu: React.FC<{}> = () => {
 		setAnchorElUser(null);
 	};
 
-	const login = getUser();
+	const login = userContext.login;
 
 	return <AppBar position="static">
 		<Container>
@@ -94,7 +97,7 @@ const NavMenu: React.FC<{}> = () => {
 						</MenuItem>
 					</Menu>
 				</Box>
-				<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+				{login && <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 					<Button
 						onClick={() => {
 							login && history.push('/categories');
@@ -103,8 +106,8 @@ const NavMenu: React.FC<{}> = () => {
 					>
 						Categories
 					</Button>
-				</Box>
-				<Box sx={{ flexGrow: 0 }}>
+				</Box>}
+				{login && <Box sx={{ flexGrow: 0 }}>
 					<Tooltip title="Open settings">
 						<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
 							<Avatar alt="User" src="" />
@@ -133,7 +136,7 @@ const NavMenu: React.FC<{}> = () => {
 							<Typography textAlign="center"><LogoutIcon />&nbsp;Logout</Typography>
 						</MenuItem>
 					</Menu>
-				</Box>
+				</Box>}
 			</Toolbar>
 		</Container>
 	</AppBar>;

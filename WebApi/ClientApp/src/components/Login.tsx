@@ -9,9 +9,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { clientPost, clientUpdate, setUser } from '../utils/client';
+import { clientPost, clientUpdate } from '../utils/client';
 import { Alert, Link } from '@mui/material';
 import { useHistory } from 'react-router-dom';
+import { useUserContext } from '../utils/userContext';
 
 const defaultTheme = createTheme();
 
@@ -21,6 +22,7 @@ export default function Login() {
 	const [userId, setUserId] = React.useState<string>();
 	const [showSendEmailConfirmed, setShowSendEmailConfirmed] = React.useState<boolean>(false);
 	const history = useHistory();
+	const userContext = useUserContext();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -32,7 +34,7 @@ export default function Login() {
 		}).then((res) => {
 			setError(undefined);
 			if (res.emailConfirmed) {
-				setUser(res);
+				userContext.actions.setUser(res);
 				setUserId(res.id);
 				setShowSendEmailConfirmed(false);
 				history.push('/categories');
