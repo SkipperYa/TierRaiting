@@ -13,11 +13,13 @@ namespace Infrastructure.Queries
 	{
 		private readonly ISteamService _steamService;
 		private readonly IBooksService _booksService;
+		private readonly IFilmsService _filmsService;
 
-		public GetItemOptionsQueryHandler(ISteamService steamService, IBooksService booksService)
+		public GetItemOptionsQueryHandler(ISteamService steamService, IBooksService booksService, IFilmsService filmsService)
 		{
 			_steamService = steamService;
 			_booksService = booksService;
+			_filmsService = filmsService;
 		}
 
 		public override async Task<List<ItemOption>> Handle(GetItemOptionsQuery request, CancellationToken cancellationToken)
@@ -34,7 +36,7 @@ namespace Infrastructure.Queries
 				}
 				case CategoryType.Films:
 				{
-					throw new NotImplementedException();
+					return await _filmsService.GetOptions(request.Text, cancellationToken);
 				}
 				default:
 				{

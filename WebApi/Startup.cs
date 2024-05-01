@@ -41,7 +41,8 @@ namespace WebApi
 			services
 				.Configure<HostUrlOptions>(Configuration.GetSection("Host"))
 				.Configure<EmailOptions>(Configuration.GetSection("Email"))
-				.Configure<GoogleApiOptions>(Configuration.GetSection("GoogleApi"));
+				.Configure<GoogleApiOptions>(Configuration.GetSection("GoogleApi"))
+				.Configure<OMDbOptions>(Configuration.GetSection("OMDbApi"));
 
 			services.AddControllers(options =>
 			{
@@ -115,6 +116,11 @@ namespace WebApi
 			{
 				// client.BaseAddress = new Uri("https://openlibrary.org/search.json");
 				client.BaseAddress = new Uri("https://www.googleapis.com/books/v1/volumes");
+			});
+
+			services.AddHttpClient(FilmsService.ClientName, client =>
+			{
+				client.BaseAddress = new Uri("http://www.omdbapi.com/");
 			});
 
 			services.AddResponseCompression(options => {

@@ -60,6 +60,7 @@ namespace Infrastructure.Extension
 				.AddTransient<ILoginService, LoginService>()
 				.AddTransient<ISteamService, SteamService>()
 				.AddTransient<IBooksService, BooksService>()
+				.AddTransient<IFilmsService, FilmsService>()
 				.AddTransient<IImageService, ImageService>()
 #if DEBUG
 				.AddTransient<IEmailService, ConsoleEmailService>()

@@ -247,7 +247,7 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 			</Grid>
 			<Grid item xs={3}>
 				<Grid container spacing={2}>
-					<Grid item xs={12}>
+					{category.categoryType > 0 && <Grid item xs={12}>
 						<div>
 							<br />
 							<Autocomplete
@@ -277,7 +277,7 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 								)}
 							/>
 						</div>
-					</Grid>
+					</Grid>}
 					<Grid item xs={6}>
 						<Avatar sx={{ width: 100, height: 100 }} alt={item.title} src={item.src} />
 					</Grid>
