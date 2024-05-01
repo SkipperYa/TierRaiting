@@ -1,4 +1,4 @@
-import { Alert, Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, Input, InputLabel, MenuItem, Modal, Pagination, Paper, Select, SelectChangeEvent, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, Input, InputLabel, MenuItem, Modal, Pagination, Paper, Select, SelectChangeEvent, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import React, { ChangeEvent } from 'react';
 import { clientDelete, clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
 import { Category, CategotyTypeNames } from '../objects/Category';
@@ -301,7 +301,7 @@ const Categories: React.FC<ComponentProps> = ({
 								<TableCell width="10%"><Avatar src={category.src} alt={category.title} /></TableCell>
 								<TableCell width="20%">{category.title}</TableCell>
 								<TableCell width="20%">{category.description}</TableCell>
-								<TableCell width="20%">{CategotyTypeNames[category.categoryType]}</TableCell>
+								<TableCell width="20%"><Chip label={CategotyTypeNames[category.categoryType]} color="primary" /></TableCell>
 								<TableCell width="10%">{category.itemsCount}</TableCell>
 								<TableCell>
 									<Grid container spacing={1}>
