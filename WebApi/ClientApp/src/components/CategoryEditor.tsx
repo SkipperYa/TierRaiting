@@ -173,39 +173,39 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 				<h6 className="text-center">{tierNames[tier]}</h6>
 			</TableCell>
 			<TableCell>
-				<Grid container spacing={1}>
+				<Grid container spacing={3}>
 					{items.filter(q => q.tier === +tier).map((item) => {
 						return <Grid item xs={2}>
-							<Card raised variant="outlined" sx={{ alignItems: 'center' }}>
-								<CardContent>
-									<Avatar src={item.src} alt={item.title} />
-									<Tooltip placement="right" title={item.title}>
-										<Typography
-											noWrap
-											sx={{ fontSize: 18 }}
-											color="text.primary"
-											gutterBottom
-										>
-											{item.title}
-										</Typography>
-									</Tooltip>
-									<Tooltip placement="right" title={item.description}>
-										<Typography
-											noWrap
-											sx={{ fontSize: 14 }}
-											color="text.secondary"
-											gutterBottom
-										>
-											{item.description}
-										</Typography>
-									</Tooltip>
-								</CardContent>
-								<CardActions>
-									<IconButton size="small" onClick={() => setItem(item)}><CreateIcon /></IconButton>
-									<IconButton size="small" onClick={() => handleDelete(item.id)}><DeleteIcon /></IconButton>
-								</CardActions>
-							</Card>
-						</Grid>
+							<Tooltip placement="top-start" title={
+								<div>
+									<Typography
+										sx={{ fontSize: 18 }}
+										color="text.primary"
+										gutterBottom
+									>
+										<strong>Title: </strong>{item.title}
+									</Typography>
+									<Typography
+										sx={{ fontSize: 18 }}
+										color="text.primary"
+										gutterBottom
+									>
+										<strong>Description: </strong>{item.description}
+									</Typography>
+								</div>}
+							>
+								<div onClick={() => setItem(item)}>
+									<Avatar
+										sx={{ width: 90, height: 90 }}
+										variant="rounded"
+										src={item.src}
+										alt={item.title}
+									>
+										{item.title}
+									</Avatar>
+								</div>
+							</Tooltip>
+						</Grid>;
 					})}
 				</Grid>
 			</TableCell>
@@ -380,11 +380,17 @@ const CategoryEditor: React.FC<ComponentProps> = ({
 						</Grid>
 						<Grid item xs={4}>
 							<IconButton
-								title="Clear"
+								title={item.id ? 'Delete' : 'Clear'}
 								color="error"
-								onClick={() => setItem(getInitItem())}
+								onClick={() => {
+									if (item.id) {
+										handleDelete(item.id);
+									} else {
+										setItem(getInitItem());
+									}
+								}}
 							>
-								<ClearIcon />
+								{item.id ? <DeleteIcon /> : <ClearIcon />}
 							</IconButton>
 						</Grid>
 						{/*<Grid item xs={4}>
