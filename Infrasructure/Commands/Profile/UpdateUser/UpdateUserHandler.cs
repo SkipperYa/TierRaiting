@@ -1,8 +1,11 @@
 ﻿using Domain.Entities;
 using Domain.Exceptions;
 using Infrastructure.Commands.RegistrationUser.Create;
+using Infrastructure.Database;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,13 +14,15 @@ namespace Infrastructure.Commands.Profile
 {
 	public class UpdateUserHandler : BaseAuthorizeHandler<UpdateUserCommand, User>
 	{
-		protected readonly IMediator _mediator;
+		private readonly IMediator _mediator;
 		private readonly UserManager<User> _userManager;
+		private readonly ApplicationContext _applicationContext;
 
-		public UpdateUserHandler(IMediator mediator, UserManager<User> userManager)
+		public UpdateUserHandler(IMediator mediator, UserManager<User> userManager, ApplicationContext applicationContext)
 		{
 			_mediator = mediator;
 			_userManager = userManager;
+			_applicationContext = applicationContext;
 		}
 
 		public override async Task<User> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -40,6 +45,12 @@ namespace Infrastructure.Commands.Profile
 			{
 				if (emailIsChanged)
 				{
+					await _applicationContext.Set<User>()
+						.Where(q => q.Id == user.Id)
+						.ExecuteUpdateAsync(q => q.SetProperty(p => p.EmailConfirmed, false), cancellationToken);
+
+					user.EmailConfirmed = false;
+
 					await _mediator.Send(new SendConfirmCommand()
 					{
 						UserId = user.Id.ToString()

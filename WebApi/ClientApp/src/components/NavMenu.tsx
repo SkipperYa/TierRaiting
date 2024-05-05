@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Container } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
+import { Alert, AppBar, Avatar, Box, Button, Grid, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
 import { clientGet } from '../utils/client';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -22,18 +22,10 @@ const NavMenu: React.FC<{}> = () => {
 		});
 	};
 
-	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorElNav(event.currentTarget);
-	};
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElUser(event.currentTarget);
-	};
-
-	const handleCloseNavMenu = () => {
-		setAnchorElNav(null);
 	};
 
 	const handleCloseUserMenu = () => {
@@ -44,99 +36,62 @@ const NavMenu: React.FC<{}> = () => {
 
 	return <AppBar position="static">
 		<Container>
+			{login && !login.emailConfirmed && <Alert severity="warning">Email is not confirmed.</Alert>}
 			<Toolbar disableGutters>
-				<Typography
-					variant="h6"
-					noWrap
-					component="a"
-					onClick={() => login ? history.push('/dashboard') : history.push('/')}
-					sx={{
-						mr: 2,
-						display: { xs: 'none', md: 'flex' },
-						fontFamily: 'monospace',
-						fontWeight: 700,
-						letterSpacing: '.3rem',
-						color: 'inherit',
-						textDecoration: 'none',
-						cursor: 'pointer'
-					}}
-				>
-					Tier Rating
-				</Typography>
-				<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-					<IconButton
-						size="large"
-						aria-label="account of current user"
-						aria-controls="menu-appbar"
-						aria-haspopup="true"
-						onClick={handleOpenNavMenu}
-						color="inherit"
-					>
-						<MenuIcon />
-					</IconButton>
-					<Menu
-						id="menu-appbar"
-						anchorEl={anchorElNav}
-						anchorOrigin={{
-							vertical: 'bottom',
-							horizontal: 'left',
-						}}
-						keepMounted
-						transformOrigin={{
-							vertical: 'top',
-							horizontal: 'left',
-						}}
-						open={Boolean(anchorElNav)}
-						onClose={handleCloseNavMenu}
-						sx={{
-							display: { xs: 'block', md: 'none' },
-						}}
-					>
-						<MenuItem onClick={handleCloseNavMenu}>
-							<Typography textAlign="center">Categories</Typography>
-						</MenuItem>
-					</Menu>
-				</Box>
-				{login && <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-					<Button
-						onClick={() => {
-							login && history.push('/categories');
-						}}
-						sx={{ my: 2, color: 'white', display: 'block' }}
-					>
-						Categories
-					</Button>
-				</Box>}
-				{login && <Box sx={{ flexGrow: 0 }}>
-					<Tooltip title="Open settings">
-						<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-							<Avatar alt={login.userName} src={login.src} />
-						</IconButton>
-					</Tooltip>
-					<Menu
-						sx={{ mt: '45px' }}
-						id="menu-appbar"
-						anchorEl={anchorElUser}
-						anchorOrigin={{
-							vertical: 'top',
-							horizontal: 'right',
-						}}
-						keepMounted
-						transformOrigin={{
-							vertical: 'top',
-							horizontal: 'right',
-						}}
-						open={Boolean(anchorElUser)}
-						onClose={handleCloseUserMenu}
-					>
-						<MenuItem onClick={() => history.push('/profile')}>
-							<Typography textAlign="center"><AccountBoxIcon />&nbsp;Profile</Typography>
-						</MenuItem>
-						<MenuItem onClick={logout}>
-							<Typography textAlign="center"><LogoutIcon />&nbsp;Logout</Typography>
-						</MenuItem>
-					</Menu>
-				</Box>}
+				<Grid container spacing={1}>
+					<Grid item xs={9}>
+						<Typography
+							variant="h6"
+							noWrap
+							component="a"
+							onClick={() => login ? history.push('/categories') : history.push('/')}
+							sx={{
+								mr: 2,
+								display: { xs: 'none', md: 'flex' },
+								fontFamily: 'monospace',
+								fontWeight: 700,
+								letterSpacing: '.3rem',
+								color: 'inherit',
+								textDecoration: 'none',
+								cursor: 'pointer'
+							}}
+						>
+							Tier Rating
+						</Typography>
+					</Grid>
+					<Grid item xs={3}>
+						{login && <Box alignContent="flex-end" sx={{ flexGrow: 0 }}>
+							<Tooltip title="Open settings">
+								<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+									<Avatar alt={login.userName} src={login.src} />
+								</IconButton>
+							</Tooltip>
+							<Menu
+								sx={{ mt: '45px' }}
+								id="menu-appbar"
+								anchorEl={anchorElUser}
+								anchorOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+								keepMounted
+								transformOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+								open={Boolean(anchorElUser)}
+								onClose={handleCloseUserMenu}
+							>
+								<MenuItem onClick={() => history.push('/profile')}>
+									<Typography textAlign="center"><AccountBoxIcon />&nbsp;Profile</Typography>
+								</MenuItem>
+								<MenuItem onClick={logout}>
+									<Typography textAlign="center"><LogoutIcon />&nbsp;Logout</Typography>
+								</MenuItem>
+							</Menu>
+						</Box>}
+					</Grid>
+				</Grid>
 			</Toolbar>
 		</Container>
 	</AppBar>;

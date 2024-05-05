@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { clientGet } from '../utils/client';
+import { useUserContext } from '../utils/userContext';
 
 interface ComponentProps {
 
@@ -12,6 +13,8 @@ const ConfirmRegistration: React.FC<ComponentProps> = ({
 	const [text, setText] = useState<string>('');
 	const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
 
+	const userContext = useUserContext();
+
 	const urlSearchParams = new URLSearchParams(useLocation().search);
 	const userId = urlSearchParams.get('userId');
 	const token = urlSearchParams.get('token');
@@ -22,6 +25,8 @@ const ConfirmRegistration: React.FC<ComponentProps> = ({
 				.then((res) => {
 					setText('Your regsitration is confirmed. Click to login: ');
 					setIsConfirmed(true);
+					const user = userContext.actions.getUser();
+					user && userContext.actions.setUser({ ...user, emailConfirmed: true });
 				})
 				.catch((message) => {
 					setText(message);

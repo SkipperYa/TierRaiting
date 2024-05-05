@@ -4,6 +4,7 @@ import { clientGet, clientUpdate, clientUpload } from '../utils/client';
 import { Alert, Avatar, Button, Grid, Input, TextField, Typography } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import { useUserContext } from '../utils/userContext';
+import Dashboard from './Dashboard';
 
 interface ComponentProps {
 
@@ -18,6 +19,7 @@ const Profile: React.FC<ComponentProps> = ({
 }) => {
 	const [user, setUser] = React.useState<Profile>();
 	const [error, setError] = React.useState<string | undefined>();
+	const [emailIsChanged, setEmailIsChanged] = React.useState<boolean>(false);
 
 	const userContext = useUserContext();
 
@@ -35,6 +37,7 @@ const Profile: React.FC<ComponentProps> = ({
 		clientUpdate('profile', {
 			...user
 		}).then((res) => {
+			setEmailIsChanged(res.email !== user.email);
 			setUser(res);
 			userContext.actions.setUser(res);
 		}).catch((message) => {
@@ -144,6 +147,10 @@ const Profile: React.FC<ComponentProps> = ({
 			</Grid>
 			<Grid item xs={6}>
 				{error && <Alert severity="error">{error}</Alert>}
+				{emailIsChanged && <Alert severity="info"> A confirmation email was sent to new mail.</Alert>}
+			</Grid>
+			<Grid item xs={12}>
+				<Dashboard />
 			</Grid>
 		</Grid>
 	</>;
