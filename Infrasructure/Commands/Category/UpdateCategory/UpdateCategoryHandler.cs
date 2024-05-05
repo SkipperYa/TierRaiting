@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Infrastructure.Database;
 using Domain.Entities;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace Infrastructure.Commands
 {

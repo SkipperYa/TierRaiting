@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.BaseRequest;
 using Infrastructure.Database;
@@ -12,7 +11,7 @@ namespace Infrastructure.Queries
 {
 	public class BaseGetQueryHandler<TQuery, TEntity, TResult> : BaseAuthorizeHandler<TQuery, TResult>
 		where TQuery : BaseGetAuthorizeRequest<TResult>, IBaseGetAuthorizeRequest
-		where TEntity : WithId
+		where TEntity : class, IWithId
 	{
 		protected readonly ApplicationContext _applicationContext;
 		protected readonly IMapper _mapper;

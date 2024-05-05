@@ -1,14 +1,14 @@
-﻿using Domain.Entities;
-using Domain.Enum;
+﻿using Domain.Enum;
 using Infrastructure.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
+	[Authorize]
 	public class ItemOptionsController : BaseApplicationController
 	{
 		public ItemOptionsController(IMediator mediator) : base(mediator)

@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers
@@ -15,14 +16,14 @@ namespace WebApi.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetCategories(int page = 1, string text = null)
+		public async Task<IActionResult> GetCategories(int page = 1, string text = null, CancellationToken cancellationToken = default)
 		{
 			var categories = await _mediator.Send(new CategoriesQuery()
 			{
 				UserId = UserId,
 				Page = page,
 				Text = text
-			});
+			}, cancellationToken);
 
 			return Ok(categories);
 		}

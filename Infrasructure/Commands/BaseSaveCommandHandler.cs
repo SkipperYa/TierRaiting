@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Interfaces;
 using Infrastructure.BaseRequest;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ namespace Infrastructure.Commands
 {
 	public abstract class BaseSaveCommandHandler<TRequest, TResult> : BaseAuthorizeHandler<TRequest, TResult>
 		where TRequest : BaseAuthorizeRequest<TResult>
-		where TResult : WithId
+		where TResult : class, IWithId
 	{
 		protected readonly ApplicationContext _applicationContext;
 		protected readonly IMapper _mapper;
