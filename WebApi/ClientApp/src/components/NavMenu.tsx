@@ -110,7 +110,7 @@ const NavMenu: React.FC<{}> = () => {
 				{login && <Box sx={{ flexGrow: 0 }}>
 					<Tooltip title="Open settings">
 						<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-							<Avatar alt="User" src="" />
+							<Avatar alt={login.userName} src={login.src} />
 						</IconButton>
 					</Tooltip>
 					<Menu
@@ -129,7 +129,7 @@ const NavMenu: React.FC<{}> = () => {
 						open={Boolean(anchorElUser)}
 						onClose={handleCloseUserMenu}
 					>
-						<MenuItem onClick={() => { }}>
+						<MenuItem onClick={() => history.push('/profile')}>
 							<Typography textAlign="center"><AccountBoxIcon />&nbsp;Profile</Typography>
 						</MenuItem>
 						<MenuItem onClick={logout}>

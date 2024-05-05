@@ -11,6 +11,7 @@ namespace Infrastructure.Mapper
 		{
 			CreateMap<User, RegistrationUserCommand>().ReverseMap();
 			CreateMap<User, UserViewModel>().ReverseMap();
+			CreateMap<User, ProfileViewModel>().ReverseMap();
 			CreateMap<Category, CreateCategoryCommand>().ReverseMap();
 			CreateMap<Category, UpdateCategoryCommand>().ReverseMap();
 			CreateMap<Category, DeleteCategoryCommand>().ReverseMap();

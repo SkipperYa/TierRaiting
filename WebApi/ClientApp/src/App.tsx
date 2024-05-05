@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Categories from './components/Categories';
 import CategoryEditor from './components/CategoryEditor';
 import ConfirmRegistration from './components/ConfirmRegistration';
+import Profile from './components/Profile';
 
 import './custom.css';
 import '@fontsource/roboto/300.css';
@@ -22,6 +23,7 @@ const App: React.FC = () => {
 		<Route path='/category' component={CategoryEditor} />
 		<Route path='/confirmRegistration' component={ConfirmRegistration} />
 		<Route path='/dashboard' component={Dashboard} />
+		<Route path='/profile' component={Profile} />
 	</Layout>;
 };
 

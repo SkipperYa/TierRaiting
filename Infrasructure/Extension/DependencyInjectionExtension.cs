@@ -2,6 +2,7 @@
 using FluentValidation;
 using Infrastructure.Behaviors;
 using Infrastructure.Commands;
+using Infrastructure.Commands.Profile;
 using Infrastructure.Commands.RegistrationUser.Create;
 using Infrastructure.Database;
 using Infrastructure.Mapper;
@@ -14,7 +15,7 @@ using System.Reflection;
 
 namespace Infrastructure.Extension
 {
-	public static class DependencyInjectionExtension
+    public static class DependencyInjectionExtension
 	{
 		public static IServiceCollection AddMediator(this IServiceCollection services)
 		{
@@ -49,6 +50,8 @@ namespace Infrastructure.Extension
 				.AddScoped<IValidator<ConfirmUserCommand>, ConfirmUserCommandValidator>()
 				.AddScoped<IValidator<SendConfirmCommand>, SendConfirmCommandValidator>()
 				.AddScoped<IValidator<GetDashboardQuery>, GetDashboardQueryValidator>()
+				.AddScoped<IValidator<GetUserQuery>, GetUserQueryValidator>()
+				.AddScoped<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>()
 				;
 
 			return services;

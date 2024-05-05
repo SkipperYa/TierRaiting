@@ -26,6 +26,7 @@ export const clientGet = (path: string) => {
 		return handleResponse(response);
 	}).catch((error) => {
 		console.log(error);
+		throw error;
 	});
 };
 
@@ -41,6 +42,7 @@ export const clientDelete = (path: string, data: any) => {
 		return handleResponse(response);
 	}).catch((error) => {
 		console.log(error);
+		throw error;
 	});
 };
 
@@ -56,6 +58,7 @@ export const clientUpdate = (path: string, data: any) => {
 		return handleResponse(response);
 	}).catch((error) => {
 		console.log(error);
+		throw error;
 	});
 };
 
