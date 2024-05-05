@@ -61,7 +61,7 @@ namespace Infrastructure.Services
 
 				if (result.Response == "True" && result.Search is { Count: > 0 })
 				{
-					foreach (var item in result.Search)
+					foreach (var item in result.Search.Take(5))
 					{
 						var itemOption = new ItemOption()
 						{
