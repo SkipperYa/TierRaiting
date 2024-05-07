@@ -1,9 +1,6 @@
 ﻿using Domain.Interfaces;
 using FluentValidation;
 using Infrastructure.Behaviors;
-using Infrastructure.Commands;
-using Infrastructure.Commands.Profile;
-using Infrastructure.Commands.RegistrationUser.Create;
 using Infrastructure.Database;
 using Infrastructure.Mapper;
 using Infrastructure.Queries;
@@ -15,7 +12,7 @@ using System.Reflection;
 
 namespace Infrastructure.Extension
 {
-    public static class DependencyInjectionExtension
+	public static class DependencyInjectionExtension
 	{
 		public static IServiceCollection AddMediator(this IServiceCollection services)
 		{
@@ -33,26 +30,7 @@ namespace Infrastructure.Extension
 
 		public static IServiceCollection AddValidators(this IServiceCollection services)
 		{
-			services
-				.AddScoped<IValidator<CategoriesQuery>, CategoriesQueryValidator>()
-				.AddScoped<IValidator<GetCategoryQuery>, GetCategoryQueryValidator>()
-				.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>()
-				.AddScoped<IValidator<UpdateCategoryCommand>, UpdateCategoryCommandValidator>()
-				.AddScoped<IValidator<DeleteCategoryCommand>, DeleteCategoryCommandValidator>()
-				.AddScoped<IValidator<RegistrationUserCommand>, RegistrationUserCommandValidator>()
-				.AddScoped<IValidator<GetItemsQuery>, GetItemsQueryValidator>()
-				.AddScoped<IValidator<GetItemQuery>, GetItemQueryValidator>()
-				.AddScoped<IValidator<CreateItemCommand>, CreateItemCommandValidator>()
-				.AddScoped<IValidator<UpdateItemCommand>, UpdateItemCommandValidator>()
-				.AddScoped<IValidator<DeleteItemCommand>, DeleteItemCommandValidator>()
-				.AddScoped<IValidator<GetWeatherForecastQuery>, GetWeatherForecastQueryValidator>()
-				.AddScoped<IValidator<GetItemOptionsQuery>, GetItemOptionsQueryValidator>()
-				.AddScoped<IValidator<ConfirmUserCommand>, ConfirmUserCommandValidator>()
-				.AddScoped<IValidator<SendConfirmCommand>, SendConfirmCommandValidator>()
-				.AddScoped<IValidator<GetDashboardQuery>, GetDashboardQueryValidator>()
-				.AddScoped<IValidator<GetUserQuery>, GetUserQueryValidator>()
-				.AddScoped<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>()
-				;
+			services.AddValidatorsFromAssemblyContaining<CategoriesQueryValidator>();
 
 			return services;
 		}
