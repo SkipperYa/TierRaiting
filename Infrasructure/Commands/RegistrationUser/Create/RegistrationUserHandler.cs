@@ -9,7 +9,7 @@ namespace Infrastructure.Commands.RegistrationUser.Create
 	{
 		private readonly IRegistrationService _registrationService;
 
-		public RegistrationUserHandler(IRegistrationService registrationService, ILoginService loginService)
+		public RegistrationUserHandler(IRegistrationService registrationService)
 		{
 			_registrationService = registrationService;
 		}

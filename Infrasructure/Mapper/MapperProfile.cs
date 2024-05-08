@@ -2,6 +2,9 @@
 using Domain.Entities;
 using Domain.Models;
 using Infrastructure.Commands;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Infrastructure.Mapper
 {
@@ -9,7 +12,22 @@ namespace Infrastructure.Mapper
 	{
 		public MapperProfile()
 		{
-			CreateMap<User, RegistrationUserCommand>().ReverseMap();
+			var types = Assembly
+				.GetExecutingAssembly()
+				.GetExportedTypes()
+				.Where(type => type.GetInterfaces()
+					.Any(i => !i.IsGenericType && i.IsTypeDefinition && i == typeof(IViewModel)))
+				.ToList();
+
+			foreach (var type in types)
+			{
+				var instance = Activator.CreateInstance(type);
+				var methodInfo = type.GetMethod("Mapping");
+
+				methodInfo.Invoke(instance, new object[] { this });
+			}
+
+			/*CreateMap<User, RegistrationUserCommand>().ReverseMap();
 			CreateMap<User, UserViewModel>().ReverseMap();
 			CreateMap<User, ProfileViewModel>().ReverseMap();
 			CreateMap<Category, CreateCategoryCommand>().ReverseMap();
@@ -22,7 +40,7 @@ namespace Infrastructure.Mapper
 			CreateMap<Item, ItemViewModel>().ReverseMap();
 			CreateMap<Item, CreateItemCommand>().ReverseMap();
 			CreateMap<Item, UpdateItemCommand>().ReverseMap();
-			CreateMap<Item, DeleteItemCommand>().ReverseMap();
+			CreateMap<Item, DeleteItemCommand>().ReverseMap();*/
 		}
 	}
 }
