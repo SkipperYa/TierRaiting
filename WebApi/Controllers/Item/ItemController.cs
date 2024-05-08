@@ -27,7 +27,6 @@ namespace WebApi.Controllers
 			var query = new GetItemQuery
 			{
 				Id = id,
-				UserId = UserId
 			};
 
 			var ItemViewModel = await _mediator.Send(query, cancellationToken);
@@ -38,8 +37,6 @@ namespace WebApi.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateItem([FromBody] CreateItemCommand command, CancellationToken cancellationToken)
 		{
-			command.UserId = UserId;
-
 			var Item = await _mediator.Send(command, cancellationToken);
 
 			var ItemViewModel = _mapper.Map<ItemViewModel>(Item);
@@ -50,8 +47,6 @@ namespace WebApi.Controllers
 		[HttpPut]
 		public async Task<IActionResult> UpdateItem([FromBody] UpdateItemCommand command, CancellationToken cancellationToken)
 		{
-			command.UserId = UserId;
-
 			var Item = await _mediator.Send(command, cancellationToken);
 
 			var ItemViewModel = _mapper.Map<ItemViewModel>(Item);
@@ -62,8 +57,6 @@ namespace WebApi.Controllers
 		[HttpDelete]
 		public async Task<IActionResult> DeleteItem([FromBody] DeleteItemCommand command, CancellationToken cancellationToken)
 		{
-			command.UserId = UserId;
-
 			var deleted = await _mediator.Send(command, cancellationToken);
 
 			return Ok(deleted);

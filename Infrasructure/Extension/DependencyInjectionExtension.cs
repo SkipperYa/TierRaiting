@@ -20,6 +20,7 @@ namespace Infrastructure.Extension
 			{
 				cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 				cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+				cfg.AddOpenBehavior(typeof(AuthenticationBehavior<,>));
 				cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
 			});
 

@@ -40,7 +40,6 @@ namespace WebApi.Controllers.Profile
 				Email = profile.Email,
 				UserName = profile.UserName,
 				Src = profile.Src,
-				UserId = UserId
 			}, cancellationToken);
 
 			var userViewModel = _mapper.Map<ProfileViewModel>(result);

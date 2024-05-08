@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Infrastructure.Queries
 {
-	public class GetItemOptionsQuery : BaseRequest<List<ItemOption>>
+	public class GetItemOptionsQuery : BaseAuthorizeRequest<List<ItemOption>>
 	{
 		public string Text { get; set; }
 		public CategoryType CategoryType { get; set; }

@@ -27,7 +27,6 @@ namespace WebApi.Controllers
 			var query = new GetCategoryQuery
 			{
 				Id = id,
-				UserId = UserId
 			};
 
 			var categoryViewModel = await _mediator.Send(query, cancellationToken);
@@ -38,8 +37,6 @@ namespace WebApi.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryCommand command, CancellationToken cancellationToken)
 		{
-			command.UserId = UserId;
-
 			var category = await _mediator.Send(command, cancellationToken);
 
 			var categoryViewModel = _mapper.Map<CategoryViewModel>(category);
@@ -50,8 +47,6 @@ namespace WebApi.Controllers
 		[HttpPut]
 		public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryCommand command, CancellationToken cancellationToken)
 		{
-			command.UserId = UserId;
-
 			var category = await _mediator.Send(command, cancellationToken);
 
 			var categoryViewModel = _mapper.Map<CategoryViewModel>(category);
@@ -62,8 +57,6 @@ namespace WebApi.Controllers
 		[HttpDelete]
 		public async Task<IActionResult> DeleteCategory([FromBody] DeleteCategoryCommand command, CancellationToken cancellationToken)
 		{
-			command.UserId = UserId;
-
 			var deleted = await _mediator.Send(command, cancellationToken);
 
 			return Ok(deleted);

@@ -20,7 +20,6 @@ namespace WebApi.Controllers
 		{
 			var categories = await _mediator.Send(new CategoriesQuery()
 			{
-				UserId = UserId,
 				Page = page,
 				Text = text
 			}, cancellationToken);

@@ -16,10 +16,7 @@ namespace WebApi.Controllers.Dashboard
 		[HttpGet]
 		public async Task<IActionResult> GetDashboard()
 		{
-			var result = await _mediator.Send(new GetDashboardQuery()
-			{
-				UserId = UserId,
-			});
+			var result = await _mediator.Send(new GetDashboardQuery());
 
 			return Ok(result);
 		}

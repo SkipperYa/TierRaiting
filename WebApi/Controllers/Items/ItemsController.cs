@@ -23,7 +23,6 @@ namespace WebApi.Controllers
 			var items = await _mediator.Send(new GetItemsQuery()
 			{
 				CategoryId = categoryId,
-				UserId = UserId,
 				Page = 0,
 				Ordering = Ordering.Ascending,
 			}, cancellationToken);
