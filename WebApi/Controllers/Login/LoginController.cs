@@ -23,7 +23,7 @@ namespace WebApi.Controllers.Login
 		[HttpPost]
 		public async Task<IActionResult> Login([FromBody] LoginViewModel model, CancellationToken cancellationToken)
 		{
-			var user = await _loginService.Login(model, cancellationToken);
+			var user = await _loginService.Login(model.Email, model.Password, cancellationToken);
 
 			var userViewModel = _mapper.Map<UserViewModel>(user);
 

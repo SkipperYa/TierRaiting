@@ -31,11 +31,11 @@ namespace Infrastructure.Services
 			_httpContextAccessor = httpContextAccessor;
 		}
 
-		public async Task<User> Login(LoginViewModel model, CancellationToken cancellationToken)
+		public async Task<User> Login(string email, string password, CancellationToken cancellationToken)
 		{
 			var user = await _context.Set<User>()
 				.AsNoTracking()
-				.Where(q => q.Email == model.Email)
+				.Where(q => q.Email == email)
 				.FirstOrDefaultAsync();
 
 			if (user is null)
@@ -48,7 +48,7 @@ namespace Infrastructure.Services
 				return user;
 			}
 
-			var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, false);
+			var result = await _signInManager.PasswordSignInAsync(user.UserName, password, false, false);
 
 			if (!result.Succeeded)
 			{
