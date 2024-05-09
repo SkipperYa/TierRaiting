@@ -87,7 +87,7 @@ namespace WebApi
 				options.AddPolicy("DefaultTimeout10s", new RequestTimeoutPolicy()
 				{
 					Timeout = TimeSpan.FromMilliseconds(10000),
-					TimeoutStatusCode = 503,
+					TimeoutStatusCode = (int)HttpStatusCode.ServiceUnavailable,
 				});
 			});
 

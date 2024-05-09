@@ -15,9 +15,14 @@ namespace WebApi.Controllers
 
 		protected Guid UserId
 		{
-			get => User.Identity.IsAuthenticated && Guid.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out var guid)
+			get => IsAuthenticated && Guid.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out var guid)
 				? guid
 				: Guid.Empty;
+		}
+
+		protected bool IsAuthenticated
+		{
+			get => User.Identity.IsAuthenticated;
 		}
 
 		public BaseApplicationController(IMediator mediator)

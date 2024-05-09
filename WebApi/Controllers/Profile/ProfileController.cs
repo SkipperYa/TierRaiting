@@ -21,13 +21,16 @@ namespace WebApi.Controllers.Profile
 		}
 
 		[HttpGet]
+		[AllowAnonymous]
 		public async Task<IActionResult> GetUser(CancellationToken cancellationToken)
 		{
-			var result = await _mediator.Send(new GetUserQuery()
-			{
-				Id = UserId,
-				UserId = UserId,
-			}, cancellationToken);
+			var result = IsAuthenticated
+				? await _mediator.Send(new GetUserQuery()
+					{
+						Id = UserId,
+						UserId = UserId,
+					}, cancellationToken)
+				: null;
 
 			return Ok(result);
 		}

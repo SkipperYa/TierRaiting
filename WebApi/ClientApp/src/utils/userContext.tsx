@@ -1,11 +1,13 @@
 import React, { createContext, useContext } from 'react';
-import { User } from '../objects/User';
+import { clientGet } from './client';
+import Profile from '../components/Profile';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export interface UserContext {
-	login: User | null;
+	login: Profile | null;
 	actions: {
-		getUser: () => User | null,
-		setUser: (user: User) => void,
+		getUser: () => Profile | null,
+		setUser: (user: Profile) => void,
 		removeUser: () => void,
 	}
 }
@@ -13,8 +15,8 @@ export interface UserContext {
 const initialContext: UserContext = {
 	login: null,
 	actions: {
-		getUser: (): User | null => null,
-		setUser: (user: User) => { },
+		getUser: (): Profile | null => null,
+		setUser: (user: Profile) => { },
 		removeUser: () => { },
 	}
 }
@@ -32,32 +34,40 @@ export const UserContextProvider: React.FC<ComponentProps> = ({
 }) => {
 	const UserContext = createUserContext;
 
-	const getInitilUser = () => {
-		const item = localStorage.getItem('user');
-		return item ? JSON.parse(item) as User : null;
-	};
+	const [login, setLogin] = React.useState<Profile | null>(null);
+	const [loading, setLoading] = React.useState<boolean>(false);
 
-	const [login, setLogin] = React.useState<User | null>(getInitilUser());
+	React.useEffect(() => {
+		setLoading(true);
+		clientGet('profile')
+			.then((profile) => {
+				setLogin(profile);
+			})
+			.catch((res) => {
+
+			})
+			.finally(() => {
+				setLoading(false);
+			});
+	}, []);
 
 	const value: UserContext = {
 		login: login,
 		actions: {
-			getUser: (): User | null => {
+			getUser: (): Profile | null => {
 				return login;
 			},
-			setUser: (user: User) => {
-				localStorage.setItem('user', JSON.stringify(user));
+			setUser: (user: Profile) => {
 				setLogin(user);
 			},
 			removeUser: () => {
-				localStorage.removeItem('user');
 				setLogin(null);
 			},
 		}
 	};
 
 	return <UserContext.Provider value={value}>
-		{children}
+		{loading ? <div className="text-center"><br /><CircularProgress /></div> : children}
 	</UserContext.Provider>;
 }
 

@@ -17,17 +17,11 @@ interface Profile extends User {
 const Profile: React.FC<ComponentProps> = ({
 
 }) => {
-	const [user, setUser] = React.useState<Profile>();
-	const [error, setError] = React.useState<string | undefined>();
-	const [emailIsChanged, setEmailIsChanged] = React.useState<boolean>(false);
-
 	const userContext = useUserContext();
 
-	React.useEffect(() => {
-		clientGet('profile').then((res) => {
-			setUser(res);
-		})
-	}, []);
+	const [user, setUser] = React.useState<Profile | null>(userContext.login);
+	const [error, setError] = React.useState<string | undefined>();
+	const [emailIsChanged, setEmailIsChanged] = React.useState<boolean>(false);
 
 	if (!user) {
 		return <>Loading...</>
