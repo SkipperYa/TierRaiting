@@ -36,7 +36,6 @@ const NavMenu: React.FC<{}> = () => {
 
 	return <AppBar position="static">
 		<Container>
-			{login && !login.emailConfirmed && <Alert severity="warning">Email is not confirmed.</Alert>}
 			<Toolbar disableGutters>
 				<Grid container spacing={1}>
 					<Grid item xs={9}>
@@ -94,6 +93,7 @@ const NavMenu: React.FC<{}> = () => {
 				</Grid>
 			</Toolbar>
 		</Container>
+		{login && !login.emailConfirmed && <Alert severity="warning">Email is not confirmed.</Alert>}
 	</AppBar>;
 };
 

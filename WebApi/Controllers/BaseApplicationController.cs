@@ -9,7 +9,7 @@ namespace WebApi.Controllers
 	[ApiController]
 	[Route("api/[controller]")]
 	[RequestTimeout("DefaultTimeout10s")]
-	public class BaseApplicationController : ControllerBase
+	public abstract class BaseApplicationController : ControllerBase
 	{
 		protected readonly IMediator _mediator;
 

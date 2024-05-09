@@ -8,6 +8,5 @@ namespace Domain.Interfaces
 	{
 		Task<User> Login(string email, string password, CancellationToken cancellationToken);
 		Task Logout(CancellationToken cancellationToken);
-		string GetToken(User user);
 	}
 }

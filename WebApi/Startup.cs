@@ -1,11 +1,9 @@
 using Domain.ControllerFilters;
 using Domain.Entities;
-using Domain.Interfaces;
 using Infrastructure.Database;
 using Infrastructure.Extension;
 using Infrastructure.Services;
 using Infrastructure.Utils;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +11,6 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http.Timeouts;
 using System;
 using Microsoft.Extensions.FileProviders;
@@ -23,6 +20,8 @@ using WebApi.AuthorizationHandler;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using System.IO.Compression;
+using System.Threading.Tasks;
+using System.Net;
 
 namespace WebApi
 {
@@ -59,7 +58,7 @@ namespace WebApi
 
 			services.AddAutoMapper();
 
-			//TODO: replace to infrastructure
+			// TODO: replace to infrastructure
 			services.AddIdentity<User, Role>(options =>
 			{
 				options.User.RequireUniqueEmail = true;
@@ -72,6 +71,15 @@ namespace WebApi
 			}).AddEntityFrameworkStores<ApplicationContext>()
 			.AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
 
+			services.ConfigureApplicationCookie(options =>
+			{
+				options.Events.OnRedirectToLogin = (context) =>
+				{
+					context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+					return Task.CompletedTask;
+				};
+			});
+
 			services.AddMediator();
 
 			services.AddRequestTimeouts(options =>
@@ -82,28 +90,6 @@ namespace WebApi
 					TimeoutStatusCode = 503,
 				});
 			});
-
-			services
-				.AddAuthentication(config =>
-				{
-					config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-					config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-				})
-				.AddJwtBearer("Bearer", options =>
-				{
-					options.RequireHttpsMetadata = false;
-					options.SaveToken = true;
-					options.TokenValidationParameters = new TokenValidationParameters
-					{
-						ValidateIssuer = true,
-						ValidIssuer = AuthOptions.ISSUER,
-						ValidateAudience = true,
-						ValidAudience = AuthOptions.AUDIENCE,
-						ValidateLifetime = true,
-						IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-						ValidateIssuerSigningKey = true,
-					};
-				});
 
 			services
 				.AddSingleton<IAuthorizationHandler, ProtectFolderAuthorizationHandler>();
@@ -168,15 +154,6 @@ namespace WebApi
 				context.Response.Headers.Append("X-Xss-Protection", "1");
 				// clickjacking
 				context.Response.Headers.Append("X-Frame-Options", "DENY");
-
-				await next();
-			});
-
-			app.Use(async (context, next) =>
-			{
-				var token = context.Request.Cookies[AuthOptions.TOKENNAME];
-				if (!string.IsNullOrEmpty(token))
-					context.Request.Headers.Append("Authorization", "Bearer " + token);
 
 				await next();
 			});
