@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { Alert, AppBar, Avatar, Box, Button, Grid, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
 import { clientGet } from '../utils/client';
 import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useUserContext } from '../utils/userContext';
@@ -38,7 +39,7 @@ const NavMenu: React.FC<{}> = () => {
 		<Container>
 			<Toolbar disableGutters>
 				<Grid container spacing={1}>
-					<Grid item xs={9}>
+					<Grid item xs>
 						<Typography
 							variant="h6"
 							noWrap
@@ -58,37 +59,15 @@ const NavMenu: React.FC<{}> = () => {
 							Tier Rating
 						</Typography>
 					</Grid>
-					<Grid item xs={3}>
-						{login && <Box alignContent="flex-end" sx={{ flexGrow: 0 }}>
-							<Tooltip title="Open settings">
-								<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-									<Avatar alt={login.userName} src={login.src} />
-								</IconButton>
-							</Tooltip>
-							<Menu
-								sx={{ mt: '45px' }}
-								id="menu-appbar"
-								anchorEl={anchorElUser}
-								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								keepMounted
-								transformOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								open={Boolean(anchorElUser)}
-								onClose={handleCloseUserMenu}
-							>
-								<MenuItem onClick={() => history.push('/profile')}>
-									<Typography textAlign="center"><AccountBoxIcon />&nbsp;Profile</Typography>
-								</MenuItem>
-								<MenuItem onClick={logout}>
-									<Typography textAlign="center"><LogoutIcon />&nbsp;Logout</Typography>
-								</MenuItem>
-							</Menu>
-						</Box>}
+					<Grid item xs={1}>
+						{login && <IconButton title="Profile" onClick={() => history.push('/profile')} sx={{ p: 0 }}>
+							<Avatar alt={login.userName} src={login.src} />
+						</IconButton>}
+					</Grid>
+					<Grid item xs={2}>
+						{login && <MenuItem onClick={logout}>
+							<Typography textAlign="center"><LogoutIcon />&nbsp;Logout</Typography>
+						</MenuItem>}
 					</Grid>
 				</Grid>
 			</Toolbar>

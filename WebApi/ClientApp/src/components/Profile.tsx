@@ -61,22 +61,10 @@ const Profile: React.FC<ComponentProps> = ({
 	return <>
 		<br />
 		<Grid container spacing={2}>
-			<Grid item xs={6}>
+			<Grid item xs={12}>
 				<Typography component="h4" variant="h4" color="primary" gutterBottom>
 					Profile
 				</Typography>
-			</Grid>
-			<Grid item xs={6}>
-				<Button
-					type="submit"
-					variant="contained"
-					className="float-left"
-					color="success"
-					endIcon={<SaveIcon />}
-					onClick={saveUser}
-				>
-					Save
-				</Button>
 			</Grid>
 			<Grid item xs={6}>
 				<Avatar sx={{ width: 150, height: 150 }} alt={user.userName} src={user.src} />
@@ -139,7 +127,22 @@ const Profile: React.FC<ComponentProps> = ({
 					}}
 				/>
 			</Grid>
-			<Grid item xs={6}>
+		</Grid>
+		<Grid style={{ paddingBlock: 10 }} container alignItems="center" justifyContent="center">
+			<Grid item xs>
+				<Button
+					type="submit"
+					variant="contained"
+					color="success"
+					endIcon={<SaveIcon />}
+					onClick={saveUser}
+				>
+					Save
+				</Button>
+			</Grid>
+		</Grid>
+		<Grid style={{ paddingBlock: 10 }} container alignItems="center" justifyContent="center">
+			<Grid item xs>
 				{error && <Alert severity="error">{error}</Alert>}
 				{emailIsChanged && <Alert severity="info"> A confirmation email was sent to new mail.</Alert>}
 			</Grid>
