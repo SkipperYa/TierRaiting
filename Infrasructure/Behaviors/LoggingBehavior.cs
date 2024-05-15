@@ -23,7 +23,12 @@ namespace Infrastructure.Behaviors
 				await Log.CloseAndFlushAsync();
 
 				// Throw exception again for send it to client
-				throw new LogicException(e.Message);
+				if (e is LogicException logicException)
+				{
+					throw new LogicException(logicException.Message);
+				}
+
+				throw new Exception(e.Message);
 			}
 		}
 	}
