@@ -9,19 +9,17 @@ namespace Infrastructure.Mapper
 	{
 		public MapperProfile()
 		{
-			var types = Assembly
+			var items = Assembly
 				.GetExecutingAssembly()
 				.GetExportedTypes()
-				.Where(type => type.GetInterfaces()
-					.Any(i => !i.IsGenericType && i.IsTypeDefinition && i == typeof(IViewModel)))
+				.Where(type => Attribute.IsDefined(type, typeof(ViewModelAttribute<,>)))
+				.Select(type => type.GetCustomAttribute(typeof(ViewModelAttribute<,>)) as IMapping)
+				.Where(a => a is not null)
 				.ToList();
 
-			foreach (var type in types)
+			foreach (var item in items)
 			{
-				var instance = Activator.CreateInstance(type);
-				var methodInfo = type.GetMethod("Mapping");
-
-				methodInfo.Invoke(instance, new object[] { this });
+				item.CreateMaps(this);
 			}
 		}
 	}

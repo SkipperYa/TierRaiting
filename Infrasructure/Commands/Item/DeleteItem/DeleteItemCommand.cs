@@ -6,13 +6,9 @@ using Infrastructure.Mapper;
 
 namespace Infrastructure.Commands
 {
-	public class DeleteItemCommand : BaseAuthorizeRequest<Item>, IWithId, IViewModel
+	[ViewModel<Item, DeleteItemCommand>]
+	public class DeleteItemCommand : BaseAuthorizeRequest<Item>, IWithId
 	{
 		public Guid Id { get; set; }
-
-		public void Mapping(AutoMapper.Profile profile)
-		{
-			profile.CreateMap<Item, DeleteItemCommand>().ReverseMap();
-		}
 	}
 }

@@ -7,17 +7,13 @@ using Infrastructure.Mapper;
 
 namespace Infrastructure.Commands
 {
-	public class UpdateCategoryCommand : BaseAuthorizeRequest<Category>, IWithSrc, IWithId, IViewModel
+	[ViewModel<Category, UpdateCategoryCommand>]
+	public class UpdateCategoryCommand : BaseAuthorizeRequest<Category>, IWithSrc, IWithId
 	{
 		public Guid Id { get; set; }
 		public string Title { get; set; }
 		public CategoryType CategoryType { get; set; }
 		public string Description { get; set; }
 		public string Src { get; set; }
-
-		public void Mapping(AutoMapper.Profile profile)
-		{
-			profile.CreateMap<Category, UpdateCategoryCommand>().ReverseMap();
-		}
 	}
 }

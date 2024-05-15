@@ -2,8 +2,8 @@
 
 namespace Infrastructure.Mapper
 {
-	public interface IViewModel
+	public interface IMapping
 	{
-		void Mapping(Profile profile);
+		void CreateMaps(Profile profile);
 	}
 }
