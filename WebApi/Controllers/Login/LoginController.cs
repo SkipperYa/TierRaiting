@@ -25,7 +25,7 @@ namespace WebApi.Controllers.Login
 		{
 			var user = await _loginService.Login(model.Email, model.Password, cancellationToken);
 
-			var userViewModel = _mapper.Map<UserViewModel>(user);
+			var userViewModel = _mapper.Map<ProfileViewModel>(user);
 
 			return Ok(userViewModel);
 		}
