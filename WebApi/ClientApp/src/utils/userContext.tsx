@@ -2,6 +2,7 @@ import React, { createContext, useContext } from 'react';
 import { clientGet } from './client';
 import Profile from '../components/Profile';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useHistory } from 'react-router';
 
 export interface UserContext {
 	login: Profile | null;
@@ -32,6 +33,7 @@ interface ComponentProps {
 export const UserContextProvider: React.FC<ComponentProps> = ({
 	children
 }) => {
+	const history = useHistory();
 	const UserContext = createUserContext;
 
 	const [login, setLogin] = React.useState<Profile | null>(null);
@@ -42,6 +44,9 @@ export const UserContextProvider: React.FC<ComponentProps> = ({
 		clientGet('profile')
 			.then((profile) => {
 				setLogin(profile);
+				profile && history.location.pathname === '/' && history.push({
+					pathname: 'categories',
+				});
 			})
 			.catch((res) => {
 
