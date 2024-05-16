@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { clientGet } from '../utils/client';
 import { useUserContext } from '../utils/userContext';
+import { Alert, AlertTitle, Link } from '@mui/material';
 
 interface ComponentProps {
 
@@ -23,7 +24,7 @@ const ConfirmRegistration: React.FC<ComponentProps> = ({
 		if (userId && token) {
 			clientGet(`registration?userId=${userId}&token=${encodeURIComponent(token)}`)
 				.then((res) => {
-					setText('Your regsitration is confirmed. Click to login: ');
+					setText('Your regsitration is confirmed.');
 					setIsConfirmed(true);
 					const user = userContext.actions.getUser();
 					user && userContext.actions.setUser({ ...user, emailConfirmed: true });
@@ -38,7 +39,16 @@ const ConfirmRegistration: React.FC<ComponentProps> = ({
 	}, []);
 
 	return <div>
-		{text} {isConfirmed ? <a href='/'> Login </a> : null}
+		<br />
+		{isConfirmed
+			? <Alert severity="success">
+				<AlertTitle>Success</AlertTitle>
+				{text} <Link href={userContext.login ? '/categories' : '/'}> Continue </Link>
+			</Alert>
+			: <Alert severity="warning">
+				<AlertTitle>Warning</AlertTitle>
+				{text}
+			</Alert>}
 	</div>
 };
 

@@ -39,6 +39,11 @@ namespace Infrastructure.Commands.Profile
 			user.UserName = request.UserName;
 			user.Src = request.Src;
 
+			if (emailIsChanged && !await _userManager.IsEmailConfirmedAsync(user))
+			{
+				throw new LogicException("Current email is not confirmed");
+			}
+
 			var result = await _userManager.UpdateAsync(user);
 
 			if (result.Succeeded)

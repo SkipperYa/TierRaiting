@@ -1,16 +1,15 @@
 import * as React from 'react';
 import { Container } from 'reactstrap';
-import { useHistory } from 'react-router-dom';
-import { Alert, AppBar, Avatar, Box, Button, Grid, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
-import { clientGet } from '../utils/client';
+import { Link, useHistory } from 'react-router-dom';
+import { Alert, AppBar, Avatar, Box, Button, Grid, IconButton, MenuItem, Toolbar, Typography } from '@mui/material';
+import { clientGet, clientUpdate } from '../utils/client';
 import LogoutIcon from '@mui/icons-material/Logout';
-import LoginIcon from '@mui/icons-material/Login';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useUserContext } from '../utils/userContext';
+import SendIcon from '@mui/icons-material/Send';
 
 const NavMenu: React.FC<{}> = () => {
 	const history = useHistory();
+	const [info, setInfo] = React.useState<string | undefined>();
 
 	const userContext = useUserContext();
 
@@ -21,16 +20,6 @@ const NavMenu: React.FC<{}> = () => {
 		}).catch((message) => {
 
 		});
-	};
-
-	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
-	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorElUser(event.currentTarget);
-	};
-
-	const handleCloseUserMenu = () => {
-		setAnchorElUser(null);
 	};
 
 	const login = userContext.login;
@@ -72,7 +61,25 @@ const NavMenu: React.FC<{}> = () => {
 				</Grid>
 			</Toolbar>
 		</Container>
-		{login && !login.emailConfirmed && <Alert severity="warning">Email is not confirmed.</Alert>}
+		{login && !login.emailConfirmed && <Alert
+			severity="warning"
+			action={userContext.login &&  <IconButton
+				aria-label="close"
+				color="inherit"
+				size="small"
+				onClick={() => {
+					clientUpdate('registration', {
+						userId: userContext.login!.id,
+					}).then((res) => {
+						setInfo('A registration confirmation email was sent to mail.');
+					});
+				}}
+			>
+				<SendIcon fontSize="inherit" />
+			</IconButton>}
+		>
+			{info ? info : 'Email is not confirmed'}
+		</Alert>}
 	</AppBar>;
 };
 

@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { User } from '../objects/User';
 import { clientGet, clientUpdate, clientUpload } from '../utils/client';
-import { Alert, Avatar, Button, Grid, Input, TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Button, Chip, Grid, Input, TextField, Typography } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import { useUserContext } from '../utils/userContext';
 import Dashboard from './Dashboard';
