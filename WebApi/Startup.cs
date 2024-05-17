@@ -78,6 +78,11 @@ namespace WebApi
 					context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
 					return Task.CompletedTask;
 				};
+				options.Events.OnRedirectToAccessDenied = (context) =>
+				{
+					context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+					return Task.CompletedTask;
+				};
 			});
 
 			services.AddMediator();
@@ -100,7 +105,6 @@ namespace WebApi
 
 			services.AddHttpClient(BooksService.ClientName, client => 
 			{
-				// client.BaseAddress = new Uri("https://openlibrary.org/search.json");
 				client.BaseAddress = new Uri("https://www.googleapis.com/books/v1/volumes");
 			});
 

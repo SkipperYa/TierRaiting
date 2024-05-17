@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Interfaces;
+using Infrastructure.Database;
 using Infrastructure.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -84,6 +85,20 @@ namespace Infrastructure.Services
 			var result = await _userManager.CreateAsync(user, password);
 
 			if (!result.Succeeded)
+			{
+				var stringBuilder = new StringBuilder();
+
+				foreach (var error in result.Errors)
+				{
+					stringBuilder.Append(error.Description);
+				}
+
+				throw new LogicException(stringBuilder.ToString());
+			}
+
+			var roleResult = await _userManager.AddToRoleAsync(user, Role.UserRole);
+
+			if (!roleResult.Succeeded)
 			{
 				var stringBuilder = new StringBuilder();
 

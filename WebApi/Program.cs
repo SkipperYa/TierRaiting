@@ -5,12 +5,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace WebApi
 {
 	public static class ProgramExtension
 	{
-		public static IHost Deploy(this IHost host)
+		public static async Task<IHost> Deploy(this IHost host)
 		{
 			using var scope = host.Services.CreateScope();
 
@@ -21,13 +22,15 @@ namespace WebApi
 				context.Database.Migrate();
 			}
 
+			await InitialDataSeeder.Initialize(scope.ServiceProvider);
+
 			return host;
 		}
 	}
 
 	public class Program
 	{
-		public static void Main(string[] args)
+		public static async Task Main(string[] args)
 		{
 			Log.Logger = new LoggerConfiguration()
 				.MinimumLevel.Debug()
@@ -35,10 +38,12 @@ namespace WebApi
 				.WriteTo.Console()
 				.CreateLogger();
 
-			CreateHostBuilder(args)
-				.Build()
-				.Deploy()
-				.Run();
+			var host = CreateHostBuilder(args)
+				.Build();
+
+			host = await host.Deploy();
+
+			host.Run();
 		}
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>

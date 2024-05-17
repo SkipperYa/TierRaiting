@@ -120,6 +120,11 @@ export default function Registration() {
 								</Link>
 							</Grid>
 						</Grid>
+						{message && <Grid container justifyContent="flex-end">
+							<Grid item>
+								<Alert severity="success">{message}</Alert>
+							</Grid>
+						</Grid>}
 					</Box>
 				</Box>
 			</Container>

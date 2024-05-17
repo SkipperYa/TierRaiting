@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import Registration from './components/Registration';
 import Login from './components/Login';
 import Categories from './components/Categories';
+import Users from './components/Users';
 import CategoryEditor from './components/CategoryEditor';
 import ConfirmRegistration from './components/ConfirmRegistration';
 import Profile from './components/Profile';
@@ -20,6 +21,7 @@ const App: React.FC = () => {
 			<Route exact path='/' component={Login} />
 			<Route exact path='/registration' component={Registration} />
 			<Route exact path='/categories' component={Categories} />
+			<Route exact path='/users' component={Users} />
 			<Route exact path='/category' component={CategoryEditor} />
 			<Route exact path='/confirmRegistration' component={ConfirmRegistration} />
 			<Route exact path='/profile' component={Profile} />
