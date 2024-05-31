@@ -7,7 +7,7 @@ import Categories from './components/Categories';
 import Users from './components/Users';
 import CategoryEditor from './components/CategoryEditor';
 import ConfirmRegistration from './components/ConfirmRegistration';
-import Profile from './components/Profile';
+import ProfileEditor from './components/ProfileEditor';
 
 import './custom.css';
 import '@fontsource/roboto/300.css';
@@ -24,7 +24,7 @@ const App: React.FC = () => {
 			<Route exact path='/users' component={Users} />
 			<Route exact path='/category' component={CategoryEditor} />
 			<Route exact path='/confirmRegistration' component={ConfirmRegistration} />
-			<Route exact path='/profile' component={Profile} />
+			<Route exact path='/profile' component={ProfileEditor} />
 			<Route path='*' component={() => <h1 style={{ marginBlock: '10%' }} className="text-center">404. Page not found.</h1>} />
 		</Switch>
 	</Layout>;

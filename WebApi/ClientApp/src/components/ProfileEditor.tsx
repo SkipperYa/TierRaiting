@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { User } from '../objects/User';
+import { User, Profile } from '../objects/User';
 import { clientGet, clientUpdate, clientUpload } from '../utils/client';
 import { Alert, Avatar, Button, Chip, Grid, Input, TextField, Typography } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
@@ -10,11 +10,7 @@ interface ComponentProps {
 
 }
 
-interface Profile extends User {
-	email: string;
-}
-
-const Profile: React.FC<ComponentProps> = ({
+const ProfileEditor: React.FC<ComponentProps> = ({
 
 }) => {
 	const userContext = useUserContext();
@@ -153,4 +149,4 @@ const Profile: React.FC<ComponentProps> = ({
 	</>;
 }
 
-export default Profile;
+export default ProfileEditor;
