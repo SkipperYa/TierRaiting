@@ -71,6 +71,11 @@ namespace WebApi
 			}).AddEntityFrameworkStores<ApplicationContext>()
 			.AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
 
+			services.Configure<SecurityStampValidatorOptions>(options =>
+			{
+				options.ValidationInterval = TimeSpan.FromMinutes(30);
+			});
+
 			services.ConfigureApplicationCookie(options =>
 			{
 				options.Events.OnRedirectToLogin = (context) =>

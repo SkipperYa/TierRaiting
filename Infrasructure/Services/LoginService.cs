@@ -43,10 +43,20 @@ namespace Infrastructure.Services
 				return user;
 			}
 
+			if (user.LockoutEnd is not null)
+			{
+				throw new LogicException("User Banned");
+			}
+
 			var result = await _signInManager.PasswordSignInAsync(user, password, true, false);
 
 			if (!result.Succeeded)
 			{
+				if (result.IsLockedOut)
+				{
+					throw new LogicException("User Banned");
+				}
+
 				throw new LogicException("Invalid password or login");
 			}
 
