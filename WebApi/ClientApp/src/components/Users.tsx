@@ -1,15 +1,13 @@
-import { Alert, Avatar, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, Input, InputLabel, MenuItem, Modal, Pagination, Paper, Select, SelectChangeEvent, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Avatar, Divider, Grid, IconButton, Pagination, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import React, { ChangeEvent } from 'react';
 import { clientDelete, clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
-import { Category, CategotyTypeNames } from '../objects/Category';
-import CreateIcon from '@mui/icons-material/Create';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ClearIcon from '@mui/icons-material/Clear';
-import SaveIcon from '@mui/icons-material/Save';
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { useHistory } from 'react-router-dom';
+import Profile from './Profile';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import BlockIcon from '@mui/icons-material/Block';
 import { User } from '../objects/User';
 
 interface ComponentProps {
@@ -36,6 +34,13 @@ const Users: React.FC<ComponentProps> = ({
 				setPagination((prev) => {
 					return { ...prev, total: res.total };
 				});
+			});
+	}
+
+	const banUser = (id: string) => {
+		clientGet(`ban?id=${id}`)
+			.then((res) => {
+				loadUsers();
 			});
 	}
 
@@ -89,6 +94,9 @@ const Users: React.FC<ComponentProps> = ({
 							<TableRow>
 								<TableCell width="10%"></TableCell>
 								<TableCell>User Name</TableCell>
+								<TableCell>Email</TableCell>
+								<TableCell>Email Confirmed</TableCell>
+								<TableCell>Banned</TableCell>
 								<TableCell width="15%"></TableCell>
 							</TableRow>
 						</TableHead>
@@ -96,44 +104,22 @@ const Users: React.FC<ComponentProps> = ({
 							{users.map((user, index) => <TableRow key={user.id}>
 								<TableCell width="10%"><Avatar src={user.src} alt={user.userName} /></TableCell>
 								<TableCell width="20%">{user.userName}</TableCell>
+								<TableCell width="20%">{user.email}</TableCell>
+								<TableCell width="20%">{user.emailConfirmed ? <CheckIcon color="success" /> : <CloseIcon color="error" />}</TableCell>
+								<TableCell width="20%">{user.lockoutEnabled ? <BlockIcon color="success" /> : <BlockIcon color="error" />}</TableCell>
 								<TableCell>
 									<Grid container spacing={1}>
 										<Grid item xs={3}>
 											<IconButton
-												title="Go to..."
-												color="success"
-												onClick={() => {
-													/*history.push({
-														pathname: 'category',
-														search: `id=${category.id}`
-													});*/
-												}}
-											>
-												<ArrowForwardIosIcon />
-											</IconButton>
-										</Grid>
-										<Grid item xs={3}>
-											<IconButton
-												title="Edit Category"
-												color="secondary"
-												onClick={() => {
-													/*setCategory(category);
-													setOpen(true);*/
-												}}
-											>
-												<CreateIcon />
-											</IconButton>
-										</Grid>
-										{/*<Grid item xs={3}>
-											<IconButton
-												title="Delete Category"
+												title="Ban/Unban user"
 												color="error"
-												disabled={category.itemsCount > 0}
-												onClick={() => handleDelete(category.id)}
+												onClick={() => {
+													banUser(user.id);
+												}}
 											>
-												<DeleteIcon />
+												<BlockIcon />
 											</IconButton>
-										</Grid>*/}
+										</Grid>
 									</Grid>
 								</TableCell>
 							</TableRow>)}

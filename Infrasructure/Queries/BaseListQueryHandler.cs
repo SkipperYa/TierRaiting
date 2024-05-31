@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Domain.Enum;
+using Domain.Interfaces;
 using Infrastructure.BaseRequest;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace Infrastructure.Queries
 {
 	public class BaseListQueryHandler<TQuery, TEntity, TResult> : BaseAuthorizeHandler<TQuery, PagedList<TResult>>
 		where TQuery : BaseAuthorizeListRequest<PagedList<TResult>>
-		where TEntity : WithId
+		where TEntity : class, IWithId
 	{
 		private readonly ApplicationContext _context;
 		private readonly IMapper _mapper;

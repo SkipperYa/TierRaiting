@@ -1,14 +1,15 @@
-﻿using Domain.Entities;
-using Domain.Models;
+﻿using Domain.Enum;
 using Infrastructure.Database;
+using Infrastructure.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers.Admin.Users
 {
+	[Authorize]
 	[Authorize(Roles = Role.AdminRole)]
 	public class UsersController : BaseApplicationController
 	{
@@ -16,9 +17,16 @@ namespace WebApi.Controllers.Admin.Users
 		{
 		}
 
-		public async Task<IActionResult> GetUsers(int page = 1, string text = null, CancellationChangeToken cancellationChangeToken = default)
+		public async Task<IActionResult> GetUsers(int page = 1, string text = null, CancellationToken cancellationToken = default)
 		{
-			return Ok(new PagedList<UserViewModel>());
+			var users = await _mediator.Send(new UsersQuery()
+			{
+				Text = text,
+				Page = page,
+				Ordering = Ordering.Ascending,
+			}, cancellationToken);
+
+			return Ok(users);
 		}
 	}
 }

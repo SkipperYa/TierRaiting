@@ -4,18 +4,19 @@ using Infrastructure.Mapper;
 
 namespace Domain.Models
 {
-	[ViewModel<User, UserViewModel>(false)]
-	public class UserViewModel : IWithSrc
+	[ViewModel<User, ProfileViewModel>(false)]
+	public class ProfileViewModel : IWithSrc
 	{
 		public string Id { get; set; }
 		public string UserName { get; set; }
 		public bool EmailConfirmed { get; set; }
 		public string Src { get; set; }
+		public string Email { get; set; }
 	}
 
-	[ViewModel<User, ProfileViewModel>(false)]
-	public class ProfileViewModel : UserViewModel
+	[ViewModel<User, UserViewModel>(false)]
+	public class UserViewModel : ProfileViewModel
 	{
-		public string Email { get; set; }
+		public bool LockoutEnabled { get; set; }
 	}
 }
