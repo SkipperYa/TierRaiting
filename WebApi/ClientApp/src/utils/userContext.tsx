@@ -1,8 +1,8 @@
 import React, { createContext, useContext } from 'react';
 import { clientGet } from './client';
-import Profile from '../components/Profile';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useHistory } from 'react-router';
+import { Profile } from '../objects/User';
 
 export interface UserContext {
 	login: Profile | null;

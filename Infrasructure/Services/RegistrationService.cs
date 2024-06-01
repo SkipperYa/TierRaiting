@@ -2,6 +2,7 @@
 using Domain.Exceptions;
 using Domain.Interfaces;
 using Infrastructure.Database;
+using Infrastructure.Extension;
 using Infrastructure.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -43,14 +44,7 @@ namespace Infrastructure.Services
 
 			if (!result.Succeeded)
 			{
-				var stringBuilder = new StringBuilder();
-
-				foreach (var error in result.Errors)
-				{
-					stringBuilder.Append(error.Description);
-				}
-
-				throw new LogicException(stringBuilder.ToString());
+				throw new LogicException(result.GetIdentityErrorText());
 			}
 
 			return true;
@@ -86,28 +80,14 @@ namespace Infrastructure.Services
 
 			if (!result.Succeeded)
 			{
-				var stringBuilder = new StringBuilder();
-
-				foreach (var error in result.Errors)
-				{
-					stringBuilder.Append(error.Description);
-				}
-
-				throw new LogicException(stringBuilder.ToString());
+				throw new LogicException(result.GetIdentityErrorText());
 			}
 
 			var roleResult = await _userManager.AddToRoleAsync(user, Role.UserRole);
 
 			if (!roleResult.Succeeded)
 			{
-				var stringBuilder = new StringBuilder();
-
-				foreach (var error in result.Errors)
-				{
-					stringBuilder.Append(error.Description);
-				}
-
-				throw new LogicException(stringBuilder.ToString());
+				throw new LogicException(result.GetIdentityErrorText());
 			}
 
 			await SendConfirmation(user);

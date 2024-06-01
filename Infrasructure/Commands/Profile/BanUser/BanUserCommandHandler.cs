@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Exceptions;
 using Infrastructure.Database;
+using Infrastructure.Extension;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Text;
@@ -38,26 +39,12 @@ namespace Infrastructure.Commands.Profile.BanUser
 
 				if (!securityResult.Succeeded)
 				{
-					var stringBuilder = new StringBuilder();
-
-					foreach (var error in updateResult.Errors)
-					{
-						stringBuilder.Append(error.Description);
-					}
-
-					throw new LogicException(stringBuilder.ToString());
+					throw new LogicException(securityResult.GetIdentityErrorText());
 				}
 			}
 			else
 			{
-				var stringBuilder = new StringBuilder();
-
-				foreach (var error in updateResult.Errors)
-				{
-					stringBuilder.Append(error.Description);
-				}
-
-				throw new LogicException(stringBuilder.ToString());
+				throw new LogicException(updateResult.GetIdentityErrorText());
 			}
 
 			return user.LockoutEnabled;
