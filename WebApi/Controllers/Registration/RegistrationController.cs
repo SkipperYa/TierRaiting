@@ -37,12 +37,13 @@ namespace WebApi.Controllers.Registration
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> ConfirmRegistration(string userId, string token, CancellationToken cancellationToken)
+		public async Task<IActionResult> ConfirmRegistration(string userId, string token, string email, CancellationToken cancellationToken)
 		{
 			var command = new ConfirmUserCommand()
 			{
 				Token = token,
 				UserId = userId,
+				Email = email,
 			};
 
 			var result = await _mediator.Send(command, cancellationToken);

@@ -2,11 +2,9 @@
 using Domain.Exceptions;
 using Infrastructure.Commands.RegistrationUser.Create;
 using Infrastructure.Database;
+using Infrastructure.Extension;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,14 +33,14 @@ namespace Infrastructure.Commands.Profile
 			}
 
 			var emailIsChanged = user.Email != request.Email;
-			user.Email = request.Email;
-			user.UserName = request.UserName;
-			user.Src = request.Src;
 
 			if (emailIsChanged && !await _userManager.IsEmailConfirmedAsync(user))
 			{
 				throw new LogicException("Current email is not confirmed");
 			}
+
+			user.UserName = request.UserName;
+			user.Src = request.Src;
 
 			var result = await _userManager.UpdateAsync(user);
 
@@ -50,31 +48,17 @@ namespace Infrastructure.Commands.Profile
 			{
 				if (emailIsChanged)
 				{
-					await _applicationContext.Set<User>()
-						.Where(q => q.Id == user.Id)
-						.ExecuteUpdateAsync(q => q.SetProperty(p => p.EmailConfirmed, false), cancellationToken);
-
-					user.EmailConfirmed = false;
-
 					await _mediator.Send(new SendConfirmCommand()
 					{
-						UserId = user.Id.ToString()
+						UserId = user.Id.ToString(),
+						Email = request.Email,
 					}, cancellationToken);
 				}
 
 				return user;
 			}
-			else
-			{
-				var stringBuilder = new StringBuilder();
 
-				foreach (var error in result.Errors)
-				{
-					stringBuilder.Append(error.Description);
-				}
-
-				throw new LogicException(stringBuilder.ToString());
-			}
+			throw new LogicException(result.GetIdentityErrorText());
 		}
 	}
 }

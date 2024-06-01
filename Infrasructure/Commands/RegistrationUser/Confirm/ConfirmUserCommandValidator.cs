@@ -13,6 +13,11 @@ namespace Infrastructure.Commands.RegistrationUser.Create
 			RuleFor(q => q.Token)
 				.NotEmpty()
 				.WithMessage("Token is required.");
+
+			RuleFor(q => q.Email)
+				.EmailAddress()
+				.When(q => !string.IsNullOrEmpty(q.Email))
+				.WithMessage("Invalid Email");
 		}
 	}
 }

@@ -19,10 +19,11 @@ const ConfirmRegistration: React.FC<ComponentProps> = ({
 	const urlSearchParams = new URLSearchParams(useLocation().search);
 	const userId = urlSearchParams.get('userId');
 	const token = urlSearchParams.get('token');
+	const email = urlSearchParams.get('email');
 
 	React.useEffect(() => {
 		if (userId && token) {
-			clientGet(`registration?userId=${userId}&token=${encodeURIComponent(token)}`)
+			clientGet(`registration?userId=${userId}&token=${encodeURIComponent(token)}&email=${email ? email : null}`)
 				.then((res) => {
 					setText('Your regsitration is confirmed.');
 					setIsConfirmed(true);

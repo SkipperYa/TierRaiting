@@ -6,7 +6,7 @@ using Infrastructure.Extension;
 using Infrastructure.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using System.Text;
+using MimeKit.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,15 +18,17 @@ namespace Infrastructure.Services
 		private readonly UserManager<User> _userManager;
 		private readonly HostUrlOptions _hostUrlOptions;
 		private readonly IEmailService _emailService;
+		private readonly ILoginService _loginService;
 
-		public RegistrationService(UserManager<User> userManager, IOptions<HostUrlOptions> hostUrlOptions, IEmailService emailService)
+		public RegistrationService(UserManager<User> userManager, IOptions<HostUrlOptions> hostUrlOptions, IEmailService emailService, ILoginService loginService)
 		{
 			_userManager = userManager;
 			_hostUrlOptions = hostUrlOptions.Value;
 			_emailService = emailService;
+			_loginService = loginService;
 		}
 
-		public async Task<bool> ConfirmEmail(string userId, string token)
+		public async Task<bool> ConfirmEmail(string userId, string token, string email = null, CancellationToken cancellationToken = default)
 		{
 			if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(userId))
 			{
@@ -40,6 +42,28 @@ namespace Infrastructure.Services
 				throw new LogicException("Invalid user");
 			}
 
+			if (!string.IsNullOrEmpty(email))
+			{
+				email = HtmlUtils.HtmlDecode(email);
+
+				if (!email.Contains('@'))
+				{
+					throw new LogicException("Invalid email.");
+				}
+
+				user.Email = email;
+
+				var emailResult = await _userManager.UpdateAsync(user);
+
+				if (!emailResult.Succeeded)
+				{
+					throw new LogicException(emailResult.GetIdentityErrorText());
+				}
+
+				await _loginService.Logout(cancellationToken);
+				await _userManager.UpdateSecurityStampAsync(user);
+			}
+
 			var result = await _userManager.ConfirmEmailAsync(user, token);
 
 			if (!result.Succeeded)
@@ -50,14 +74,14 @@ namespace Infrastructure.Services
 			return true;
 		}
 
-		public async Task SendConfirmation(string userId)
+		public async Task SendConfirmation(string userId, string email = null)
 		{
 			var user = await _userManager.FindByIdAsync(userId);
 
-			await SendConfirmation(user);
+			await SendConfirmation(user, email);
 		}
 
-		public async Task SendConfirmation(User user)
+		public async Task SendConfirmation(User user, string email = null)
 		{
 			var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
@@ -65,7 +89,18 @@ namespace Infrastructure.Services
 
 			var callbackUrl = $"{_hostUrlOptions.Url}/confirmRegistration?userId={user.Id}&token={encodedToken}";
 
-			await _emailService.Send(user.Email, "Confirm registration", $"For confirm your registration follow: <a href='{callbackUrl}'>link</a>");
+			var title = "Confirm registration";
+
+			var to = user.Email;
+
+			if (!string.IsNullOrEmpty(email))
+			{
+				title = "Confirm change Email";
+				callbackUrl += $"&email={HttpUtility.UrlEncode(email)}";
+				to = email;
+			}
+
+			await _emailService.Send(to, title, $"For confirm your email. Follow: <a href='{callbackUrl}'>link</a>");
 		}
 
 		public async Task<User> Registration(string email, string userName, string password, CancellationToken cancellationToken)

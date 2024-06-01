@@ -15,7 +15,7 @@ namespace Infrastructure.Commands.RegistrationUser.Create
 
 		public override async Task<bool> Handle(ConfirmUserCommand request, CancellationToken cancellationToken)
 		{
-			var result = await _registrationService.ConfirmEmail(request.UserId, request.Token);
+			var result = await _registrationService.ConfirmEmail(request.UserId, request.Token, request.Email, cancellationToken);
 
 			return result;
 		}
