@@ -75,9 +75,9 @@ namespace Infrastructure.Services
 
 				return options;
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
-				throw new LogicException(e.Message);
+				throw;
 			}
 		}
 	}

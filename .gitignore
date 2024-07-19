@@ -233,3 +233,4 @@ _Pvt_Extensions
 WebApi/logs/
 *.txt
 WebApi/images/
+WebApi/logs

@@ -40,7 +40,7 @@ namespace Infrastructure.Services
 			}
 			catch (Exception e)
 			{
-				throw new LogicException(e.Message);
+				throw;
 			}
 		}
 	}
