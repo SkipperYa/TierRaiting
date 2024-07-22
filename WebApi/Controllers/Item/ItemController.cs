@@ -29,29 +29,29 @@ namespace WebApi.Controllers
 				Id = id,
 			};
 
-			var ItemViewModel = await _mediator.Send(query, cancellationToken);
+			var itemViewModel = await _mediator.Send(query, cancellationToken);
 
-			return Ok(ItemViewModel);
+			return Ok(itemViewModel);
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> CreateItem([FromBody] CreateItemCommand command, CancellationToken cancellationToken)
 		{
-			var Item = await _mediator.Send(command, cancellationToken);
+			var item = await _mediator.Send(command, cancellationToken);
 
-			var ItemViewModel = _mapper.Map<ItemViewModel>(Item);
+			var itemViewModel = _mapper.Map<ItemViewModel>(item);
 
-			return Ok(ItemViewModel);
+			return Ok(itemViewModel);
 		}
 
 		[HttpPut]
 		public async Task<IActionResult> UpdateItem([FromBody] UpdateItemCommand command, CancellationToken cancellationToken)
 		{
-			var Item = await _mediator.Send(command, cancellationToken);
+			var item = await _mediator.Send(command, cancellationToken);
 
-			var ItemViewModel = _mapper.Map<ItemViewModel>(Item);
+			var itemViewModel = _mapper.Map<ItemViewModel>(item);
 
-			return Ok(ItemViewModel);
+			return Ok(itemViewModel);
 		}
 
 		[HttpDelete]

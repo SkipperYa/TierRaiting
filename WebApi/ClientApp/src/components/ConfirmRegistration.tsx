@@ -23,7 +23,7 @@ const ConfirmRegistration: React.FC<ComponentProps> = ({
 
 	React.useEffect(() => {
 		if (userId && token) {
-			clientGet(`registration?userId=${userId}&token=${encodeURIComponent(token)}&email=${email ? email : null}`)
+			clientGet(`registration?userId=${userId}&token=${encodeURIComponent(token)}${email ? `&email=${email}` : ''}`)
 				.then((res) => {
 					setText('Your regsitration is confirmed.');
 					setIsConfirmed(true);

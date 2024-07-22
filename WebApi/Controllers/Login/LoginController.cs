@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Domain.Interfaces;
-using Domain.Models;
-using FluentValidation.Internal;
+﻿using Domain.Models;
+using Infrastructure.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
@@ -11,21 +9,18 @@ namespace WebApi.Controllers.Login
 {
 	public class LoginController : BaseApplicationController
 	{
-		private readonly ILoginService _loginService;
-		private readonly IMapper _mapper;
-
-		public LoginController(IMediator mediator, ILoginService loginService, IMapper mapper) : base(mediator)
+		public LoginController(IMediator mediator) : base(mediator)
 		{
-			_loginService = loginService;
-			_mapper = mapper;
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> Login([FromBody] LoginViewModel model, CancellationToken cancellationToken)
 		{
-			var user = await _loginService.Login(model.Email, model.Password, cancellationToken);
-
-			var userViewModel = _mapper.Map<ProfileViewModel>(user);
+			var userViewModel = await _mediator.Send(new LoginCommand()
+			{
+				Email = model.Email,
+				Password = model.Password
+			}, cancellationToken);
 
 			return Ok(userViewModel);
 		}
@@ -33,7 +28,7 @@ namespace WebApi.Controllers.Login
 		[HttpGet]
 		public async Task<IActionResult> Logout(CancellationToken cancellationToken)
 		{
-			await _loginService.Logout(cancellationToken);
+			await _mediator.Send(new LogoutCommand(), cancellationToken);
 
 			return Ok(new { Message = "Ok" });
 		}

@@ -1,14 +1,12 @@
-import { Avatar, Divider, Grid, IconButton, Pagination, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
-import React, { ChangeEvent } from 'react';
-import { clientDelete, clientGet, clientPost, clientUpdate, clientUpload } from '../utils/client';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import SearchIcon from '@mui/icons-material/Search';
-import { useHistory } from 'react-router-dom';
-import Profile from './Profile';
+import BlockIcon from '@mui/icons-material/Block';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import BlockIcon from '@mui/icons-material/Block';
+import SearchIcon from '@mui/icons-material/Search';
+import { Avatar, Divider, Grid, IconButton, Pagination, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { User } from '../objects/User';
+import { clientGet } from '../utils/client';
 
 interface ComponentProps {
 
