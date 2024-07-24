@@ -44,14 +44,14 @@ namespace Infrastructure.Services
 
 			if (!string.IsNullOrEmpty(email))
 			{
-				email = HtmlUtils.HtmlDecode(email);
+				var decodeEmail = HtmlUtils.HtmlDecode(email);
 
-				if (!email.Contains('@'))
+				if (!decodeEmail.Contains('@'))
 				{
 					throw new LogicException("Invalid email.");
 				}
 
-				user.Email = email;
+				user.Email = decodeEmail;
 
 				var emailResult = await _userManager.UpdateAsync(user);
 

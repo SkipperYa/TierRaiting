@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Commands
 {
-	public class DeleteCategoryCommandValidator : BaseDeleteCommandValidator<DeleteCategoryCommand>
+	public class DeleteCategoryCommandValidator : BaseIdCommandValidator<DeleteCategoryCommand>
 	{
 		public DeleteCategoryCommandValidator() : base()
 		{

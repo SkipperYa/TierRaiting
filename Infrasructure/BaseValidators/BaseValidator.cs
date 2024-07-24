@@ -16,27 +16,14 @@ namespace Infrastructure.BaseValidators
 		}
 	}
 
-	public abstract class BaseUpdateCommandValidator<TCommand> : BaseAuthorizeValidator<TCommand>
+	public abstract class BaseIdCommandValidator<TCommand> : BaseAuthorizeValidator<TCommand>
 		where TCommand : IBaseAuthorizeRequest, IWithId
 	{
-		public BaseUpdateCommandValidator() : base()
+		public BaseIdCommandValidator() : base()
 		{
 			RuleFor(q => q.Id)
 				.NotEmpty()
-				.NotNull()
-				.WithMessage("Id is required.");
-		}
-	}
-
-	public abstract class BaseDeleteCommandValidator<TCommand> : BaseAuthorizeValidator<TCommand>
-		where TCommand : IBaseAuthorizeRequest, IWithId
-	{
-		public BaseDeleteCommandValidator() : base()
-		{
-			RuleFor(q => q.Id)
-				.NotEmpty()
-				.NotNull()
-				.WithMessage("Id is required.");
+				.NotNull();
 		}
 	}
 

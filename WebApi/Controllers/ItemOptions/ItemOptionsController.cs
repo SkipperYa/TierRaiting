@@ -24,11 +24,11 @@ namespace WebApi.Controllers
 				CategoryType = categoryType,
 			};
 
-			var steamApps = await _mediator.Send(query, cancellationToken);
+			var options = await _mediator.Send(query, cancellationToken);
 
 			return Ok(new
 			{
-				List = steamApps
+				List = options
 			});
 		}
 	}

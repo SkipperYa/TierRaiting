@@ -38,7 +38,7 @@ namespace Infrastructure.Services
 				await emailClient.AuthenticateAsync(EmailOptions.Login, EmailOptions.Password);
 				await emailClient.SendAsync(emailMessage);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				throw;
 			}

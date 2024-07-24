@@ -70,8 +70,6 @@ namespace Infrastructure.Services
 
 			try
 			{
-				throw new ArgumentException();
-
 				var result = await client.GetFromJsonAsync<GoogleBook>($"?q={text}&key={_googleApiOptions.Key}&maxResults=5", cancellationToken);
 
 				var options = new List<ItemOption>();

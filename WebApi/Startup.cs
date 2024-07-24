@@ -155,23 +155,12 @@ namespace WebApi
 
 			app.UseRequestTimeouts();
 
-			app.Use(async (context, next) =>
-			{
-				// MIME sniffing
-				context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
-				// XSS
-				context.Response.Headers.Append("X-Xss-Protection", "1");
-				// clickjacking
-				context.Response.Headers.Append("X-Frame-Options", "DENY");
-
-				await next();
-			});
-
 			app.UseAuthentication();
 			app.UseAuthorization();
 
 			var root = Directory.GetCurrentDirectory();
 
+			// Add Requirement for /images path
 			app.UseMiddleware<ProtectFolder>(new ProtectFolderOptions()
 			{
 				Requirement = new ProtectFolderAuthorizationRequirement()
