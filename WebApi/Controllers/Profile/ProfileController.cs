@@ -20,6 +20,11 @@ namespace WebApi.Controllers.Profile
 			_mapper = mapper;
 		}
 
+		/// <summary>
+		/// Get User for client side. Can be called without authentication cookie.
+		/// </summary>
+		/// <param name="cancellationToken">CancellationToken</param>
+		/// <returns>Return <see cref="OkObjectResult">Ok</see> with <see cref="ProfileViewModel" /> or null if user not sign in</returns>
 		[HttpGet]
 		[AllowAnonymous]
 		public async Task<IActionResult> GetUser(CancellationToken cancellationToken)
@@ -35,6 +40,12 @@ namespace WebApi.Controllers.Profile
 			return Ok(result);
 		}
 
+		/// <summary>
+		/// Update user
+		/// </summary>
+		/// <param name="profile">Class with updated fields</param>
+		/// <param name="cancellationToken">CancellationToken</param>
+		/// <returns>Return <see cref="OkObjectResult">Ok</see> with updated <see cref="ProfileViewModel" /></returns>
 		[HttpPut]
 		public async Task<IActionResult> UpdateUser([FromBody] ProfileViewModel profile, CancellationToken cancellationToken)
 		{

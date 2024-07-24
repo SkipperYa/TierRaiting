@@ -13,6 +13,9 @@ namespace WebApi.Controllers
 	{
 		protected readonly IMediator _mediator;
 
+		/// <summary>
+		/// Get UserId if user sign in otherwise return empty Guid
+		/// </summary>
 		protected Guid UserId
 		{
 			get => IsAuthenticated && Guid.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out var guid)

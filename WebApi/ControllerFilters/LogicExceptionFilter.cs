@@ -25,12 +25,14 @@ namespace Domain.ControllerFilters
 
 			var error = stringBuilder.ToString();
 
+			// Log to file if it LogicException
 			if (context.Exception is not LogicException)
 			{
 				Log.Error(error);
 				Log.CloseAndFlush();
 			}
 
+			// Send message to client if it LogicException and set StatusCode 500
 			if (context.Exception is LogicException logicException)
 			{
 				context.Result = new JsonResult(logicException.Message)
@@ -38,6 +40,7 @@ namespace Domain.ControllerFilters
 					StatusCode = (int)HttpStatusCode.InternalServerError
 				};
 			}
+			// If it is TaskCanceledException set StatusCode 503 and set message Service Unavailable.
 			else if (context.Exception is TaskCanceledException)
 			{
 				context.Result = new JsonResult("Service Unavailable.")
@@ -45,6 +48,7 @@ namespace Domain.ControllerFilters
 					StatusCode = (int)HttpStatusCode.ServiceUnavailable
 				};
 			}
+			// Otherwise set message Something went wrong and set StatusCode 500
 			else
 			{
 				context.Result = new JsonResult("Something went wrong.")

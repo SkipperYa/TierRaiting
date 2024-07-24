@@ -17,6 +17,7 @@ namespace WebApi
 
 			using var context = scope.ServiceProvider.GetService<ApplicationContext>();
 
+			// If has any not applied migrations try apply it
 			if (context.Database.GetPendingMigrations().Any())
 			{
 				context.Database.Migrate();

@@ -1,4 +1,5 @@
-﻿using Infrastructure.Commands.Profile.BanUser;
+﻿using Domain.Entities;
+using Infrastructure.Commands.Profile.BanUser;
 using Infrastructure.Database;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +18,12 @@ namespace WebApi.Controllers.Admin.Ban
 		{
 		}
 
+		/// <summary>
+		/// Set <see cref="User.LockoutEnabled" /> to !LockoutEnabled and <see cref="User.LockoutEnd" /> to DateTime.MaxValue
+		/// </summary>
+		/// <param name="id">User Id</param>
+		/// <param name="cancellationToken">CancellationToken</param>
+		/// <returns>True if user has been banned, false otherwise</returns>
 		[HttpGet]
 		public async Task<IActionResult> Ban(string id, CancellationToken cancellationToken)
 		{

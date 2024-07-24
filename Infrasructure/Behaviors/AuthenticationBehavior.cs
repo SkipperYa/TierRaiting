@@ -20,6 +20,7 @@ namespace Infrastructure.Behaviors
 
 		public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
 		{
+			// Set UserId to Request if TRequest is IBaseAuthorizeRequest from Claims
 			if (request is IBaseAuthorizeRequest authorizeRequest)
 			{
 				var user = _contextAccessor.HttpContext.User;

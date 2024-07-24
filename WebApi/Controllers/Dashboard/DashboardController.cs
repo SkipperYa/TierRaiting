@@ -13,6 +13,10 @@ namespace WebApi.Controllers.Dashboard
 		{
 		}
 
+		/// <summary>
+		/// Get User Dashboard statistics
+		/// </summary>
+		/// <returns>Return <see cref="OkObjectResult">Ok</see> with <see cref="DashboardResult" /></returns>
 		[HttpGet]
 		public async Task<IActionResult> GetDashboard()
 		{

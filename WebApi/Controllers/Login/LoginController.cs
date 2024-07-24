@@ -13,6 +13,12 @@ namespace WebApi.Controllers.Login
 		{
 		}
 
+		/// <summary>
+		/// Login User in to system by Email and Password
+		/// </summary>
+		/// <param name="model">Class contains Email and Password</param>
+		/// <param name="cancellationToken">CancellationToken</param>
+		/// <returns>Return <see cref="OkObjectResult">Ok</see> with <see cref="ProfileViewModel"/> user otherwise throw exception with message</returns>
 		[HttpPost]
 		public async Task<IActionResult> Login([FromBody] LoginViewModel model, CancellationToken cancellationToken)
 		{
@@ -25,6 +31,11 @@ namespace WebApi.Controllers.Login
 			return Ok(userViewModel);
 		}
 
+		/// <summary>
+		/// Logout user
+		/// </summary>
+		/// <param name="cancellationToken">CancellationToken</param>
+		/// <returns>Return <see cref="OkObjectResult">Ok</see> if user logout otherwise throw exception with message</returns>
 		[HttpGet]
 		public async Task<IActionResult> Logout(CancellationToken cancellationToken)
 		{

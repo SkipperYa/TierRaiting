@@ -18,6 +18,12 @@ namespace WebApi.Controllers.Registration
 			_mapper = mapper;
 		}
 
+		/// <summary>
+		/// Create new User in system
+		/// </summary>
+		/// <param name="command">Class with Email, UserName, Password and PasswordConfirm</param>
+		/// <param name="cancellationToken">CancellationToken</param>
+		/// <returns>Return <see cref="OkObjectResult">Ok</see> with <see cref="UserViewModel"/></returns>
 		[HttpPost]
 		public async Task<IActionResult> Registration([FromBody] RegistrationUserCommand command, CancellationToken cancellationToken)
 		{
@@ -28,6 +34,12 @@ namespace WebApi.Controllers.Registration
 			return Ok(userViewModel);
 		}
 
+		/// <summary>
+		/// Send confirmation email after successful registration to user email address 
+		/// </summary>
+		/// <param name="command">Class contains UserId and Email</param>
+		/// <param name="cancellationToken">CancellationToken</param>
+		/// <returns>Return true if email has been send otherwise throw exception with message</returns>
 		[HttpPut]
 		public async Task<IActionResult> SendConfirmation([FromBody] SendConfirmCommand command, CancellationToken cancellationToken)
 		{
@@ -36,6 +48,14 @@ namespace WebApi.Controllers.Registration
 			return Ok(result);
 		}
 
+		/// <summary>
+		/// Handle token from confirmation email and try confirm user email
+		/// </summary>
+		/// <param name="userId">UserId</param>
+		/// <param name="token">Token from confirmation email</param>
+		/// <param name="email">Confirmation email</param>
+		/// <param name="cancellationToken">CancellationToken</param>
+		/// <returns>Return true if email has been confirmed otherwise throw exception with message</returns>
 		[HttpGet]
 		public async Task<IActionResult> ConfirmRegistration(string userId, string token, string email, CancellationToken cancellationToken)
 		{

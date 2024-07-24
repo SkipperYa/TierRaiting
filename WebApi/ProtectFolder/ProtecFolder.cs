@@ -23,6 +23,7 @@ namespace WebApi
 
 		public async Task Invoke(HttpContext httpContext, IAuthorizationService authorizationService)
 		{
+			// If user not sign in and try get /images return 401
 			if (httpContext.Request.Path.StartsWithSegments("/images"))
 			{
 				var authorized = await authorizationService.AuthorizeAsync(httpContext.User, null, _requirement);

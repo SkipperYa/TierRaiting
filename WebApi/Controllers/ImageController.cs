@@ -20,6 +20,12 @@ namespace WebApi.Controllers
 			_imageService = imageService;
 		}
 
+		/// <summary>
+		/// Upload an image to the file system
+		/// </summary>
+		/// <param name="cancellationToken"></param>
+		/// <returns>Return <see cref="OkObjectResult">Ok</see> with Src image</returns>
+		/// <exception cref="LogicException">Invalid image.</exception>
 		[HttpPost]
 		public async Task<IActionResult> Upload(CancellationToken cancellationToken)
 		{
